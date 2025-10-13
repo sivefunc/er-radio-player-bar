@@ -9,7 +9,7 @@ function TrackPlaying() {
       </div>
       <div>
         <div className="text-[10px] font-bold text-white/40 uppercase line-clamp-1">Now Playing:</div>
-        <div className="line-clamp-1 text-xs font-extrabold text-white hover:underline">I belive</div>
+        <div className="line-clamp-1 text-sm font-extrabold text-white hover:underline">I belive</div>
         <div className="line-clamp-1 text-xs font-medium text-white hover:underline">Louis Armstrong</div>
       </div>
     </div>
@@ -19,9 +19,27 @@ function TrackPlaying() {
 function CentralControl() {
   return (
     <div className="flex flex-row gap-x-4 items-center">
-      <div className="bg-red-500 w-12 h-12 rounded-full">
+      <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/50">
+        <svg
+          className="fill-current w-6 h-6 text-white font-medium"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"
+          />
+        </svg>
       </div>
-      <div className="bg-red-500 w-16 h-16 rounded-full">
+      <div className="bg-red-500 w-16 h-16 rounded-full flex justify-center items-center hover:brightness-125">
+        <svg
+          className="fill-current w-10 h-10 text-black"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M320-200v-560l440 280-440 280Z"
+          />
+        </svg>
       </div>
     </div>
   )
