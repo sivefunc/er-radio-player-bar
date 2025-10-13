@@ -48,10 +48,28 @@ function CentralControl() {
 function RightControl() {
   return (
     <div className="flex flex-row gap-x-4 items-center">
-      <div className="bg-red-500 w-16 h-16 rounded-full">
+      <div className="px-5 py-2 border border-white/50 rounded-full flex justify-center items-center hover:cursor-pointer hover:bg-neutral-50/10">
+        <svg
+          className="fill-current w-6 h-6 text-white font-medium"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"
+          />
+        </svg>
       </div>
-      <div className="bg-red-500 rounded-full py-2 px-4">
-        Station XYZ
+      <div className="flex justify-between items-center border border-white/50 hover:cursor-pointer hover:bg-neutral-50/10 rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2">
+        JAZZ-24/7
+        <svg
+          className="fill-current w-6 h-6 text-white/50"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"
+          />
+        </svg>
       </div>
     </div>
   )
