@@ -37,7 +37,7 @@ function RightControl() {
 
 function App() {
   return (
-    <div className="fixed bottom-0 left-0 w-full bg-[#00080b] h-20 border-t-4 border-neutral-700 flex flex-row justify-between px-3 py-1.5">
+    <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80">
       <TrackPlaying />
       <CentralControl />
       <RightControl />
