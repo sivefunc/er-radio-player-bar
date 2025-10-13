@@ -1,12 +1,16 @@
 function TrackPlaying() {
   return (
-    <div className="bg-red-500 rounded-lg p-1 flex flex-row gap-x-2 w-72">
-      <div className="bg-green-500 w-16 h-full rounded-lg">
+    <div className="bg-white/10 items-center min-w-80 rounded-lg p-1 flex flex-row gap-x-2 border border-white/10">
+      <div className="w-14 h-14">
+        <img
+          className="h-full w-full rounded-md"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Louis_Armstrong%2C_by_Harry_Warnecke_and_Gus_Schoenbaechler%2C_1947.jpg/1920px-Louis_Armstrong%2C_by_Harry_Warnecke_and_Gus_Schoenbaechler%2C_1947.jpg"
+        />
       </div>
       <div>
-        <div className="text-xs">Now Playing:</div>
-        <div className="text-xs">Track Name</div>
-        <div className="text-xs">Track Author</div>
+        <div className="text-[10px] font-bold text-white/40 uppercase line-clamp-1">Now Playing:</div>
+        <div className="line-clamp-1 text-xs font-extrabold text-white hover:underline">I belive</div>
+        <div className="line-clamp-1 text-xs font-medium text-white hover:underline">Louis Armstrong</div>
       </div>
     </div>
   )
