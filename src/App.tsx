@@ -1,6 +1,7 @@
+import { Random } from './components/Random';
 function App() {
   return (
-    <h1>Hello World</h1>
+    <Random />
   )
 }
 
