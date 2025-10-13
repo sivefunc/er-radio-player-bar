@@ -7,7 +7,10 @@ import { peerDependencies } from "./package.json";
 export default defineConfig({
   plugins: [
     react(),
-    dts({ exclude: ["**/*.test.ts"]}),
+    dts({
+      tsconfigPath: './tsconfig.app.json',
+      exclude: ["**/*.test.ts"]
+    })
   ],
   build: {
     lib: {
