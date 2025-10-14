@@ -47,7 +47,7 @@ function CentralControl() {
   )
 }
 
-function RightControl() {
+function RightControl(props) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -69,9 +69,9 @@ function RightControl() {
 
         {isOpen && (
           <div className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1">
-            {Array(10).fill(0).map((_, idx) =>
+            {props.stations.map((station) =>
               <div className="w-full rounded-full px-3 py-1 text-left text-sm hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white">
-                Radio {idx}
+                {station}
               </div>
             )}
           </div>
@@ -109,11 +109,23 @@ function RightControl() {
 }
 
 function RadioPlayer() {
+  const [stations, setStations] = useState([
+    'Jazz 24/7',
+    'Rock 24/7',
+    'Pop 24/7',
+    'Classical 24/7',
+    'Hip-Hop 24/7',
+    'Folk 24/7',
+    'Latin 24/7',
+  ])
+
   return (
     <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80 ">
       <TrackPlaying />
       <CentralControl />
-      <RightControl />
+      <RightControl
+        stations={stations}
+      />
     </div>
   )
 }
