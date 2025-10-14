@@ -69,11 +69,11 @@ function RightControl() {
 
         {isOpen && (
           <div className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1">
-            <div className="bg-red-500 w-16 h-16"></div>
-            <div className="bg-red-500 w-16 h-16"></div>
-            <div className="bg-red-500 w-16 h-16"></div>
-            <div className="bg-red-500 w-16 h-16"></div>
-            <div className="bg-red-500 w-16 h-16"></div>
+            {Array(10).fill(0).map((_, idx) =>
+              <div className="w-full rounded-full px-3 py-1 text-left text-sm hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white">
+                Radio {idx}
+              </div>
+            )}
           </div>
         )}
         <div 
