@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function TrackPlaying() {
   return (
     <div className="bg-white/10 items-center min-w-80 rounded-lg p-1 flex flex-row gap-x-2 border border-white/10">
@@ -46,6 +48,8 @@ function CentralControl() {
 }
 
 function RightControl() {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <div className="flex flex-row gap-x-4 items-center">
       <div className="px-5 py-2 border border-white/50 rounded-full flex justify-center items-center hover:cursor-pointer hover:bg-neutral-50/10">
@@ -59,17 +63,32 @@ function RightControl() {
           />
         </svg>
       </div>
-      <div className="flex justify-between items-center border border-white/50 hover:cursor-pointer hover:bg-neutral-50/10 rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2">
-        JAZZ-24/7
-        <svg
-          className="fill-current w-6 h-6 text-white/50"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -960 960 960"
-        >
-          <path
-            d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"
-          />
-        </svg>
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        className="relative">
+
+        {isOpen && (
+          <div className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1">
+            <div className="bg-red-500 w-16 h-16"></div>
+            <div className="bg-red-500 w-16 h-16"></div>
+            <div className="bg-red-500 w-16 h-16"></div>
+            <div className="bg-red-500 w-16 h-16"></div>
+            <div className="bg-red-500 w-16 h-16"></div>
+          </div>
+        )}
+        <div 
+          className="flex justify-between items-center border border-white/50 hover:cursor-pointer hover:bg-neutral-50/10 rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2">
+          JAZZ-24/7
+          <svg
+            className="fill-current w-6 h-6 text-white/50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
+          >
+            <path
+              d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"
+            />
+          </svg>
+        </div>
       </div>
     </div>
   )
@@ -77,10 +96,12 @@ function RightControl() {
 
 function App() {
   return (
-    <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80">
-      <TrackPlaying />
-      <CentralControl />
-      <RightControl />
+    <div className="bg-black h-screen w-screen">
+      <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80 ">
+        <TrackPlaying />
+        <CentralControl />
+        <RightControl />
+      </div>
     </div>
   )
 }
