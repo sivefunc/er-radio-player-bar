@@ -78,7 +78,7 @@ function RightControl(props) {
         )}
         <div 
           className="flex justify-between items-center border border-white/50 hover:cursor-pointer hover:bg-neutral-50/10 rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2">
-          JAZZ-24/7
+          {props.stations[props.stationToListen]}
           <svg
             className="fill-current w-6 h-6 text-white/50"
             xmlns="http://www.w3.org/2000/svg"
@@ -119,12 +119,15 @@ function RadioPlayer() {
     'Latin 24/7',
   ])
 
+  const [stationToListen, setStationToListen] = useState(0)
+
   return (
     <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80 ">
       <TrackPlaying />
       <CentralControl />
       <RightControl
         stations={stations}
+        stationToListen={stationToListen}
       />
     </div>
   )
