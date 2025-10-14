@@ -90,6 +90,20 @@ function RightControl() {
           </svg>
         </div>
       </div>
+      <div 
+        className="flex justify-between items-center border border-white/50 hover:cursor-pointer hover:bg-neutral-50/10 rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2"
+      >
+        <svg
+          className="fill-current w-6 h-6 text-white/50"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+        >
+          <path
+            d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 400Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z"
+          />
+        </svg>
+        Go to  Station Finder
+      </div>
     </div>
   )
 }
