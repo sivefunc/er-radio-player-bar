@@ -93,9 +93,19 @@ function RightControl(props) {
         className="relative">
 
         {isOpen && (
-          <div className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1">
-            {props.stations.map((station) =>
-              <div className="w-full rounded-full px-3 py-1 text-left text-sm hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white">
+          <div
+            className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1"
+          >
+            {props.stations.map((station, stationIdx) =>
+              <div className={
+                // -- Tailwind merge for future update
+                stationIdx == props.stationToListen
+                  ? "w-full rounded-full px-3 py-1 text-left text-sm hover:cursor-pointer text-white bg-white/20 font-semibold"
+
+                  : "w-full rounded-full px-3 py-1 text-left text-sm hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white"
+                }
+                onClick={() => props.onStationSelected(stationIdx)}
+              >
                 {station}
               </div>
             )}
@@ -135,7 +145,7 @@ function RightControl(props) {
 
 function RadioPlayer(props) {
   const [stations, setStations] = useState(null)
-  const [stationToListen, setStationToListen] = useState(0)
+  const [stationToListen, setStationToListen] = useState(null)
   const [volume, setVolume] = useState({
     minVolume: 0,
     maxVolume: 100,
@@ -158,7 +168,21 @@ function RadioPlayer(props) {
     fetchStations();
   }, []);
 
-  if (!stations) {
+  useEffect(() => {
+    if (!stations || stations.length == 0) { return; }
+
+    let idx;
+    for (idx = 0; idx < stations.length; idx++) {
+      if (stations[idx].isDefault) {
+        break;
+      }
+    }
+
+    setStationToListen(idx);
+
+  }, [stations]);
+
+  if (!stations || stationToListen == null) {
     return
   }
 
@@ -170,6 +194,7 @@ function RadioPlayer(props) {
         stations={stations.map(station => station.name)}
         stationToListen={stationToListen}
         volume={volume}
+        onStationSelected={(stationIdx) => setStationToListen(stationIdx)}
       />
     </div>
   )
