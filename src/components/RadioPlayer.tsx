@@ -215,7 +215,10 @@ function RadioPlayer(props) {
           stationInList => stationInList.name == station.name
         )}
         volume={volume}
-        onStationSelected={(stationIdx) => setStation(stationsList[stationIdx])}
+        onStationSelected={async (stationIdx) => {
+          await player.switchEndpoint();
+          setStation(stationsList[stationIdx])
+        }}
       />
     </div>
   )
