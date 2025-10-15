@@ -50,7 +50,6 @@ function CentralControl() {
 function RightControl(props) {
   const [isOpen, setIsOpen] = useState(false)
   const [changeVolume, setChangeVolume] = useState(false)
-  const [volume, setVolume] = useState(50);
 
   return (
     <div className="flex flex-row gap-x-4 items-center">
@@ -70,10 +69,10 @@ function RightControl(props) {
               type="range"
               id="volume"
               name="volume"
-              onChange={(event) => setVolume(event.target.value)}
-              value={volume}
-              min="0"
-              max="100" 
+              onChange={(event) => props.volume.onVolume(event.target.value)}
+              value={props.volume.currentVolume}
+              min={props.volume.minVolume}
+              max={props.volume.maxVolume}
             />
           </div>
         )}
@@ -134,7 +133,7 @@ function RightControl(props) {
   )
 }
 
-function RadioPlayer() {
+function RadioPlayer(props) {
   const [stations, setStations] = useState([
     'Jazz 24/7',
     'Rock 24/7',
@@ -154,6 +153,7 @@ function RadioPlayer() {
       <RightControl
         stations={stations}
         stationToListen={stationToListen}
+        volume={props.volume}
       />
     </div>
   )
