@@ -1,10 +1,10 @@
-import RadioPlayer from './components/RadioPlayer'
+import EternityRadioPlayer from './components/RadioPlayer'
 import { useState } from "react";
 
 function App() {
   return (
     <div className="bg-black h-screen w-screen">
-      <RadioPlayer />
+      <EternityRadioPlayer />
     </div>
   )
 }

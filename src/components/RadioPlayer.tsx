@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { StationProvider, StationContext } from "./context/station";
 
 function TrackPlaying() {
   return (
@@ -144,8 +145,7 @@ function RightControl(props) {
 }
 
 function RadioPlayer(props) {
-  const [stations, setStations] = useState(null)
-  const [stationToListen, setStationToListen] = useState(null)
+  const { station, setStation, stationsList } = useContext(StationContext);
   const [volume, setVolume] = useState({
     minVolume: 0,
     maxVolume: 100,
@@ -156,34 +156,8 @@ function RadioPlayer(props) {
     }
   })
 
-  useEffect(() => {
-    const fetchStations = async () => {
-      const response = await fetch("https://listen.eternityready.com/api/station", {
-        method: "GET",
-      });
-      const data = await response.json();
-      console.log(data)
-      setStations(data)
-    };
-    fetchStations();
-  }, []);
-
-  useEffect(() => {
-    if (!stations || stations.length == 0) { return; }
-
-    let idx;
-    for (idx = 0; idx < stations.length; idx++) {
-      if (stations[idx].isDefault) {
-        break;
-      }
-    }
-
-    setStationToListen(idx);
-
-  }, [stations]);
-
-  if (!stations || stationToListen == null) {
-    return
+  if (!station) {
+    return;
   }
 
   return (
@@ -191,13 +165,23 @@ function RadioPlayer(props) {
       <TrackPlaying />
       <CentralControl />
       <RightControl
-        stations={stations.map(station => station.name)}
-        stationToListen={stationToListen}
+        stations={stationsList.map(stationInList => stationInList.name)}
+        stationToListen={stationsList.findIndex(
+          stationInList => stationInList.name == station.name
+        )}
         volume={volume}
-        onStationSelected={(stationIdx) => setStationToListen(stationIdx)}
+        onStationSelected={(stationIdx) => setStation(stationsList[stationIdx])}
       />
     </div>
   )
 }
 
-export default RadioPlayer
+function EternityRadioPlayer() {
+  return (
+    <StationProvider>
+      <RadioPlayer />
+    </StationProvider>
+  )
+}
+
+export default EternityRadioPlayer
