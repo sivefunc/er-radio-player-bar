@@ -2,6 +2,20 @@ import { useState, useEffect, useContext } from "react";
 import { StationProvider, StationContext } from "./context/station";
 import { PlayerProvider, PlayerContext } from "./context/player";
 
+import {
+  FaCommentSms,
+  FaFacebookF,
+  FaPlay,
+  FaSpinner,
+  FaStop,
+} from "react-icons/fa6";
+
+const PLAYER_ICONS = {
+  PLAY: <FaPlay className="h-6 w-6" />,
+  STOP: <FaStop className="h-6 w-6" />,
+  SPINNER: <FaSpinner className="h-6 w-6 animate-spin" />,
+};
+
 function TrackPlaying() {
   return (
     <div className="bg-white/10 items-center min-w-80 rounded-lg p-1 flex flex-row gap-x-2 border border-white/10">
@@ -21,6 +35,16 @@ function TrackPlaying() {
 }
 
 function CentralControl(props) {
+  let playerIcon;
+  let playerState = props.playerState;
+  if (playerState === "playing") {
+    playerIcon = PLAYER_ICONS.STOP
+  } else if (playerState === "stopped" || playerState === "ready") {
+    playerIcon = PLAYER_ICONS.PLAY
+  } else {
+    playerIcon = PLAYER_ICONS.SPINNER
+  }
+
   return (
     <div className="flex flex-row gap-x-4 items-center">
       <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/50">
@@ -37,15 +61,7 @@ function CentralControl(props) {
       <div className="bg-red-500 w-16 h-16 rounded-full flex justify-center items-center hover:brightness-125"
         onClick={() => props.onTogglePlayer()}
       >
-        <svg
-          className="fill-current w-10 h-10 text-black"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -960 960 960"
-        >
-          <path
-            d="M320-200v-560l440 280-440 280Z"
-          />
-        </svg>
+        {playerIcon}
       </div>
     </div>
   )
@@ -163,7 +179,7 @@ function RadioPlayer(props) {
       setVolume(prevVolume => ({...prevVolume, currentVolume: volumeValue}))
     }
   })
-
+  
   function togglePlayer() {
     if (playerState === "playing") {
       player.stop();
@@ -182,6 +198,7 @@ function RadioPlayer(props) {
       <TrackPlaying />
       <CentralControl
         onTogglePlayer={togglePlayer}
+        playerState={playerState}
       />
       <RightControl
         stations={stationsList.map(stationInList => stationInList.name)}
