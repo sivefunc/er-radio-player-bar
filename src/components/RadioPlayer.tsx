@@ -50,6 +50,7 @@ function CentralControl() {
 function RightControl(props) {
   const [isOpen, setIsOpen] = useState(false)
   const [changeVolume, setChangeVolume] = useState(false)
+  const [volume, setVolume] = useState(50);
 
   return (
     <div className="flex flex-row gap-x-4 items-center">
@@ -65,7 +66,15 @@ function RightControl(props) {
                 d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"
               />
             </svg>
-            <input type="range" id="volume" name="volume" min="0" max="100" />
+            <input
+              type="range"
+              id="volume"
+              name="volume"
+              onChange={(event) => setVolume(event.target.value)}
+              value={volume}
+              min="0"
+              max="100" 
+            />
           </div>
         )}
         <div className="px-5 py-2 border border-white/50 rounded-full flex justify-center items-center hover:cursor-pointer hover:bg-neutral-50/10">
