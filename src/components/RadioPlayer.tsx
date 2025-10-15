@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { StationProvider, StationContext } from "./context/station";
+import { PlayerProvider, PlayerContext } from "./context/player";
 
 function TrackPlaying() {
   return (
@@ -19,7 +20,7 @@ function TrackPlaying() {
   )
 }
 
-function CentralControl() {
+function CentralControl(props) {
   return (
     <div className="flex flex-row gap-x-4 items-center">
       <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/50">
@@ -33,7 +34,9 @@ function CentralControl() {
           />
         </svg>
       </div>
-      <div className="bg-red-500 w-16 h-16 rounded-full flex justify-center items-center hover:brightness-125">
+      <div className="bg-red-500 w-16 h-16 rounded-full flex justify-center items-center hover:brightness-125"
+        onClick={() => props.onTogglePlayer()}
+      >
         <svg
           className="fill-current w-10 h-10 text-black"
           xmlns="http://www.w3.org/2000/svg"
@@ -146,6 +149,11 @@ function RightControl(props) {
 
 function RadioPlayer(props) {
   const { station, setStation, stationsList } = useContext(StationContext);
+  const { player, playerState, setPlayerIsLoaded, currentTrack } = 
+    useContext(PlayerContext);
+
+  const [videoUrl, setVideoUrl] = useState(null);
+
   const [volume, setVolume] = useState({
     minVolume: 0,
     maxVolume: 100,
@@ -156,6 +164,15 @@ function RadioPlayer(props) {
     }
   })
 
+  function togglePlayer() {
+    if (playerState === "playing") {
+      player.stop();
+    } else {
+      setPlayerIsLoaded(true);
+      player.play();
+    }
+  }
+
   if (!station) {
     return;
   }
@@ -163,7 +180,9 @@ function RadioPlayer(props) {
   return (
     <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80 ">
       <TrackPlaying />
-      <CentralControl />
+      <CentralControl
+        onTogglePlayer={togglePlayer}
+      />
       <RightControl
         stations={stationsList.map(stationInList => stationInList.name)}
         stationToListen={stationsList.findIndex(
@@ -179,7 +198,9 @@ function RadioPlayer(props) {
 function EternityRadioPlayer() {
   return (
     <StationProvider>
-      <RadioPlayer />
+      <PlayerProvider>
+        <RadioPlayer />
+      </PlayerProvider>
     </StationProvider>
   )
 }

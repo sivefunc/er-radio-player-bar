@@ -29,7 +29,7 @@ export const StationProvider = ({ children }) => {
         const data = await response.json();
         let station_result = data;
         station_result.forEach((station) => {
-          station.url = station.url.replace("https://", "/stream-proxy/");
+          station.url = station.url.replace("https://", "https://listen.eternityready.com/stream-proxy/");
         });
         console.log("Stations loaded", station_result);
         setStationsList(station_result);
