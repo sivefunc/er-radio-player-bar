@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function TrackPlaying() {
   return (
@@ -134,16 +134,8 @@ function RightControl(props) {
 }
 
 function RadioPlayer(props) {
-  const [stations, setStations] = useState([
-    'Jazz 24/7',
-    'Rock 24/7',
-    'Pop 24/7',
-    'Classical 24/7',
-    'Hip-Hop 24/7',
-    'Folk 24/7',
-    'Latin 24/7',
-  ])
-
+  const [stations, setStations] = useState(null)
+  const [stationToListen, setStationToListen] = useState(0)
   const [volume, setVolume] = useState({
     minVolume: 0,
     maxVolume: 100,
@@ -154,14 +146,28 @@ function RadioPlayer(props) {
     }
   })
 
-  const [stationToListen, setStationToListen] = useState(0)
+  useEffect(() => {
+    const fetchStations = async () => {
+      const response = await fetch("https://listen.eternityready.com/api/station", {
+        method: "GET",
+      });
+      const data = await response.json();
+      console.log(data)
+      setStations(data)
+    };
+    fetchStations();
+  }, []);
+
+  if (!stations) {
+    return
+  }
 
   return (
     <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80 ">
       <TrackPlaying />
       <CentralControl />
       <RightControl
-        stations={stations}
+        stations={stations.map(station => station.name)}
         stationToListen={stationToListen}
         volume={volume}
       />
