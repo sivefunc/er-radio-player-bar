@@ -16,19 +16,26 @@ const PLAYER_ICONS = {
   SPINNER: <FaSpinner className="h-6 w-6 animate-spin" />,
 };
 
-function TrackPlaying() {
+function TrackPlaying(props) {
   return (
     <div className="bg-white/10 items-center min-w-80 rounded-lg p-1 flex flex-row gap-x-2 border border-white/10">
       <div className="w-14 h-14">
         <img
           className="h-full w-full rounded-md"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Louis_Armstrong%2C_by_Harry_Warnecke_and_Gus_Schoenbaechler%2C_1947.jpg/1920px-Louis_Armstrong%2C_by_Harry_Warnecke_and_Gus_Schoenbaechler%2C_1947.jpg"
+          src={
+            (
+              props.track.artworkURL?.startsWith('/api/public/stations')
+                ? props.track.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                : props.track.artworkURL
+
+            ) || props.track.artistImage
+          }
         />
       </div>
       <div>
         <div className="text-[10px] font-bold text-white/40 uppercase line-clamp-1">Now Playing:</div>
-        <div className="line-clamp-1 text-sm font-extrabold text-white hover:underline">I belive</div>
-        <div className="line-clamp-1 text-xs font-medium text-white hover:underline">Louis Armstrong</div>
+        <div className="line-clamp-1 text-sm font-extrabold text-white hover:underline">{props.track.trackName}</div>
+        <div className="line-clamp-1 text-xs font-medium text-white hover:underline">{props.track.artistName}</div>
       </div>
     </div>
   )
@@ -193,9 +200,11 @@ function RadioPlayer(props) {
     return;
   }
 
+  console.log(currentTrack);
+
   return (
     <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80 ">
-      <TrackPlaying />
+      <TrackPlaying track={currentTrack}/>
       <CentralControl
         onTogglePlayer={togglePlayer}
         playerState={playerState}

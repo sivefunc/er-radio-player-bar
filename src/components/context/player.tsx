@@ -67,8 +67,8 @@ const DEFAULT_TRACK = {
     StreamTitle: "",
     trackName: "",
     artistName: "",
-    artworkURL: "/track-bg-default.webp",
-    artistImage: "/artist-bg-default.webp",
+    artworkURL: null,
+    artistImage: null,
     trackViewUrl: "#",
     loaded: false,
     processed: false,
@@ -370,7 +370,7 @@ export const PlayerProvider = ({ children }) => {
         try {
             const processText = processSongInfo(track.StreamTitle);
             const encodedSearchText = encodeURIComponent(processText);
-            const iTunesSearchURL = `/itunes-api/search?term=${encodedSearchText}&limit=10`;
+            const iTunesSearchURL = `https://itunes.apple.com/search?term=${encodedSearchText}&media=music&entity=song&limit=10`;
             const response = await fetch(iTunesSearchURL);
             const json = await response.json();
             return (json.results) && getTrack(json.results, processText);
@@ -387,10 +387,7 @@ export const PlayerProvider = ({ children }) => {
         }
         try {
             const response = await fetch(
-              artistViewUrl.replace(
-                "https://music.apple.com/us/artist/",
-                "/apple-music/"
-              )
+              artistViewUrl
             );
             const html = await response.text();
             const parser = new DOMParser();
