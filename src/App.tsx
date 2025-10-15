@@ -8,7 +8,7 @@ function App() {
     currentVolume: 50,
     onVolume: (volumeValue) => {
       console.log(volumeValue)
-      setVolume(prevVolume => ({...volume, currentVolume: volumeValue}))
+      setVolume(prevVolume => ({...prevVolume, currentVolume: volumeValue}))
     }
   })
 
