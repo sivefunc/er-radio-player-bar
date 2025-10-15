@@ -144,6 +144,16 @@ function RadioPlayer(props) {
     'Latin 24/7',
   ])
 
+  const [volume, setVolume] = useState({
+    minVolume: 0,
+    maxVolume: 100,
+    currentVolume: 50,
+    onVolume: (volumeValue) => {
+      console.log(volumeValue)
+      setVolume(prevVolume => ({...prevVolume, currentVolume: volumeValue}))
+    }
+  })
+
   const [stationToListen, setStationToListen] = useState(0)
 
   return (
@@ -153,7 +163,7 @@ function RadioPlayer(props) {
       <RightControl
         stations={stations}
         stationToListen={stationToListen}
-        volume={props.volume}
+        volume={volume}
       />
     </div>
   )
