@@ -156,8 +156,9 @@ function RightControl(props) {
           </svg>
         </div>
       </div>
-      <div 
+      <a
         className="flex justify-between items-center border border-white/50 hover:cursor-pointer hover:bg-neutral-50/10 rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2"
+        href="https://listen.eternityready.com"
       >
         <svg
           className="fill-current w-6 h-6 text-white/50"
@@ -169,7 +170,7 @@ function RightControl(props) {
           />
         </svg>
         Go to  Station Finder
-      </div>
+      </a>
     </div>
   )
 }
