@@ -109,6 +109,7 @@ function RightControl(props) {
               min={props.volume.minVolume}
               max={props.volume.maxVolume}
               className="range accent-red-500"
+              step={props.volume.step}
             />
           </div>
         )}
@@ -177,21 +178,22 @@ function RightControl(props) {
 
 function RadioPlayer(props) {
   const { station, setStation, stationsList } = useContext(StationContext);
-  const { player, playerState, setPlayerIsLoaded, currentTrack } = 
+  const { player, playerState, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
     useContext(PlayerContext);
 
   const [videoUrl, setVideoUrl] = useState(null);
 
-  const [volume, setVolume] = useState({
+  let volume = {
     minVolume: 0,
-    maxVolume: 100,
-    currentVolume: 50,
+    maxVolume: 1,
+    step: 0.02,
+    currentVolume: playerVolume,
     onVolume: (volumeValue) => {
-      console.log(volumeValue)
-      setVolume(prevVolume => ({...prevVolume, currentVolume: volumeValue}))
+      changeVolume(volumeValue)
     }
-  })
+  }
   
+  console.log(volume)
   function togglePlayer() {
     if (playerState === "playing") {
       player.stop();
