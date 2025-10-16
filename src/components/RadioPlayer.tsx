@@ -8,6 +8,10 @@ import {
   FaPlay,
   FaSpinner,
   FaStop,
+  FaVolumeOff,
+  FaVolumeLow,
+  FaVolumeHigh,
+  FaX,
 } from "react-icons/fa6";
 
 const PLAYER_ICONS = {
@@ -78,20 +82,24 @@ function RightControl(props) {
   const [isOpen, setIsOpen] = useState(false)
   const [changeVolume, setChangeVolume] = useState(false)
 
+  let volumeIcon;
+  if (props.volume.currentVolume == 0) {
+    volumeIcon = <FaVolumeOff className="fill-current w-6 h-6 text-white font-medium" />
+  }
+  else if (props.volume.currentVolume < props.volume.maxVolume / 2) {
+    volumeIcon = <FaVolumeLow className="fill-current w-6 h-6 text-white font-medium" />
+  }
+
+  else { 
+    volumeIcon = <FaVolumeHigh className="fill-current w-6 h-6 text-white font-medium" />
+  }
+
   return (
     <div className="flex flex-row gap-x-4 items-center">
       <div className="relative" onClick={() => setChangeVolume(!changeVolume)}>
         {changeVolume && (
           <div className="absolute bottom-full px-5 py-2 border border-white/50 rounded-full flex justify-center items-center hover:cursor-pointer hover:bg-neutral-50/10 gap-x-2 mb-2">
-            <svg
-              className="fill-current w-6 h-6 text-white font-medium"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-            >
-              <path
-                d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"
-              />
-            </svg>
+            {volumeIcon}
             <input
               type="range"
               id="volume"
@@ -100,19 +108,15 @@ function RightControl(props) {
               value={props.volume.currentVolume}
               min={props.volume.minVolume}
               max={props.volume.maxVolume}
+              className="range accent-red-500"
             />
           </div>
         )}
         <div className="px-5 py-2 border border-white/50 rounded-full flex justify-center items-center hover:cursor-pointer hover:bg-neutral-50/10">
-          <svg
-            className="fill-current w-6 h-6 text-white font-medium"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-          >
-            <path
-              d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320Z"
-            />
-          </svg>
+          { changeVolume
+            ? <FaX className="fill-current w-6 text-white font-medium" />
+            : volumeIcon
+          }
         </div>
       </div>
       <div 
