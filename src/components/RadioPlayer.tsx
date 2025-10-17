@@ -75,8 +75,7 @@ function CentralControl(props) {
   )
 }
 
-function RightControl(props) {
-  const [isOpen, setIsOpen] = useState(false)
+function VolumeControl(props) {
   const [changeVolume, setChangeVolume] = useState(false)
 
   let volumeIcon;
@@ -92,82 +91,91 @@ function RightControl(props) {
   }
 
   return (
-    <div className="flex flex-row gap-x-4 items-center">
-      <div className="relative" onClick={() => setChangeVolume(!changeVolume)}>
-        {changeVolume && (
-          <div className="absolute bottom-full left-0 mb-2 flex items-center justify-center rounded-full border border-neutral-600 bg-black py-3 px-1.5 shadow-lg">
-            {volumeIcon}
-            <input
-              type="range"
-              id="volume"
-              name="volume"
-              onChange={(event) => props.volume.onVolume(event.target.value)}
-              value={props.volume.currentVolume}
-              min={props.volume.minVolume}
-              max={props.volume.maxVolume}
-              className="w-48 h-2 bg-red-500 appearance-none rounded-lg cursor-pointer"
-              style={{
-                background: `linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 0, 0) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) 100%)`,
-                appearance: 'none',
-                '--thumb-color': 'white'
-              }}
-              step={props.volume.step}
-            />
-          </div>
-        )}
-        <div className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-3 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10">
-          { changeVolume
-            ? <FaXmark className="fill-current w-8 text-white transition-all" />
-            : volumeIcon
-          }
-        </div>
-      </div>
-      <div 
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative">
-
-        {isOpen && (
-          <div
-            className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1"
-          >
-            {props.stations.map((station, stationIdx) =>
-              <div className={
-                // -- Tailwind merge for future update
-                stationIdx == props.stationToListen
-                  ? "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer bg-white/20 font-semibold text-white"
-
-                  : "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white"
-                }
-                onClick={() => props.onStationSelected(stationIdx)}
-              >
-                {station}
-              </div>
-            )}
-          </div>
-        )}
-        <div 
-          className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-2 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10"
-        >
-          {props.stations[props.stationToListen]}
-          <FaChevronDown className="ml-3 text-white/50 transition-all group-hover:text-white"/>
-        </div>
-      </div>
-      <a
-        className=" group flex justify-between items-center border border-neutral-50/30 hover:cursor-pointer hover:bg-neutral-50/10 transition-all rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2 whitespace-nowrap"
-        href="https://listen.eternityready.com"
-      >
-        <svg
-          className="fill-current w-6 h-6 text-white/50"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -960 960 960"
-        >
-          <path
-            d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 400Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z"
+    <div className="relative" onClick={() => setChangeVolume(!changeVolume)}>
+      {changeVolume && (
+        <div className="absolute bottom-full left-0 mb-2 flex items-center justify-center rounded-full border border-neutral-600 bg-black py-3 px-1.5 shadow-lg">
+          {volumeIcon}
+          <input
+            type="range"
+            id="volume"
+            name="volume"
+            onChange={(event) => props.volume.onVolume(event.target.value)}
+            value={props.volume.currentVolume}
+            min={props.volume.minVolume}
+            max={props.volume.maxVolume}
+            className="w-48 h-2 bg-red-500 appearance-none rounded-lg cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 0, 0) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) 100%)`,
+              appearance: 'none',
+              '--thumb-color': 'white'
+            }}
+            step={props.volume.step}
           />
-        </svg>
-        Go to  Station Finder
-      </a>
+        </div>
+      )}
+      <div className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-3 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10">
+        { changeVolume
+          ? <FaXmark className="fill-current w-8 text-white transition-all" />
+          : volumeIcon
+        }
+      </div>
     </div>
+  )
+}
+
+function StationSelector(props) {
+  const [isOpen, setIsOpen] = useState(false)
+  return (
+    <div 
+      onClick={() => setIsOpen(!isOpen)}
+      className="relative">
+
+      {isOpen && (
+        <div
+          className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1"
+        >
+          {props.stations.map((station, stationIdx) =>
+            <div className={
+              // -- Tailwind merge for future update
+              stationIdx == props.stationToListen
+                ? "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer bg-white/20 font-semibold text-white"
+
+                : "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white"
+              }
+              onClick={() => props.onStationSelected(stationIdx)}
+            >
+              {station}
+            </div>
+          )}
+        </div>
+      )}
+      <div 
+        className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-2 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10"
+      >
+        {props.stations[props.stationToListen]}
+        <FaChevronDown className="ml-3 text-white/50 transition-all group-hover:text-white"/>
+      </div>
+    </div>
+  )
+}
+
+function StationFinder(props) {
+  return (
+    <a
+      className=" group flex justify-between items-center border border-neutral-50/30 hover:cursor-pointer hover:bg-neutral-50/10 transition-all rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2 whitespace-nowrap"
+      href="https://listen.eternityready.com"
+    >
+      <svg
+        className="fill-current w-6 h-6 text-white/50"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 -960 960 960"
+      >
+        <path
+          d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 400Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z"
+        />
+      </svg>
+      Go to  Station Finder
+    </a>
   )
 }
 
@@ -213,17 +221,20 @@ function RadioPlayer(props) {
         onTogglePlayer={togglePlayer}
         playerState={playerState}
       />
-      <RightControl
-        stations={stationsList.map(stationInList => stationInList.name)}
-        stationToListen={stationsList.findIndex(
-          stationInList => stationInList.name == station.name
-        )}
-        volume={volume}
-        onStationSelected={async (stationIdx) => {
-          await player.switchEndpoint();
-          setStation(stationsList[stationIdx])
-        }}
-      />
+      <div className="flex flex-row gap-x-4 items-center">
+        <VolumeControl volume={volume} />
+        <StationSelector
+          stations={stationsList.map(stationInList => stationInList.name)}
+          stationToListen={stationsList.findIndex(
+            stationInList => stationInList.name == station.name
+          )}
+          onStationSelected={async (stationIdx) => {
+            await player.switchEndpoint();
+            setStation(stationsList[stationIdx])
+          }}
+        />
+        <StationFinder />
+      </div>
     </div>
   )
 }
