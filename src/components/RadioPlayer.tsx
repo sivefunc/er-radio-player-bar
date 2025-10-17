@@ -241,6 +241,7 @@ function RadioPlayer(props) {
   }
 
   console.log(currentTrack);
+  console.log(stationsList);
 
   return (
     <div>
@@ -408,10 +409,10 @@ function RadioPlayer(props) {
                 Stations
               </h3>
               <div className="mb-4 grid grid-cols-5 gap-4">
-                {Array(10).fill(10).map(x => (
+                {stationsList.map(station => (
                 <div className="group hover:cursor-pointer">
                   <img
-                    alt="Microsoft"
+                    alt={station.name}
                     loading="lazy"
                     width={300}
                     height={300}
@@ -419,10 +420,10 @@ function RadioPlayer(props) {
                     data-nimg={1}
                     className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
                     style={{ color: "transparent" }}
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Aerial_Microsoft_West_Campus_August_2009.jpg/960px-Aerial_Microsoft_West_Campus_August_2009.jpg"
+                    src={`https://listen.eternityready.com/${station.logo}`}
                   />
                   <p className="mt-1 text-center text-xs font-medium text-white/70 transition-all group-hover:text-white">
-                    Microsoft
+                    {station.name}
                   </p>
                 </div>
                 ))}
