@@ -149,26 +149,27 @@ function StationSelector(props) {
     <div 
       onClick={() => setIsOpen(!isOpen)}
       className="relative">
+      <div
+        className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1 transition-all"
+        style={{
+          opacity: isOpen ? 1 : 0,
+          transform: isOpen ? "translateY(0)" : "translateY(10px)",
+        }}
+      >
+        {props.stations.map((station, stationIdx) =>
+          <div className={
+            // -- Tailwind merge for future update
+            stationIdx == props.stationToListen
+              ? "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer bg-white/20 font-semibold text-white"
 
-      {isOpen && (
-        <div
-          className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1"
-        >
-          {props.stations.map((station, stationIdx) =>
-            <div className={
-              // -- Tailwind merge for future update
-              stationIdx == props.stationToListen
-                ? "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer bg-white/20 font-semibold text-white"
-
-                : "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white"
-              }
-              onClick={() => props.onStationSelected(stationIdx)}
-            >
-              {station}
-            </div>
-          )}
-        </div>
-      )}
+              : "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white"
+            }
+            onClick={() => props.onStationSelected(stationIdx)}
+          >
+            {station}
+          </div>
+        )}
+      </div>
       <div 
         className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-2 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10"
       >
