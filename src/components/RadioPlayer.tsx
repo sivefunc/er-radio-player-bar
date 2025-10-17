@@ -66,11 +66,13 @@ function CentralControl(props) {
           <FaChevronUp className="fill-current group-hover:text-red-500 text-white transition-all"/>
         </div>
       </div>
-      <div className="bg-red-500 flex items-center justify-center rounded-full text-black transition-all hover:cursor-pointer hover:brightness-125 disabled:opacity-50 h-16 w-16"
+      <button 
+        disabled={props.playerState === "loading"}
+        className="bg-red-500 flex items-center justify-center rounded-full text-black transition-all hover:cursor-pointer hover:brightness-125 disabled:opacity-50 h-16 w-16"
         onClick={() => props.onTogglePlayer()}
       >
         {playerIcon}
-      </div>
+      </button>
     </div>
   )
 }
