@@ -11,7 +11,7 @@ import {
   FaVolumeOff,
   FaVolumeLow,
   FaVolumeHigh,
-  FaX,
+  FaXmark,
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa6";
@@ -81,21 +81,21 @@ function RightControl(props) {
 
   let volumeIcon;
   if (props.volume.currentVolume == 0) {
-    volumeIcon = <FaVolumeOff className="fill-current w-6 h-6 text-white font-medium" />
+    volumeIcon = <FaVolumeOff className="fill-current w-8 text-white font-medium" />
   }
   else if (props.volume.currentVolume < props.volume.maxVolume / 2) {
-    volumeIcon = <FaVolumeLow className="fill-current w-6 h-6 text-white font-medium" />
+    volumeIcon = <FaVolumeLow className="fill-current w-8 text-white transition-all" />
   }
 
   else { 
-    volumeIcon = <FaVolumeHigh className="fill-current w-6 h-6 text-white font-medium" />
+    volumeIcon = <FaVolumeHigh className="fill-current w-8 text-white transition-all" />
   }
 
   return (
     <div className="flex flex-row gap-x-4 items-center">
       <div className="relative" onClick={() => setChangeVolume(!changeVolume)}>
         {changeVolume && (
-          <div className="absolute bottom-full px-5 py-2 border border-white/50 rounded-full flex justify-center items-center hover:cursor-pointer hover:bg-neutral-50/10 gap-x-2 mb-2">
+          <div className="absolute bottom-full left-0 mb-2 flex items-center justify-center rounded-full border border-neutral-600 bg-black py-3 px-1.5 shadow-lg">
             {volumeIcon}
             <input
               type="range"
@@ -105,14 +105,19 @@ function RightControl(props) {
               value={props.volume.currentVolume}
               min={props.volume.minVolume}
               max={props.volume.maxVolume}
-              className="range accent-red-500"
+              className="w-48 h-2 bg-red-500 appearance-none rounded-lg cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 0, 0) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) 100%)`,
+                appearance: 'none',
+                '--thumb-color': 'white'
+              }}
               step={props.volume.step}
             />
           </div>
         )}
-        <div className="px-5 py-2 border border-white/50 rounded-full flex justify-center items-center hover:cursor-pointer hover:bg-neutral-50/10">
+        <div className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-3 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10">
           { changeVolume
-            ? <FaX className="fill-current w-6 text-white font-medium" />
+            ? <FaXmark className="fill-current w-8 text-white transition-all" />
             : volumeIcon
           }
         </div>
@@ -129,9 +134,9 @@ function RightControl(props) {
               <div className={
                 // -- Tailwind merge for future update
                 stationIdx == props.stationToListen
-                  ? "w-full rounded-full px-3 py-1 text-left text-sm hover:cursor-pointer text-white bg-white/20 font-semibold"
+                  ? "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer bg-white/20 font-semibold text-white"
 
-                  : "w-full rounded-full px-3 py-1 text-left text-sm hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white"
+                  : "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white"
                 }
                 onClick={() => props.onStationSelected(stationIdx)}
               >
@@ -141,21 +146,14 @@ function RightControl(props) {
           </div>
         )}
         <div 
-          className="flex justify-between items-center border border-white/50 hover:cursor-pointer hover:bg-neutral-50/10 rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2">
+          className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-2 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10"
+        >
           {props.stations[props.stationToListen]}
-          <svg
-            className="fill-current w-6 h-6 text-white/50"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-          >
-            <path
-              d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"
-            />
-          </svg>
+          <FaChevronDown className="ml-3 text-white/50 transition-all group-hover:text-white"/>
         </div>
       </div>
       <a
-        className="flex justify-between items-center border border-white/50 hover:cursor-pointer hover:bg-neutral-50/10 rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2"
+        className=" group flex justify-between items-center border border-neutral-50/30 hover:cursor-pointer hover:bg-neutral-50/10 transition-all rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2 whitespace-nowrap"
         href="https://listen.eternityready.com"
       >
         <svg
