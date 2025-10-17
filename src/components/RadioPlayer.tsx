@@ -209,7 +209,7 @@ function StationFinder(props) {
 }
 
 function RadioPlayer(props) {
-  const { station, setStation, stationsList } = useContext(StationContext);
+  const { station, setStation, stationsList, tracks, loadingTracks } = useContext(StationContext);
   const { player, playerState, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
     useContext(PlayerContext);
 
@@ -432,11 +432,13 @@ function RadioPlayer(props) {
                 Last Played
               </h3>
               <div className="grid grid-cols-4 gap-4">
-                {Array(4).fill(0).map(x => (
-                <a href="https://en.wikipedia.org/wiki/Brad_Smith_(American_lawyer)">
+                {tracks.map((track, index) => {
+                  if (index === 0) { return; }
+                  return (
+                    <a href={track.trackViewUrl} target="_blank">
                   <div className="group hover:cursor-pointer">
                     <img
-                      alt="Last Played Image"
+                      alt={track?.trackName || "Last Played"}
                       loading="lazy"
                       width={100}
                       height={100}
@@ -444,17 +446,18 @@ function RadioPlayer(props) {
                       data-nimg={1}
                       className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
                       style={{ color: "transparent" }}
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Brad_Smith_-_Microsoft_-_01.jpg/500px-Brad_Smith_-_Microsoft_-_01.jpg"
+                      src={track.artworkURL || track.artistImage}
                     />
                     <p className="mt-2 line-clamp-1 text-center text-sm font-bold text-white transition-all">
-                      Microsoft
+                      {track.trackName}
                     </p>
                     <p className="line-clamp-1 text-center text-sm font-medium text-white/70 transition-all">
-                      Brad Lee
+                      {track.artistName}
                     </p>
                   </div>
                 </a>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </div>
