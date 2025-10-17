@@ -60,10 +60,16 @@ function CentralControl(props) {
 
   return (
     <div className="flex flex-row gap-4 items-center justify-center">
-      <div className="flex flex-col justify-center">
+      <div
+        className="flex flex-col justify-center"
+        onClick={props.onExpand}
+      >
         <div className="group relative flex items-center justify-between rounded-full border border-neutral-50/30 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10 p-3"
         >
-          <FaChevronUp className="fill-current group-hover:text-red-500 text-white transition-all"/>
+          { props.expand
+            ? <FaChevronDown className="fill-current group-hover:text-red-500 text-white transition-all"/>
+            : <FaChevronUp className="fill-current group-hover:text-red-500 text-white transition-all"/>
+          }
         </div>
       </div>
       <button 
@@ -207,6 +213,7 @@ function RadioPlayer(props) {
   const { player, playerState, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
     useContext(PlayerContext);
 
+  const [expand, setExpand] = useState(false);
   const [videoUrl, setVideoUrl] = useState(null);
 
   let volume = {
@@ -237,219 +244,221 @@ function RadioPlayer(props) {
 
   return (
     <div>
-      <div className="mx-auto max-w-[90vw]">
-        <div className="flex justify-start pl-12">
-          <button className="group hover: z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600">
-            <FaXmark className="text-white transition-all group-hover:text-xl"/>
-          </button>
-        </div>
-        <div className="grid grid-cols-3 gap-20 p-12">
-          <div className="col-span-1">
-            <h3 className="mb-2 text-2xl font-extrabold text-white">
-              About the artist
-            </h3>
-            <a href="https://en.wikipedia.org/wiki/Bill_Gates">
-              <img
-                alt="Bill Gates"
-                loading="lazy"
-                width={600}
-                height={300}
-                decoding="async"
-                data-nimg={1}
-                className="mb-2 w-full rounded-2xl object-cover transition-all hover:brightness-90"
-                style={{ color: "transparent" }}
-                src="https://www.pngall.com/wp-content/uploads/7/Bill-Gates-PNG-Free-Download.png"
-              />
-            </a>
-            <h4 className="mb-2 text-xl font-extrabold text-white">
-              Bill Gates
-            </h4>
-            <p className="line-clamp-5 font-medium text-neutral-300">
-              <p>
-                William Henry Gates III is an American businessman and philanthropist. A pioneer of the microcomputer revolution of the 1970s and 1980s, he co-founded the software company Microsoft in 1975 with his childhood friend Paul Allen. Following Microsoft's 1986 initial public offering, Gates became the world's then-youngest billionaire in 1987, at age 31. Forbes magazine ranked him as the world's wealthiest person for 18 out of 24 years between 1995 and 2017, including 13 years consecutively from 1995 to 2007. 
-              </p>
-            </p>
-            <div className="mt-6 flex">
-              <div className="">
-                <a
-                  target="_self"
-                  className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all lg:px-5 lg:py-3 border-white text-white hover:bg-white hover:text-black "
-                  href="https://en.wikipedia.org/wiki/Bill_Gates"
-                >
-                  Visit Artist Page
-                </a>
-              </div>
-            </div>
+      { expand &&
+        <div className="mx-auto max-w-[90vw]">
+          <div className="flex justify-start pl-12">
+            <button className="group hover: z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600">
+              <FaXmark className="text-white transition-all group-hover:text-xl"/>
+            </button>
           </div>
-          <div className="col-span-1 space-y-4">
-            <h3 className="mb-2 text-2xl font-extrabold text-white">
-              Related content
-            </h3>
-            {Array(3).fill(0).map(x => (
-            <div className="">
-              <a
-                className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
-                href="https://en.wikipedia.org/wiki/Steve_Ballmer"
-              >
-                <div className="flex-shrink-0">
-                  <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
-                    <img
-                      alt="Steve Ballmer"
-                      loading="lazy"
-                      width={1366}
-                      height={768}
-                      decoding="async"
-                      data-nimg={1}
-                      className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
-                      style={{ color: "transparent" }}
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Steve_ballmer_2007_outdoors2-2.jpg/500px-Steve_ballmer_2007_outdoors2-2.jpg"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col px-2 lg:px-4">
-                  <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white ">
-                    Steve Ballmer
-                  </h3>
-                  <div className="mt-1 flex lg:mt-2">
-                    <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
-                      New Music
-                    </p>
-                    <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all lg:mt-0 lg:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
-                      New Music
-                    </p>
-                  </div>
-                </div>
-              </a>
-              <a
-                className="lg:hidden"
-                href="https://en.wikipedia.org/wiki/Steve_Ballmer"
-              >
-                <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
-                  <div className="flex-shrink-0">
-                    <img
-                      alt="Steve Ballmer"
-                      loading="lazy"
-                      width={1366}
-                      height={768}
-                      decoding="async"
-                      data-nimg={1}
-                      className="w-32 h-24 rounded-2xl object-cover p-1"
-                      style={{ color: "transparent" }}
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Steve_ballmer_2007_outdoors2-2.jpg/500px-Steve_ballmer_2007_outdoors2-2.jpg"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1 space-y-1 px-2">
-                    <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white ">
-                      Steve Ballmer
-                    </h3>
-                    <p className="line-clamp-1 text-sm font-medium text-neutral-400">
-                      New Music
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-            ))}
-            <h3 className="mb-2 text-2xl font-extrabold text-white">
-              On-Air
-            </h3>
-            <div className="">
-              <a
-                className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
-                href="https://en.wikipedia.org/wiki/Satya_Nadella"
-              >
-                <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
-                  <img
-                    alt="Satya Nadella"
-                    loading="lazy"
-                    decoding="async"
-                    data-nimg="fill"
-                    className="absolute inset-0 z-10 h-full w-full object-cover"
-                    style={{
-                      position: "absolute",
-                      height: "100%",
-                      width: "100%",
-                      inset: 0,
-                      color: "transparent"
-                    }}
-                    sizes="100vw"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg/500px-MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col px-4">
-                  <h3 className="line-clamp-1 leading-tight font-extrabold text-white lg:line-clamp-2 lg:text-lg">
-                    Satya Nadella
-                  </h3>
-                  <p className="mt-1 text-sm font-medium text-neutral-400">
-                    Monday - Friday
-                  </p>
-                  <p className="mb-1 text-sm font-medium text-neutral-400 lg:mb-3">
-                    6 p.m. - 10 p.m. GMT
-                  </p>
-                  <div className="flex">
-                    <p className="rounded-full bg-neutral-700 px-3 py-1 text-xs font-bold text-white transition-all group-hover:bg-neutral-600">
-                      Visit Station Page
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-span-1">
-            <h3 className="mb-2 text-2xl font-extrabold text-white">
-              Stations
-            </h3>
-            <div className="mb-4 grid grid-cols-5 gap-4">
-              {Array(10).fill(10).map(x => (
-              <div className="group hover:cursor-pointer">
+          <div className="grid grid-cols-3 gap-20 p-12">
+            <div className="col-span-1">
+              <h3 className="mb-2 text-2xl font-extrabold text-white">
+                About the artist
+              </h3>
+              <a href="https://en.wikipedia.org/wiki/Bill_Gates">
                 <img
-                  alt="Microsoft"
+                  alt="Bill Gates"
                   loading="lazy"
-                  width={300}
+                  width={600}
                   height={300}
                   decoding="async"
                   data-nimg={1}
-                  className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
+                  className="mb-2 w-full rounded-2xl object-cover transition-all hover:brightness-90"
                   style={{ color: "transparent" }}
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Aerial_Microsoft_West_Campus_August_2009.jpg/960px-Aerial_Microsoft_West_Campus_August_2009.jpg"
+                  src="https://www.pngall.com/wp-content/uploads/7/Bill-Gates-PNG-Free-Download.png"
                 />
-                <p className="mt-1 text-center text-xs font-medium text-white/70 transition-all group-hover:text-white">
-                  Microsoft
+              </a>
+              <h4 className="mb-2 text-xl font-extrabold text-white">
+                Bill Gates
+              </h4>
+              <p className="line-clamp-5 font-medium text-neutral-300">
+                <p>
+                  William Henry Gates III is an American businessman and philanthropist. A pioneer of the microcomputer revolution of the 1970s and 1980s, he co-founded the software company Microsoft in 1975 with his childhood friend Paul Allen. Following Microsoft's 1986 initial public offering, Gates became the world's then-youngest billionaire in 1987, at age 31. Forbes magazine ranked him as the world's wealthiest person for 18 out of 24 years between 1995 and 2017, including 13 years consecutively from 1995 to 2007. 
                 </p>
+              </p>
+              <div className="mt-6 flex">
+                <div className="">
+                  <a
+                    target="_self"
+                    className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all lg:px-5 lg:py-3 border-white text-white hover:bg-white hover:text-black "
+                    href="https://en.wikipedia.org/wiki/Bill_Gates"
+                  >
+                    Visit Artist Page
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-1 space-y-4">
+              <h3 className="mb-2 text-2xl font-extrabold text-white">
+                Related content
+              </h3>
+              {Array(3).fill(0).map(x => (
+              <div className="">
+                <a
+                  className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
+                  href="https://en.wikipedia.org/wiki/Steve_Ballmer"
+                >
+                  <div className="flex-shrink-0">
+                    <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
+                      <img
+                        alt="Steve Ballmer"
+                        loading="lazy"
+                        width={1366}
+                        height={768}
+                        decoding="async"
+                        data-nimg={1}
+                        className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
+                        style={{ color: "transparent" }}
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Steve_ballmer_2007_outdoors2-2.jpg/500px-Steve_ballmer_2007_outdoors2-2.jpg"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col px-2 lg:px-4">
+                    <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white ">
+                      Steve Ballmer
+                    </h3>
+                    <div className="mt-1 flex lg:mt-2">
+                      <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
+                        New Music
+                      </p>
+                      <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all lg:mt-0 lg:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
+                        New Music
+                      </p>
+                    </div>
+                  </div>
+                </a>
+                <a
+                  className="lg:hidden"
+                  href="https://en.wikipedia.org/wiki/Steve_Ballmer"
+                >
+                  <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
+                    <div className="flex-shrink-0">
+                      <img
+                        alt="Steve Ballmer"
+                        loading="lazy"
+                        width={1366}
+                        height={768}
+                        decoding="async"
+                        data-nimg={1}
+                        className="w-32 h-24 rounded-2xl object-cover p-1"
+                        style={{ color: "transparent" }}
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Steve_ballmer_2007_outdoors2-2.jpg/500px-Steve_ballmer_2007_outdoors2-2.jpg"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1 space-y-1 px-2">
+                      <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white ">
+                        Steve Ballmer
+                      </h3>
+                      <p className="line-clamp-1 text-sm font-medium text-neutral-400">
+                        New Music
+                      </p>
+                    </div>
+                  </div>
+                </a>
               </div>
               ))}
+              <h3 className="mb-2 text-2xl font-extrabold text-white">
+                On-Air
+              </h3>
+              <div className="">
+                <a
+                  className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
+                  href="https://en.wikipedia.org/wiki/Satya_Nadella"
+                >
+                  <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
+                    <img
+                      alt="Satya Nadella"
+                      loading="lazy"
+                      decoding="async"
+                      data-nimg="fill"
+                      className="absolute inset-0 z-10 h-full w-full object-cover"
+                      style={{
+                        position: "absolute",
+                        height: "100%",
+                        width: "100%",
+                        inset: 0,
+                        color: "transparent"
+                      }}
+                      sizes="100vw"
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg/500px-MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col px-4">
+                    <h3 className="line-clamp-1 leading-tight font-extrabold text-white lg:line-clamp-2 lg:text-lg">
+                      Satya Nadella
+                    </h3>
+                    <p className="mt-1 text-sm font-medium text-neutral-400">
+                      Monday - Friday
+                    </p>
+                    <p className="mb-1 text-sm font-medium text-neutral-400 lg:mb-3">
+                      6 p.m. - 10 p.m. GMT
+                    </p>
+                    <div className="flex">
+                      <p className="rounded-full bg-neutral-700 px-3 py-1 text-xs font-bold text-white transition-all group-hover:bg-neutral-600">
+                        Visit Station Page
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
             </div>
-            <h3 className="mb-2 text-2xl font-extrabold text-white">
-              Last Played
-            </h3>
-            <div className="grid grid-cols-4 gap-4">
-              {Array(4).fill(0).map(x => (
-              <a href="https://en.wikipedia.org/wiki/Brad_Smith_(American_lawyer)">
+            <div className="col-span-1">
+              <h3 className="mb-2 text-2xl font-extrabold text-white">
+                Stations
+              </h3>
+              <div className="mb-4 grid grid-cols-5 gap-4">
+                {Array(10).fill(10).map(x => (
                 <div className="group hover:cursor-pointer">
                   <img
-                    alt="Last Played Image"
+                    alt="Microsoft"
                     loading="lazy"
-                    width={100}
-                    height={100}
+                    width={300}
+                    height={300}
                     decoding="async"
                     data-nimg={1}
                     className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
                     style={{ color: "transparent" }}
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Brad_Smith_-_Microsoft_-_01.jpg/500px-Brad_Smith_-_Microsoft_-_01.jpg"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Aerial_Microsoft_West_Campus_August_2009.jpg/960px-Aerial_Microsoft_West_Campus_August_2009.jpg"
                   />
-                  <p className="mt-2 line-clamp-1 text-center text-sm font-bold text-white transition-all">
+                  <p className="mt-1 text-center text-xs font-medium text-white/70 transition-all group-hover:text-white">
                     Microsoft
                   </p>
-                  <p className="line-clamp-1 text-center text-sm font-medium text-white/70 transition-all">
-                    Brad Lee
-                  </p>
                 </div>
-              </a>
-              ))}
+                ))}
+              </div>
+              <h3 className="mb-2 text-2xl font-extrabold text-white">
+                Last Played
+              </h3>
+              <div className="grid grid-cols-4 gap-4">
+                {Array(4).fill(0).map(x => (
+                <a href="https://en.wikipedia.org/wiki/Brad_Smith_(American_lawyer)">
+                  <div className="group hover:cursor-pointer">
+                    <img
+                      alt="Last Played Image"
+                      loading="lazy"
+                      width={100}
+                      height={100}
+                      decoding="async"
+                      data-nimg={1}
+                      className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
+                      style={{ color: "transparent" }}
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Brad_Smith_-_Microsoft_-_01.jpg/500px-Brad_Smith_-_Microsoft_-_01.jpg"
+                    />
+                    <p className="mt-2 line-clamp-1 text-center text-sm font-bold text-white transition-all">
+                      Microsoft
+                    </p>
+                    <p className="line-clamp-1 text-center text-sm font-medium text-white/70 transition-all">
+                      Brad Lee
+                    </p>
+                  </div>
+                </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
       <div
         className="fixed bottom-0 left-0 border-t border-neutral-700 z-40 flex h-20 w-full cursor-pointer justify-between border-t border-white/20 bg-black/90 py-1.5 px-3 shadow-lg backdrop-blur-3xl transition-all hover:bg-black/80"
       >
@@ -457,6 +466,8 @@ function RadioPlayer(props) {
         <CentralControl
           onTogglePlayer={togglePlayer}
           playerState={playerState}
+          onExpand={() => setExpand(!expand)}
+          expand={expand}
         />
         <div className="flex flex-row gap-x-4 items-center">
           <VolumeControl volume={volume} />
