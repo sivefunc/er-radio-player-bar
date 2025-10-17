@@ -210,7 +210,9 @@ function RadioPlayer(props) {
   console.log(currentTrack);
 
   return (
-    <div className="fixed bottom-0 left-0 cursor-pointer w-full bg-black/90 h-20 border-t border-neutral-700 flex flex-row justify-between px-3 py-1.5 hover:bg-black/80 ">
+    <div
+      className="fixed bottom-0 left-0 border-t border-neutral-700 z-40 flex h-20 w-full cursor-pointer justify-between border-t border-white/20 bg-black/90 p-3 shadow-lg backdrop-blur-3xl transition-all hover:bg-black/80"
+    >
       <TrackPlaying track={currentTrack}/>
       <CentralControl
         onTogglePlayer={togglePlayer}
