@@ -103,30 +103,33 @@ function VolumeControl(props) {
 
   return (
     <div 
-      ref={dropdownRef}
       className="relative"
     >
-      {changeVolume && (
-        <div className="absolute bottom-full left-0 mb-2 flex items-center justify-center rounded-full border border-neutral-600 bg-black py-3 px-1.5 shadow-lg">
-          {volumeIcon}
-          <input
-            type="range"
-            id="volume"
-            name="volume"
-            onChange={(event) => props.volume.onVolume(event.target.value)}
-            value={props.volume.currentVolume}
-            min={props.volume.minVolume}
-            max={props.volume.maxVolume}
-            className="w-48 h-2 bg-red-500 appearance-none rounded-lg cursor-pointer"
-            style={{
-              background: `linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 0, 0) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) 100%)`,
-              appearance: 'none',
-              '--thumb-color': 'white'
-            }}
-            step={props.volume.step}
-          />
-        </div>
-      )}
+      <div className="absolute bottom-full left-0 mb-2 flex items-center justify-center rounded-full border border-neutral-600 bg-black py-3 px-1.5 shadow-lg transition-all duration-300"
+        style={{
+          opacity: changeVolume ? 1 : 0,
+          transform: changeVolume ? "translateY(0)" : "translateY(10px)",
+        }}
+        ref={dropdownRef}
+      >
+        {volumeIcon}
+        <input
+          type="range"
+          id="volume"
+          name="volume"
+          onChange={(event) => props.volume.onVolume(event.target.value)}
+          value={props.volume.currentVolume}
+          min={props.volume.minVolume}
+          max={props.volume.maxVolume}
+          className="w-48 h-2 bg-red-500 appearance-none rounded-lg cursor-pointer"
+          style={{
+            background: `linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 0, 0) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) ${props.volume.currentVolume * 100}%, rgb(64, 64, 64) 100%)`,
+            appearance: 'none',
+            '--thumb-color': 'white'
+          }}
+          step={props.volume.step}
+        />
+      </div>
       <div
         className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-3 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10"
         onClick={() => setChangeVolume(!changeVolume)}
