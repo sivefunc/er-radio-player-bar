@@ -22,10 +22,10 @@ const PLAYER_ICONS = {
 
 function TrackPlaying(props) {
   return (
-    <div className="bg-white/10 items-center min-w-80 rounded-lg p-1 flex flex-row gap-x-2 border border-white/10">
-      <div className="w-14 h-14">
+    <div className="flex min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
+      <div className="aspect-square w-14 h-14">
         <img
-          className="h-full w-full rounded-md"
+          className="aspect-square h-full w-full rounded-md border border-white/10 object-cover"
           src={
             (
               props.track.artworkURL?.startsWith('/api/public/stations')
@@ -36,8 +36,8 @@ function TrackPlaying(props) {
           }
         />
       </div>
-      <div>
-        <div className="text-[10px] font-bold text-white/40 uppercase line-clamp-1">Now Playing:</div>
+      <div className="ml-2 flex flex-col justify-center">
+        <p className="line-clamp-1 text-[10px] font-bold text-white/40 uppercase">Now Playing:</p>
         <div className="line-clamp-1 text-sm font-extrabold text-white hover:underline">{props.track.trackName}</div>
         <div className="line-clamp-1 text-xs font-medium text-white hover:underline">{props.track.artistName}</div>
       </div>
