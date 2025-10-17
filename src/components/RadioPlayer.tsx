@@ -301,12 +301,12 @@ function RadioPlayer(props) {
               <div className="">
                 <a
                   className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
-                  href="https://en.wikipedia.org/wiki/Steve_Ballmer"
+                  href={currentTrack.trackViewUrl}
                 >
                   <div className="flex-shrink-0">
                     <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
                       <img
-                        alt="Steve Ballmer"
+                        alt={currentTrack.trackName}
                         loading="lazy"
                         width={1366}
                         height={768}
@@ -314,13 +314,20 @@ function RadioPlayer(props) {
                         data-nimg={1}
                         className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
                         style={{ color: "transparent" }}
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Steve_ballmer_2007_outdoors2-2.jpg/500px-Steve_ballmer_2007_outdoors2-2.jpg"
+                        src={
+                          (
+                            currentTrack.artworkURL?.startsWith('/api/public/stations')
+                              ? currentTrack.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                              : currentTrack.artworkURL
+
+                          ) || currentTrack.artistImage
+                        }
                       />
                     </div>
                   </div>
                   <div className="flex flex-col px-2 lg:px-4">
                     <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white ">
-                      Steve Ballmer
+                      {currentTrack.artistName}
                     </h3>
                     <div className="mt-1 flex lg:mt-2">
                       <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
@@ -334,12 +341,12 @@ function RadioPlayer(props) {
                 </a>
                 <a
                   className="lg:hidden"
-                  href="https://en.wikipedia.org/wiki/Steve_Ballmer"
+                  href={currentTrack.trackViewUrl}
                 >
                   <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
                     <div className="flex-shrink-0">
                       <img
-                        alt="Steve Ballmer"
+                        alt={currentTrack.artistName}
                         loading="lazy"
                         width={1366}
                         height={768}
@@ -347,12 +354,19 @@ function RadioPlayer(props) {
                         data-nimg={1}
                         className="w-32 h-24 rounded-2xl object-cover p-1"
                         style={{ color: "transparent" }}
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Steve_ballmer_2007_outdoors2-2.jpg/500px-Steve_ballmer_2007_outdoors2-2.jpg"
+                        src={
+                          (
+                            currentTrack.artworkURL?.startsWith('/api/public/stations')
+                              ? currentTrack.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                              : currentTrack.artworkURL
+
+                          ) || currentTrack.artistImage
+                        }
                       />
                     </div>
                     <div className="min-w-0 flex-1 space-y-1 px-2">
                       <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white ">
-                        Steve Ballmer
+                        { currentTrack.artistName}
                       </h3>
                       <p className="line-clamp-1 text-sm font-medium text-neutral-400">
                         New Music
