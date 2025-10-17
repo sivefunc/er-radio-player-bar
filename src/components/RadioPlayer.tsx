@@ -253,9 +253,9 @@ function RadioPlayer(props) {
               <h3 className="mb-2 text-2xl font-extrabold text-white">
                 About the artist
               </h3>
-              <a href="https://en.wikipedia.org/wiki/Bill_Gates">
+              <a href={currentTrack.trackViewUrl}>
                 <img
-                  alt="Bill Gates"
+                  alt={currentTrack.artistName}
                   loading="lazy"
                   width={600}
                   height={300}
@@ -263,15 +263,22 @@ function RadioPlayer(props) {
                   data-nimg={1}
                   className="mb-2 w-full rounded-2xl object-cover transition-all hover:brightness-90"
                   style={{ color: "transparent" }}
-                  src="https://www.pngall.com/wp-content/uploads/7/Bill-Gates-PNG-Free-Download.png"
+                  src={
+                    (
+                      currentTrack.artworkURL?.startsWith('/api/public/stations')
+                        ? currentTrack.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                        : currentTrack.artworkURL
+
+                    ) || currentTrack.artistImage
+                  }
                 />
               </a>
               <h4 className="mb-2 text-xl font-extrabold text-white">
-                Bill Gates
+                {currentTrack.artistName}
               </h4>
               <p className="line-clamp-5 font-medium text-neutral-300">
                 <p>
-                  William Henry Gates III is an American businessman and philanthropist. A pioneer of the microcomputer revolution of the 1970s and 1980s, he co-founded the software company Microsoft in 1975 with his childhood friend Paul Allen. Following Microsoft's 1986 initial public offering, Gates became the world's then-youngest billionaire in 1987, at age 31. Forbes magazine ranked him as the world's wealthiest person for 18 out of 24 years between 1995 and 2017, including 13 years consecutively from 1995 to 2007. 
+                  {currentTrack.artistName} no description yet (work in progress)
                 </p>
               </p>
               <div className="mt-6 flex">
@@ -279,7 +286,7 @@ function RadioPlayer(props) {
                   <a
                     target="_self"
                     className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all lg:px-5 lg:py-3 border-white text-white hover:bg-white hover:text-black "
-                    href="https://en.wikipedia.org/wiki/Bill_Gates"
+                    href={currentTrack.trackViewUrl}
                   >
                     Visit Artist Page
                   </a>
