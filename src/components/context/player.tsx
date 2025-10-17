@@ -132,69 +132,85 @@ export const PlayerProvider = ({ children }) => {
 
 // Initialize Icecast player
     useEffect(() => {
-        if (station && !playerInitialized) {
-            setPlayerInitialized(true);
-            const initializePlayer = async () => {
-                const {default: IcecastMetadataPlayer} = await import( "icecast-metadata-player" );
+    let playerListener;
 
-                const options = {
-                    lastPlayedMetadata: true,
-                    metadataTypes: ["icy", "ogg"],
-                    onMetadata: (metadata) => {
-                        setCurrentTrack((prevState) => {
-                            if (metadata.StreamTitle === prevState.StreamTitle) {
-                                return {...prevState, StreamTitle: metadata.StreamTitle};
-                            }
-                            return {
-                                ...DEFAULT_TRACK,
-                                StreamTitle: metadata.StreamTitle,
-                                stationId: station.id,
-                                artworkURL: station.thumbnail,
-                            };
-                        });
-                    },
-                    onError: (error) => {
-                        console.error("ERROR", error);
-                    },
-                };
+    const initializePlayer = async () => {
+      if (!station) return;
 
-                const playerLisner = new IcecastMetadataPlayer(station.url, {...options,});
-                setIcecastPlayer(playerLisner);
-                setPlayer({
-                    play: async () => {
-                        setPlayerState("loading");
-                        await playerLisner.play();
-                        setPlayerState("playing");
-                    },
-                    stop: async () => {
-                        await playerLisner.stop();
-                        setPlayerState("stopped");
-                    },
-                    setVolume: (volume) => {
-                        playerLisner.audioElement.volume = volume;
-                    },
-                    switchEndpoint: async () => {
-                        await playerLisner.stop();
-                        await playerLisner.detachAudioElement();
-                        setPlayerInitialized(false);
-                        setPlayerIsLoaded(true);
-                        setPlayerState("stopped");
-                    },
-                });
-                if (playerIsLoaded) {
-                    setPlayerState("loading");
-                    await playerLisner.play();
-                    playerLisner.audioElement.volume = playerVolume;
-                    setPlayerState("playing");
-                }
-            }
-            initializePlayer();
+      // stop previous player before creating a new one
+      if (icecastPlayer) {
+        try {
+          await icecastPlayer.stop();
+          await icecastPlayer.detachAudioElement();
+        } catch (error) {
+          console.error("error stopping old player:", error);
         }
-        return () => {
-            icecastPlayer && icecastPlayer.stop();
-        };
-    }, [station, playerInitialized, playerIsLoaded]);
+      }
 
+      const { default: IcecastMetadataPlayer } = await import("icecast-metadata-player");
+
+      const options = {
+        lastPlayedMetadata: true,
+        metadataTypes: ["icy", "ogg"],
+        onMetadata: (metadata) => {
+          setCurrentTrack((prevState) => {
+            if (metadata.StreamTitle === prevState.StreamTitle) return prevState;
+            return {
+              ...DEFAULT_TRACK,
+              StreamTitle: metadata.StreamTitle,
+              stationId: station.id,
+              artworkURL: station.thumbnail,
+            };
+          });
+        },
+        onError: (error) => console.error("error", error),
+      };
+
+      playerListener = new IcecastMetadataPlayer(station.url, options);
+      setIcecastPlayer(playerListener);
+      setPlayerInitialized(true);
+
+      setPlayer({
+        play: async () => {
+          setPlayerState("loading");
+          await playerListener.play();
+          playerListener.audioElement.volume = playerVolume;
+          setPlayerState("playing");
+        },
+        stop: async () => {
+          await playerListener.stop();
+          setPlayerState("stopped");
+        },
+        setVolume: (volume) => {
+          playerListener.audioElement.volume = volume;
+        },
+        switchEndpoint: async () => {
+          await playerListener.stop();
+          await playerListener.detachAudioElement();
+          setPlayerInitialized(false);
+          setPlayerIsLoaded(true);
+          setPlayerState("stopped");
+        },
+      });
+
+      if (playerIsLoaded) {
+        setPlayerState("loading");
+        await playerListener.play();
+        playerListener.audioElement.volume = playerVolume;
+        setPlayerState("playing");
+      }
+    };
+
+    initializePlayer();
+
+    // cleanup on station change or unmount
+    return () => {
+      if (playerListener) {
+        playerListener.stop();
+        playerListener.detachAudioElement();
+      }
+    };
+  }, [station]);
 // Update player volume
     useEffect(() => {
         if (icecastPlayer) {
