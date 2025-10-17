@@ -209,7 +209,7 @@ function StationFinder(props) {
 }
 
 function RadioPlayer(props) {
-  const { station, setStation, stationsList, tracks, loadingTracks } = useContext(StationContext);
+  const { station, setStation, currentPlaying, stationsList, tracks, loadingTracks, loadingUpcomingTracks, upcomingTracks } = useContext(StationContext);
   const { player, playerState, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
     useContext(PlayerContext);
 
@@ -226,7 +226,6 @@ function RadioPlayer(props) {
     }
   }
   
-  console.log(volume)
   function togglePlayer() {
     if (playerState === "playing") {
       player.stop();
@@ -239,9 +238,6 @@ function RadioPlayer(props) {
   if (!station) {
     return;
   }
-
-  console.log(currentTrack);
-  console.log(stationsList);
 
   return (
     <div>
@@ -359,50 +355,67 @@ function RadioPlayer(props) {
                 </a>
               </div>
               ))}
-              <h3 className="mb-2 text-2xl font-extrabold text-white">
-                On-Air
-              </h3>
-              <div className="">
-                <a
-                  className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
-                  href="https://en.wikipedia.org/wiki/Satya_Nadella"
-                >
-                  <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
-                    <img
-                      alt="Satya Nadella"
-                      loading="lazy"
-                      decoding="async"
-                      data-nimg="fill"
-                      className="absolute inset-0 z-10 h-full w-full object-cover"
-                      style={{
-                        position: "absolute",
-                        height: "100%",
-                        width: "100%",
-                        inset: 0,
-                        color: "transparent"
-                      }}
-                      sizes="100vw"
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg/500px-MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col px-4">
-                    <h3 className="line-clamp-1 leading-tight font-extrabold text-white lg:line-clamp-2 lg:text-lg">
-                      Satya Nadella
-                    </h3>
-                    <p className="mt-1 text-sm font-medium text-neutral-400">
-                      Monday - Friday
-                    </p>
-                    <p className="mb-1 text-sm font-medium text-neutral-400 lg:mb-3">
-                      6 p.m. - 10 p.m. GMT
-                    </p>
-                    <div className="flex">
-                      <p className="rounded-full bg-neutral-700 px-3 py-1 text-xs font-bold text-white transition-all group-hover:bg-neutral-600">
-                        Visit Station Page
-                      </p>
+              {(loadingUpcomingTracks || upcomingTracks.length) && (
+                <>
+                <h3 className="mb-2 text-2xl font-extrabold text-white">
+                  On-Air
+                </h3>
+                <div className="">
+                  <a
+                    className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
+                    href={station.donateLink}
+                  >
+                    <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
+                      <img
+                        alt={upcomingTracks[0].artistName}
+                        loading="lazy"
+                        decoding="async"
+                        data-nimg="fill"
+                        className="absolute inset-0 z-10 h-full w-full object-cover"
+                        style={{
+                          position: "absolute",
+                          height: "100%",
+                          width: "100%",
+                          inset: 0,
+                          color: "transparent"
+                        }}
+                        sizes="100vw"
+                        src={`https://listen.eternityready.com/${upcomingTracks[0].artworkURL}`}
+                      />
                     </div>
-                  </div>
-                </a>
-              </div>
+                    <div className="flex flex-1 flex-col px-4">
+                      <h3 className="line-clamp-1 leading-tight font-extrabold text-white lg:line-clamp-2 lg:text-lg">
+                        {upcomingTracks[0].artistName}
+                      </h3>
+                      <p className="mt-1 text-sm font-medium text-neutral-400">
+                        {upcomingTracks[0].dateScheduled
+                          ? new Date(
+                            upcomingTracks[0].dateScheduled.replace(" ", "T") + "Z"
+                          ).toLocaleString(undefined, {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hour12: true,
+                          })
+                          : "Invalid date"
+                        }
+                      </p>
+                      <p className="mb-1 text-sm font-medium text-neutral-400 lg:mb-3">
+                        {upcomingTracks[0].trackName}
+                      </p>
+                      <div className="flex">
+                        <p className="rounded-full bg-neutral-700 px-3 py-1 text-xs font-bold text-white transition-all group-hover:bg-neutral-600">
+                          Visit Station Page
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                </>
+              )}
             </div>
             <div className="col-span-1">
               <h3 className="mb-2 text-2xl font-extrabold text-white">
