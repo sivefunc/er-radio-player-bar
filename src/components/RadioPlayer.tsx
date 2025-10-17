@@ -12,12 +12,14 @@ import {
   FaVolumeLow,
   FaVolumeHigh,
   FaX,
+  FaChevronDown,
+  FaChevronUp,
 } from "react-icons/fa6";
 
 const PLAYER_ICONS = {
-  PLAY: <FaPlay className="h-6 w-6" />,
-  STOP: <FaStop className="h-6 w-6" />,
-  SPINNER: <FaSpinner className="h-6 w-6 animate-spin" />,
+  PLAY: <FaPlay className="h-5 w-5 text-xl"/>,
+  STOP: <FaStop className="h-5 w-5 text-xl" />,
+  SPINNER: <FaSpinner className="h-5 w-5 animate-spin" />,
 };
 
 function TrackPlaying(props) {
@@ -57,19 +59,14 @@ function CentralControl(props) {
   }
 
   return (
-    <div className="flex flex-row gap-x-4 items-center">
-      <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/50">
-        <svg
-          className="fill-current w-6 h-6 text-white font-medium"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -960 960 960"
+    <div className="flex flex-row gap-4 items-center justify-center">
+      <div className="flex flex-col justify-center">
+        <div className="group relative flex items-center justify-between rounded-full border border-neutral-50/30 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10 p-3"
         >
-          <path
-            d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"
-          />
-        </svg>
+          <FaChevronUp className="fill-current group-hover:text-red-500 text-white transition-all"/>
+        </div>
       </div>
-      <div className="bg-red-500 w-16 h-16 rounded-full flex justify-center items-center hover:brightness-125"
+      <div className="bg-red-500 flex items-center justify-center rounded-full text-black transition-all hover:cursor-pointer hover:brightness-125 disabled:opacity-50 h-16 w-16"
         onClick={() => props.onTogglePlayer()}
       >
         {playerIcon}
