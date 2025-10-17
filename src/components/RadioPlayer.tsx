@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { StationProvider, StationContext } from "./context/station";
 import { PlayerProvider, PlayerContext } from "./context/player";
 
@@ -77,6 +77,17 @@ function CentralControl(props) {
 
 function VolumeControl(props) {
   const [changeVolume, setChangeVolume] = useState(false)
+  const dropdownRef = useRef();
+  
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setChangeVolume(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   let volumeIcon;
   if (props.volume.currentVolume == 0) {
@@ -91,7 +102,10 @@ function VolumeControl(props) {
   }
 
   return (
-    <div className="relative" onClick={() => setChangeVolume(!changeVolume)}>
+    <div 
+      ref={dropdownRef}
+      className="relative"
+    >
       {changeVolume && (
         <div className="absolute bottom-full left-0 mb-2 flex items-center justify-center rounded-full border border-neutral-600 bg-black py-3 px-1.5 shadow-lg">
           {volumeIcon}
@@ -113,7 +127,10 @@ function VolumeControl(props) {
           />
         </div>
       )}
-      <div className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-3 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10">
+      <div
+        className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-3 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10"
+        onClick={() => setChangeVolume(!changeVolume)}
+      >
         { changeVolume
           ? <FaXmark className="fill-current w-8 text-white transition-all" />
           : volumeIcon
