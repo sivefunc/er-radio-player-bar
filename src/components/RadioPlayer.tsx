@@ -506,6 +506,11 @@ function RadioPlayer(props) {
       }
       <div
         className="flex h-20 w-full cursor-pointer justify-between border-t border-white/20 bg-black/90 px-3 py-1.5 shadow-lg backdrop-blur-3xl transition-all hover:bg-black/80"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            setExpand(prevExpand => !prevExpand);
+          }
+        }}
       >
         <TrackPlaying track={currentTrack}/>
         <CentralControl
