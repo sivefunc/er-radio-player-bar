@@ -240,8 +240,12 @@ function RadioPlayer(props) {
   }
 
   return (
-    <div>
+    <div
+      className="fixed right-0 bottom-0 left-0 z-40 hidden flex-col border-t border-neutral-700 xl:flex"
+    >
+
       { expand &&
+      <div className="relative z-40 w-full bg-black/80 backdrop-blur-3xl">
         <div className="mx-auto max-w-[90vw]">
           <div className="flex justify-start pl-12">
             <button className="group hover: z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600">
@@ -496,9 +500,10 @@ function RadioPlayer(props) {
             </div>
           </div>
         </div>
+      </div>
       }
       <div
-        className="fixed bottom-0 left-0 border-t border-neutral-700 z-40 flex h-20 w-full cursor-pointer justify-between border-t border-white/20 bg-black/90 py-1.5 px-3 shadow-lg backdrop-blur-3xl transition-all hover:bg-black/80"
+        className="flex h-20 w-full cursor-pointer justify-between border-t border-white/20 bg-black/90 px-3 py-1.5 shadow-lg backdrop-blur-3xl transition-all hover:bg-black/80"
       >
         <TrackPlaying track={currentTrack}/>
         <CentralControl
