@@ -155,13 +155,13 @@ function StationSelector(props) {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <div 
-      onClick={() => setIsOpen(!isOpen)}
       className="relative">
       <div
         className="absolute bottom-full left-0 mb-0 min-w-64 rounded-2xl border border-neutral-600 bg-black p-2 shadow-lg flex flex-col gap-y-1 transition-all"
         style={{
           opacity: isOpen ? 1 : 0,
           transform: isOpen ? "translateY(0)" : "translateY(10px)",
+          pointerEvents: isOpen ? "auto" : "none",
         }}
       >
         {props.stations.map((station, stationIdx) =>
@@ -172,7 +172,7 @@ function StationSelector(props) {
 
               : "w-full rounded-full px-3 py-1 text-left text-sm transition-all hover:cursor-pointer text-white/70 hover:bg-white/20 hover:text-white"
             }
-            onClick={() => props.onStationSelected(stationIdx)}
+            onClick={() => isOpen && props.onStationSelected(stationIdx)}
           >
             {station}
           </div>
@@ -180,6 +180,8 @@ function StationSelector(props) {
       </div>
       <div 
         className="group flex items-center justify-between rounded-full border border-neutral-50/30 px-4 py-2 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10"
+
+        onClick={() => setIsOpen(!isOpen)}
       >
         {props.stations[props.stationToListen]}
         <FaChevronDown className="ml-3 text-white/50 transition-all group-hover:text-white"/>
@@ -241,7 +243,7 @@ function RadioPlayer(props) {
 
   return (
     <div
-      className="fixed right-0 bottom-0 left-0 z-40 hidden flex-col border-t border-neutral-700 xl:flex"
+      className="fixed right-0 bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex"
     >
 
       { expand &&
