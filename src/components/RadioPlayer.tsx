@@ -469,8 +469,8 @@ function LastPlayedExpand(props) {
 }
 
 function RadioPlayer(props) {
-  const { station, setStation, setExternalStation, currentPlaying, stationsList, tracks, loadingTracks, loadingUpcomingTracks, upcomingTracks } = useContext(StationContext);
-  const { player, playerState, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
+  const { station, setStation, currentPlaying, stationsList, tracks, loadingTracks, loadingUpcomingTracks, upcomingTracks } = useContext(StationContext);
+  const { player, playerState, externalStation, setExternalStation, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
     useContext(PlayerContext);
 
   const [expand, setExpand] = useState(false);
@@ -575,7 +575,7 @@ const EternityRadioPlayer = forwardRef((props, ref) => {
 
   return (
     <StationProvider>
-      <PlayerProvider externalStation={externalStation}>
+      <PlayerProvider externalStation={externalStation} setExternalStation={setExternalStation}>
         <RadioPlayer />
       </PlayerProvider>
     </StationProvider>

@@ -589,6 +589,8 @@ export const PlayerProvider = (props) => {
                 setPlayerIsLoaded,
                 changeVolume,
                 currentTrack,
+                externalStation: props.externalStation,
+                setExternalStation: props.setExternalStation,
             }}
         >
             {props.children}
