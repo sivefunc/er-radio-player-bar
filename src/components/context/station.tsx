@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 export const StationContext = React.createContext();
 
 // Station provider component to manage Station authentication and session
-export const StationProvider = ({ children }) => {
+export const StationProvider = (props) => {
   const [stationsList, setStationsList] = useState([]);
   const [station, setStation] = useState(null);
   const [tracks, setTracks] = useState([]);
@@ -13,7 +13,7 @@ export const StationProvider = ({ children }) => {
   const [loadingStations, setloadingStations] = useState(true);
   const [loadingTracks, setloadingTracks] = useState(true);
   const [loadingUpcomingTracks, setloadingUpcomingTracks] = useState(true);
-
+  
   useEffect(() => {
     const fetchStations = async () => {
       setloadingStations(true);
@@ -162,7 +162,7 @@ export const StationProvider = ({ children }) => {
         loadingUpcomingTracks,
       }}
     >
-      {children}
+      {props.children}
     </StationContext.Provider>
   );
 };

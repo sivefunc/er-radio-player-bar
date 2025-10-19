@@ -79,8 +79,8 @@ const DEFAULT_TRACK = {
 export const PlayerContext = React.createContext();
 
 // Player provider component to manage Player authentication and session
-export const PlayerProvider = ({ children }) => {
-    const { station, currentPlaying, addTrack } = useContext(StationContext);
+export const PlayerProvider = (props) => {
+    const { station, currentPlaying, addTrack, } = useContext(StationContext);
     const [player, setPlayer] = useState({
         play: () => {},
         stop: () => {},
@@ -99,6 +99,8 @@ export const PlayerProvider = ({ children }) => {
         setPlayerVolume(volume);
         player.setVolume(volume);
     };
+    
+    const [externalMetadata, setExternalMetadata] = useState(null);
 
 // Initialize player with current playing track
     useEffect(() => {
@@ -135,7 +137,7 @@ export const PlayerProvider = ({ children }) => {
     let playerListener;
 
     const initializePlayer = async () => {
-      if (!station) return;
+      if (!station && !props?.externalStation) return;
 
       // stop previous player before creating a new one
       if (icecastPlayer) {
@@ -166,7 +168,12 @@ export const PlayerProvider = ({ children }) => {
         onError: (error) => console.error("error", error),
       };
 
-      playerListener = new IcecastMetadataPlayer(station.url, options);
+      playerListener = new IcecastMetadataPlayer(
+          props?.externalStation ? (
+              props.externalStation.src.replace("https://", "https://listen.eternityready.com/stream-proxy/")
+          ) : station.url,
+          options
+      );
       setIcecastPlayer(playerListener);
       setPlayerInitialized(true);
 
@@ -210,7 +217,7 @@ export const PlayerProvider = ({ children }) => {
         playerListener.detachAudioElement();
       }
     };
-  }, [station]);
+  }, [station, props.externalStation]);
 // Update player volume
     useEffect(() => {
         if (icecastPlayer) {
@@ -584,7 +591,7 @@ export const PlayerProvider = ({ children }) => {
                 currentTrack,
             }}
         >
-            {children}
+            {props.children}
         </PlayerContext.Provider>
     );
 };

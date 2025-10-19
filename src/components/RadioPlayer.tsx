@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext, useRef, useImperativeHandle, forwardRef } from "react";
 import { StationProvider, StationContext } from "./context/station";
 import { PlayerProvider, PlayerContext } from "./context/player";
 
@@ -469,7 +469,7 @@ function LastPlayedExpand(props) {
 }
 
 function RadioPlayer(props) {
-  const { station, setStation, currentPlaying, stationsList, tracks, loadingTracks, loadingUpcomingTracks, upcomingTracks } = useContext(StationContext);
+  const { station, setStation, setExternalStation, currentPlaying, stationsList, tracks, loadingTracks, loadingUpcomingTracks, upcomingTracks } = useContext(StationContext);
   const { player, playerState, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
     useContext(PlayerContext);
 
@@ -554,6 +554,7 @@ function RadioPlayer(props) {
             onStationSelected={async (stationIdx) => {
               await player.switchEndpoint();
               setStation(stationsList[stationIdx])
+              setExternalStation(null);
             }}
           />
           <StationFinder />
@@ -563,14 +564,22 @@ function RadioPlayer(props) {
   )
 }
 
-function EternityRadioPlayer() {
+const EternityRadioPlayer = forwardRef((props, ref) => {
+  const [externalStation, setExternalStation] = useState(null)
+
+  useImperativeHandle(ref, () => ({
+    changeExternalStation: (station) => {
+      setExternalStation(station)
+    },
+  }));
+
   return (
     <StationProvider>
-      <PlayerProvider>
+      <PlayerProvider externalStation={externalStation}>
         <RadioPlayer />
       </PlayerProvider>
     </StationProvider>
   )
-}
+})
 
 export default EternityRadioPlayer
