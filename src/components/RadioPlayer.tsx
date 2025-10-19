@@ -224,7 +224,7 @@ function AboutArtistExpand(props) {
           height={300}
           decoding="async"
           data-nimg={1}
-          className="mb-2 w-full rounded-2xl object-cover transition-all hover:brightness-90 aspect-video"
+          className="mb-2 rounded-2xl object-cover transition-all hover:brightness-90 aspect-video max-h-64"
           style={{ color: "transparent" }}
           src={
             (
@@ -503,18 +503,18 @@ function RadioPlayer(props) {
   }
   return (
     <div
-      className="fixed right-0 bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex"
+      className="fixed right-0 bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex "
     >
 
       { expand &&
-      <div className="relative z-40 w-full bg-black/80 backdrop-blur-3xl">
+      <div className="relative z-40 w-full bg-black/80 backdrop-blur-3xl max-h-screen overflow-y-auto">
         <div className="mx-auto max-w-[90vw]">
           <div className="flex justify-start pl-12">
             <button className="group hover: z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600">
               <FaXmark className="text-white transition-all group-hover:text-xl"/>
             </button>
           </div>
-          <div className="grid grid-cols-3 gap-20 p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 p-12">
             <AboutArtistExpand track={currentTrack}/>
             <div className="col-span-1 space-y-4">
               <RelatedContentExpand track={currentTrack} />
