@@ -330,6 +330,8 @@ export const PlayerProvider = ({ children }) => {
             artistName: artistName || "",
             artistImage: station?.thumbnail,
         };
+        let relatedSongs = null;
+
         if (track.StreamTitle.trim().toLowerCase() !== "unknown") {
             const trackDataSpotify = await getSpotifyData(track);
             const ArtistImageSpotify = await getArtistImageFromSpotify(trackDataSpotify);
@@ -340,6 +342,7 @@ export const PlayerProvider = ({ children }) => {
                     artistImage: ArtistImageSpotify || station?.thumbnail,
                 };
             } else {
+
                 const trackDataApple = await getAppleData(track);
                 const ArtistImageApple = await getArtistImageFromApple(trackDataApple?.artistViewUrl);
                 if (trackDataApple) {
@@ -348,6 +351,11 @@ export const PlayerProvider = ({ children }) => {
                         artworkURL: trackDataApple.artworkUrl100?.replace("100x100", "600x600") || station?.thumbnail,
                         artistImage: ArtistImageApple || station?.thumbnail,
                     };
+                    try {
+                        relatedSongs = await getRelatedSongs(trackData.artistId, trackData.trackName);
+                    } catch (error) {
+                        console.error(error)
+                    }
                 }
             }
         }
@@ -356,6 +364,7 @@ export const PlayerProvider = ({ children }) => {
             ...trackData,
             metaDataFound: true,
             processed: true,
+            relatedSongs: relatedSongs,
         }));
     };
 
@@ -498,6 +507,13 @@ export const PlayerProvider = ({ children }) => {
         }
         console.log("getArtistImageFromSpotify - null");
         return null;
+    }
+
+    async function getRelatedSongs(artistId, trackName, limit = 10) {
+      const url = `https://itunes.apple.com/lookup?id=${artistId}&entity=song&limit=${limit}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      return data.results.filter(item => item.wrapperType === 'track' && item?.trackName != trackName);
     }
 
     return (

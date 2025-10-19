@@ -240,6 +240,7 @@ function RadioPlayer(props) {
   if (!station) {
     return;
   }
+  console.log(currentTrack);
 
   return (
     <div
@@ -303,16 +304,16 @@ function RadioPlayer(props) {
               <h3 className="mb-2 text-2xl font-extrabold text-white">
                 Related content
               </h3>
-              {Array(3).fill(0).map(x => (
+              {currentTrack?.relatedSongs?.slice(0, 3)?.map(relatedTrack => (
               <div className="">
                 <a
                   className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
-                  href={currentTrack.trackViewUrl}
+                  href={relatedTrack.trackViewUrl}
                 >
                   <div className="flex-shrink-0">
                     <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
                       <img
-                        alt={currentTrack.trackName}
+                        alt={relatedTrack.trackName}
                         loading="lazy"
                         width={1366}
                         height={768}
@@ -320,20 +321,13 @@ function RadioPlayer(props) {
                         data-nimg={1}
                         className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
                         style={{ color: "transparent" }}
-                        src={
-                          (
-                            currentTrack.artworkURL?.startsWith('/api/public/stations')
-                              ? currentTrack.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
-                              : currentTrack.artworkURL
-
-                          ) || currentTrack.artistImage
-                        }
+                        src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100}
                       />
                     </div>
                   </div>
                   <div className="flex flex-col px-2 lg:px-4">
                     <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white ">
-                      {currentTrack.artistName}
+                      {relatedTrack.trackName}
                     </h3>
                     <div className="mt-1 flex lg:mt-2">
                       <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
@@ -347,12 +341,12 @@ function RadioPlayer(props) {
                 </a>
                 <a
                   className="lg:hidden"
-                  href={currentTrack.trackViewUrl}
+                  href={relatedTrack.trackViewUrl}
                 >
                   <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
                     <div className="flex-shrink-0">
                       <img
-                        alt={currentTrack.artistName}
+                        alt={relatedTrack.trackName}
                         loading="lazy"
                         width={1366}
                         height={768}
@@ -360,19 +354,12 @@ function RadioPlayer(props) {
                         data-nimg={1}
                         className="w-32 h-24 rounded-2xl object-cover p-1"
                         style={{ color: "transparent" }}
-                        src={
-                          (
-                            currentTrack.artworkURL?.startsWith('/api/public/stations')
-                              ? currentTrack.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
-                              : currentTrack.artworkURL
-
-                          ) || currentTrack.artistImage
-                        }
+                        src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100}
                       />
                     </div>
                     <div className="min-w-0 flex-1 space-y-1 px-2">
                       <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white ">
-                        { currentTrack.artistName}
+                        { relatedTrack.artistName}
                       </h3>
                       <p className="line-clamp-1 text-sm font-medium text-neutral-400">
                         New Music
