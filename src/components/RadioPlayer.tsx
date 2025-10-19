@@ -22,6 +22,47 @@ const PLAYER_ICONS = {
   SPINNER: <FaSpinner className="h-5 w-5 animate-spin" />,
 };
 
+
+function GMap(props) {
+  const mapRef = useRef(null);
+  const mapInstance = useRef(null);
+
+  useEffect(() => {
+    // Load the script if not already loaded
+    if (!window.google) {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js`;
+      script.async = true;
+      script.defer = true;
+      script.onload = initializeMap;
+      document.head.appendChild(script);
+    } else {
+      initializeMap();
+    }
+
+    function initializeMap() {
+      if (mapRef.current && window.google) {
+        // Create a new map instance
+        mapInstance.current = new window.google.maps.Map(mapRef.current, {
+          zoom: 10,
+          center: props.locations[0],
+        });
+        // Add markers for each location
+        props.locations.forEach((location) => {
+          new window.google.maps.Marker({
+            position: location,
+            map: mapInstance.current,
+          });
+        });
+      }
+    }
+  }, [props.locations]);
+
+  return (
+    <div ref={mapRef} style={{ height: '100%', width: '100%' }} />
+  );
+};
+
 function TrackPlaying(props) {
   return (
     <div className="flex min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
@@ -194,7 +235,7 @@ function StationFinder(props) {
   return (
     <a
       className=" group flex justify-between items-center border border-neutral-50/30 hover:cursor-pointer hover:bg-neutral-50/10 transition-all rounded-full text-sm text-white font-medium py-2 px-4 gap-x-2 whitespace-nowrap"
-      href="https://listen.eternityready.com"
+      onClick={props.onClick}
     >
       <svg
         className="fill-current w-6 h-6 text-white/50"
@@ -477,6 +518,7 @@ function RadioPlayer(props) {
     useContext(PlayerContext);
 
   const [expand, setExpand] = useState(false);
+  const [expandStationFinder, setExpandStationFinder] = useState(false);
   const [videoUrl, setVideoUrl] = useState(null);
 
   let volume = {
@@ -505,6 +547,27 @@ function RadioPlayer(props) {
     <div
       className="fixed right-0 bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex "
     >
+      { expandStationFinder &&
+        <div className="relative z-1 flex flex-col items-center justify-center bg-black/80 backdrop-blur-3xl text-white h-[calc(100vh-5rem)] p-8">
+          <h1 className="text-3xl font-semibold mb-4">Stations</h1>
+          <div className="w-[80vw] h-[80vh] border border-neutral-700 flex items-center justify-center rounded-xl">
+            <GMap locations={[
+              { lat: 38.85244736202087, lng: -94.38234955812526}, // EternityReadyRadio
+              { lat: 42.88546032352532, lng: -85.61441608965521}, // Keys for Kids
+              { lat: 46.97450620391861, lng: -123.83321928821422}, // RacMan
+              { lat: 38.21660823575491, lng: -84.86366866152224}, // Christian Media Spotlight
+              { lat: 39.745074878936755, lng: -75.605330188559}, // Christian Mix 106
+              { lat: 32.396017888447616, lng: -97.3304184076688}, // 88.3 FM
+
+              { lat: 36.935363183658744, lng: -88.30908054576554}, // Crossroads radio
+              { lat: 45.336637466211364, lng: -122.76606913443541}, // Worship radio
+              { lat: 39.07978341263172, lng: -108.56854435193384}, //KJOL RADIO
+              { lat: 37.168221911586556, lng: -107.575185075323}, // Heavens Country
+              { lat: 37.053002609179394, lng: -80.75160137601891}, // Family 1340
+            ]} />
+          </div>
+        </div>
+      }
 
       { expand &&
       <div className="relative z-40 w-full bg-black/80 backdrop-blur-3xl max-h-screen overflow-y-auto">
@@ -567,7 +630,7 @@ function RadioPlayer(props) {
               setExternalStation(null);
             }}
           />
-          <StationFinder />
+          <StationFinder onClick={() => setExpandStationFinder(p => !p)} />
         </div>
       </div>
     </div>
