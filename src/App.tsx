@@ -1506,13 +1506,6 @@ function App() {
   return (
     <div className="bg-black h-screen w-screen">
       <div className="grid grid-cols-8 gap-4">
-        {stations.channels.map(station => 
-        <div
-          className="w-16 h-16 bg-red-500"
-          onClick={() => childRef.current.changeExternalStation(station)}
-        >
-        </div>
-      )}
       </div>
       <EternityRadioPlayer ref={childRef} />
     </div>

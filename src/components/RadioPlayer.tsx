@@ -407,8 +407,11 @@ function StationsExpand(props) {
       Stations
     </h3>
     <div className="mb-4 grid grid-cols-5 gap-4">
-      {props.stationsList.map(station => (
-      <div className="group hover:cursor-pointer">
+      {props.stationsList.map((station, stationIdx) => (
+      <div
+        className="group hover:cursor-pointer"
+        onClick={() => props.onStationSelected(stationIdx) }
+      >
         <img
           alt={station.name}
           loading="lazy"
@@ -522,7 +525,14 @@ function RadioPlayer(props) {
               />
             </div>
             <div className="col-span-1">
-              <StationsExpand stationsList={stationsList} />
+              <StationsExpand
+                stationsList={stationsList} 
+                onStationSelected={async (stationIdx) => {
+                  await player.switchEndpoint();
+                  setStation(stationsList[stationIdx])
+                  setExternalStation(null);
+                }}
+              />
               <LastPlayedExpand tracks={tracks} />
             </div>
           </div>
