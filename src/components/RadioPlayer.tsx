@@ -260,7 +260,7 @@ function RadioPlayer(props) {
               <h3 className="mb-2 text-2xl font-extrabold text-white">
                 About the artist
               </h3>
-              <a href={currentTrack.trackViewUrl}>
+              <a href={currentTrack.trackViewUrl} className="aspect-video">
                 <img
                   alt={currentTrack.artistName}
                   loading="lazy"
@@ -268,7 +268,7 @@ function RadioPlayer(props) {
                   height={300}
                   decoding="async"
                   data-nimg={1}
-                  className="mb-2 w-full rounded-2xl object-cover transition-all hover:brightness-90"
+                  className="mb-2 w-full rounded-2xl object-cover transition-all hover:brightness-90 aspect-video"
                   style={{ color: "transparent" }}
                   src={
                     (
