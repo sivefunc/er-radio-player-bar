@@ -210,6 +210,264 @@ function StationFinder(props) {
   )
 }
 
+function AboutArtistExpand(props) {
+  return (
+    <div className="col-span-1">
+      <h3 className="mb-2 text-2xl font-extrabold text-white">
+        About the artist
+      </h3>
+      <a href={props.track.trackViewUrl} className="aspect-video">
+        <img
+          alt={props.track.artistName}
+          loading="lazy"
+          width={600}
+          height={300}
+          decoding="async"
+          data-nimg={1}
+          className="mb-2 w-full rounded-2xl object-cover transition-all hover:brightness-90 aspect-video"
+          style={{ color: "transparent" }}
+          src={
+            (
+              props.track.artworkURL?.startsWith('/api/public/stations')
+                ? props.track.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                : props.track.artworkURL
+
+            ) || props.track.artistImage
+          }
+        />
+      </a>
+      <h4 className="mb-2 text-xl font-extrabold text-white">
+        {props.track.artistName}
+      </h4>
+      <p className="line-clamp-5 font-medium text-neutral-300">
+        {props.track?.aboutDescription}
+      </p>
+      <div className="mt-6 flex">
+        <div className="">
+          <a
+            target="_self"
+            className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all lg:px-5 lg:py-3 border-white text-white hover:bg-white hover:text-black "
+            href={props.track.trackViewUrl}
+          >
+            Visit Artist Page
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function RelatedContentExpand(props) {
+  return (
+    <>
+      <h3 className="mb-2 text-2xl font-extrabold text-white">
+        Related content
+      </h3>
+      {props.track?.relatedSongs?.slice(0, 3)?.map(relatedTrack => (
+      <div className="">
+        <a
+          className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
+          href={relatedTrack.trackViewUrl}
+        >
+          <div className="flex-shrink-0">
+            <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
+              <img
+                alt={relatedTrack.trackName}
+                loading="lazy"
+                width={1366}
+                height={768}
+                decoding="async"
+                data-nimg={1}
+                className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
+                style={{ color: "transparent" }}
+                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col px-2 lg:px-4">
+            <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white ">
+              {relatedTrack.trackName}
+            </h3>
+            <div className="mt-1 flex lg:mt-2">
+              <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
+                New Music
+              </p>
+              <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all lg:mt-0 lg:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
+                New Music
+              </p>
+            </div>
+          </div>
+        </a>
+        <a
+          className="lg:hidden"
+          href={relatedTrack.trackViewUrl}
+        >
+          <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
+            <div className="flex-shrink-0">
+              <img
+                alt={relatedTrack.trackName}
+                loading="lazy"
+                width={1366}
+                height={768}
+                decoding="async"
+                data-nimg={1}
+                className="w-32 h-24 rounded-2xl object-cover p-1"
+                style={{ color: "transparent" }}
+                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100}
+              />
+            </div>
+            <div className="min-w-0 flex-1 space-y-1 px-2">
+              <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white ">
+                { relatedTrack.artistName}
+              </h3>
+              <p className="line-clamp-1 text-sm font-medium text-neutral-400">
+                New Music
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+      ))}
+    </>
+  )
+}
+
+function OnAirExpand(props) {
+  return (
+    <>
+      {(props.loadingUpcomingTracks || props.upcomingTracks.length) && (
+        <>
+        <h3 className="mb-2 text-2xl font-extrabold text-white">
+          On-Air
+        </h3>
+        <div className="">
+          <a
+            className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
+            href={props.station.donateLink}
+          >
+            <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
+              <img
+                alt={props.upcomingTracks[0].artistName}
+                loading="lazy"
+                decoding="async"
+                data-nimg="fill"
+                className="absolute inset-0 z-10 h-full w-full object-cover"
+                style={{
+                  position: "absolute",
+                  height: "100%",
+                  width: "100%",
+                  inset: 0,
+                  color: "transparent"
+                }}
+                sizes="100vw"
+                src={`https://listen.eternityready.com/${props.upcomingTracks[0].artworkURL}`}
+              />
+            </div>
+            <div className="flex flex-1 flex-col px-4">
+              <h3 className="line-clamp-1 leading-tight font-extrabold text-white lg:line-clamp-2 lg:text-lg">
+                {props.upcomingTracks[0].artistName}
+              </h3>
+              <p className="mt-1 text-sm font-medium text-neutral-400">
+                {props.upcomingTracks[0].dateScheduled
+                  ? new Date(
+                    props.upcomingTracks[0].dateScheduled.replace(" ", "T") + "Z"
+                  ).toLocaleString(undefined, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: true,
+                  })
+                  : "Invalid date"
+                }
+              </p>
+              <p className="mb-1 text-sm font-medium text-neutral-400 lg:mb-3">
+                {props.upcomingTracks[0].trackName}
+              </p>
+              <div className="flex">
+                <p className="rounded-full bg-neutral-700 px-3 py-1 text-xs font-bold text-white transition-all group-hover:bg-neutral-600">
+                  Visit Station Page
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        </>
+      )}
+    </>
+  )
+}
+
+function StationsExpand(props) {
+  return (
+    <>
+    <h3 className="mb-2 text-2xl font-extrabold text-white">
+      Stations
+    </h3>
+    <div className="mb-4 grid grid-cols-5 gap-4">
+      {props.stationsList.map(station => (
+      <div className="group hover:cursor-pointer">
+        <img
+          alt={station.name}
+          loading="lazy"
+          width={300}
+          height={300}
+          decoding="async"
+          data-nimg={1}
+          className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
+          style={{ color: "transparent" }}
+          src={`https://listen.eternityready.com/${station.logo}`}
+        />
+        <p className="mt-1 text-center text-xs font-medium text-white/70 transition-all group-hover:text-white">
+          {station.name}
+        </p>
+      </div>
+      ))}
+    </div>
+    </>
+  )
+}
+
+function LastPlayedExpand(props) {
+  return (
+    <>
+    <h3 className="mb-2 text-2xl font-extrabold text-white">
+      Last Played
+    </h3>
+    <div className="grid grid-cols-4 gap-4">
+      {props.tracks.map((track, index) => {
+        if (index === 0) { return; }
+        return (
+          <a href={track.trackViewUrl} target="_blank">
+        <div className="group hover:cursor-pointer">
+          <img
+            alt={track?.trackName || "Last Played"}
+            loading="lazy"
+            width={100}
+            height={100}
+            decoding="async"
+            data-nimg={1}
+            className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
+            style={{ color: "transparent" }}
+            src={track.artworkURL || track.artistImage}
+          />
+          <p className="mt-2 line-clamp-1 text-center text-sm font-bold text-white transition-all">
+            {track.trackName}
+          </p>
+          <p className="line-clamp-1 text-center text-sm font-medium text-white/70 transition-all">
+            {track.artistName}
+          </p>
+        </div>
+      </a>
+        )
+      })}
+    </div>
+  </>
+  )
+}
+
 function RadioPlayer(props) {
   const { station, setStation, currentPlaying, stationsList, tracks, loadingTracks, loadingUpcomingTracks, upcomingTracks } = useContext(StationContext);
   const { player, playerState, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
@@ -240,8 +498,6 @@ function RadioPlayer(props) {
   if (!station) {
     return;
   }
-  console.log(currentTrack);
-
   return (
     <div
       className="fixed right-0 bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex"
@@ -256,234 +512,18 @@ function RadioPlayer(props) {
             </button>
           </div>
           <div className="grid grid-cols-3 gap-20 p-12">
-            <div className="col-span-1">
-              <h3 className="mb-2 text-2xl font-extrabold text-white">
-                About the artist
-              </h3>
-              <a href={currentTrack.trackViewUrl} className="aspect-video">
-                <img
-                  alt={currentTrack.artistName}
-                  loading="lazy"
-                  width={600}
-                  height={300}
-                  decoding="async"
-                  data-nimg={1}
-                  className="mb-2 w-full rounded-2xl object-cover transition-all hover:brightness-90 aspect-video"
-                  style={{ color: "transparent" }}
-                  src={
-                    (
-                      currentTrack.artworkURL?.startsWith('/api/public/stations')
-                        ? currentTrack.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
-                        : currentTrack.artworkURL
-
-                    ) || currentTrack.artistImage
-                  }
-                />
-              </a>
-              <h4 className="mb-2 text-xl font-extrabold text-white">
-                {currentTrack.artistName}
-              </h4>
-              <p className="line-clamp-5 font-medium text-neutral-300">
-                {currentTrack?.aboutDescription}
-              </p>
-              <div className="mt-6 flex">
-                <div className="">
-                  <a
-                    target="_self"
-                    className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all lg:px-5 lg:py-3 border-white text-white hover:bg-white hover:text-black "
-                    href={currentTrack.trackViewUrl}
-                  >
-                    Visit Artist Page
-                  </a>
-                </div>
-              </div>
-            </div>
+            <AboutArtistExpand track={currentTrack}/>
             <div className="col-span-1 space-y-4">
-              <h3 className="mb-2 text-2xl font-extrabold text-white">
-                Related content
-              </h3>
-              {currentTrack?.relatedSongs?.slice(0, 3)?.map(relatedTrack => (
-              <div className="">
-                <a
-                  className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
-                  href={relatedTrack.trackViewUrl}
-                >
-                  <div className="flex-shrink-0">
-                    <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
-                      <img
-                        alt={relatedTrack.trackName}
-                        loading="lazy"
-                        width={1366}
-                        height={768}
-                        decoding="async"
-                        data-nimg={1}
-                        className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
-                        style={{ color: "transparent" }}
-                        src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-col px-2 lg:px-4">
-                    <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white ">
-                      {relatedTrack.trackName}
-                    </h3>
-                    <div className="mt-1 flex lg:mt-2">
-                      <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
-                        New Music
-                      </p>
-                      <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all lg:mt-0 lg:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
-                        New Music
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  className="lg:hidden"
-                  href={relatedTrack.trackViewUrl}
-                >
-                  <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
-                    <div className="flex-shrink-0">
-                      <img
-                        alt={relatedTrack.trackName}
-                        loading="lazy"
-                        width={1366}
-                        height={768}
-                        decoding="async"
-                        data-nimg={1}
-                        className="w-32 h-24 rounded-2xl object-cover p-1"
-                        style={{ color: "transparent" }}
-                        src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100}
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1 space-y-1 px-2">
-                      <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white ">
-                        { relatedTrack.artistName}
-                      </h3>
-                      <p className="line-clamp-1 text-sm font-medium text-neutral-400">
-                        New Music
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              ))}
-              {(loadingUpcomingTracks || upcomingTracks.length) && (
-                <>
-                <h3 className="mb-2 text-2xl font-extrabold text-white">
-                  On-Air
-                </h3>
-                <div className="">
-                  <a
-                    className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
-                    href={station.donateLink}
-                  >
-                    <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
-                      <img
-                        alt={upcomingTracks[0].artistName}
-                        loading="lazy"
-                        decoding="async"
-                        data-nimg="fill"
-                        className="absolute inset-0 z-10 h-full w-full object-cover"
-                        style={{
-                          position: "absolute",
-                          height: "100%",
-                          width: "100%",
-                          inset: 0,
-                          color: "transparent"
-                        }}
-                        sizes="100vw"
-                        src={`https://listen.eternityready.com/${upcomingTracks[0].artworkURL}`}
-                      />
-                    </div>
-                    <div className="flex flex-1 flex-col px-4">
-                      <h3 className="line-clamp-1 leading-tight font-extrabold text-white lg:line-clamp-2 lg:text-lg">
-                        {upcomingTracks[0].artistName}
-                      </h3>
-                      <p className="mt-1 text-sm font-medium text-neutral-400">
-                        {upcomingTracks[0].dateScheduled
-                          ? new Date(
-                            upcomingTracks[0].dateScheduled.replace(" ", "T") + "Z"
-                          ).toLocaleString(undefined, {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            second: "2-digit",
-                            hour12: true,
-                          })
-                          : "Invalid date"
-                        }
-                      </p>
-                      <p className="mb-1 text-sm font-medium text-neutral-400 lg:mb-3">
-                        {upcomingTracks[0].trackName}
-                      </p>
-                      <div className="flex">
-                        <p className="rounded-full bg-neutral-700 px-3 py-1 text-xs font-bold text-white transition-all group-hover:bg-neutral-600">
-                          Visit Station Page
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                </>
-              )}
+              <RelatedContentExpand track={currentTrack} />
+              <OnAirExpand 
+                loadingUpcomingTracks={loadingUpcomingTracks}
+                upcomingTracks={upcomingTracks}
+                station={station}
+              />
             </div>
             <div className="col-span-1">
-              <h3 className="mb-2 text-2xl font-extrabold text-white">
-                Stations
-              </h3>
-              <div className="mb-4 grid grid-cols-5 gap-4">
-                {stationsList.map(station => (
-                <div className="group hover:cursor-pointer">
-                  <img
-                    alt={station.name}
-                    loading="lazy"
-                    width={300}
-                    height={300}
-                    decoding="async"
-                    data-nimg={1}
-                    className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
-                    style={{ color: "transparent" }}
-                    src={`https://listen.eternityready.com/${station.logo}`}
-                  />
-                  <p className="mt-1 text-center text-xs font-medium text-white/70 transition-all group-hover:text-white">
-                    {station.name}
-                  </p>
-                </div>
-                ))}
-              </div>
-              <h3 className="mb-2 text-2xl font-extrabold text-white">
-                Last Played
-              </h3>
-              <div className="grid grid-cols-4 gap-4">
-                {tracks.map((track, index) => {
-                  if (index === 0) { return; }
-                  return (
-                    <a href={track.trackViewUrl} target="_blank">
-                  <div className="group hover:cursor-pointer">
-                    <img
-                      alt={track?.trackName || "Last Played"}
-                      loading="lazy"
-                      width={100}
-                      height={100}
-                      decoding="async"
-                      data-nimg={1}
-                      className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
-                      style={{ color: "transparent" }}
-                      src={track.artworkURL || track.artistImage}
-                    />
-                    <p className="mt-2 line-clamp-1 text-center text-sm font-bold text-white transition-all">
-                      {track.trackName}
-                    </p>
-                    <p className="line-clamp-1 text-center text-sm font-medium text-white/70 transition-all">
-                      {track.artistName}
-                    </p>
-                  </div>
-                </a>
-                  )
-                })}
-              </div>
+              <StationsExpand stationsList={stationsList} />
+              <LastPlayedExpand tracks={tracks} />
             </div>
           </div>
         </div>
