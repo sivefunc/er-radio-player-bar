@@ -331,6 +331,7 @@ export const PlayerProvider = ({ children }) => {
             artistImage: station?.thumbnail,
         };
         let relatedSongs = null;
+        let aboutDescription = null;
 
         if (track.StreamTitle.trim().toLowerCase() !== "unknown") {
             const trackDataSpotify = await getSpotifyData(track);
@@ -353,6 +354,8 @@ export const PlayerProvider = ({ children }) => {
                     };
                     try {
                         relatedSongs = await getRelatedSongs(trackData.artistId, trackData.trackName);
+                        aboutDescription = await getAboutDescription(trackData.artistName, trackData.trackName);
+                        console.log(aboutDescription);
                     } catch (error) {
                         console.error(error)
                     }
@@ -365,6 +368,7 @@ export const PlayerProvider = ({ children }) => {
             metaDataFound: true,
             processed: true,
             relatedSongs: relatedSongs,
+            aboutDescription: aboutDescription,
         }));
     };
 
@@ -514,6 +518,59 @@ export const PlayerProvider = ({ children }) => {
       const response = await fetch(url);
       const data = await response.json();
       return data.results.filter(item => item.wrapperType === 'track' && item?.trackName != trackName);
+    }
+
+    
+
+    
+    async function getAboutDescription(artistName, songTitle) {
+      const query = `recording:"${songTitle}" AND artist:"${artistName}"`;
+      const searchUrl = `https://musicbrainz.org/ws/2/recording/?query=${encodeURIComponent(query)}&fmt=json&limit=1`;
+
+      // Step 1: Search recording
+      const searchResponse = await fetch(searchUrl);
+      if (!searchResponse.ok) throw new Error(`MusicBrainz recording search failed: ${searchResponse.status}`);
+      const searchData = await searchResponse.json();
+      if (!searchData.recordings || searchData.recordings.length === 0) return null;
+
+      const recording = searchData.recordings[0];
+      const artistMBID = recording['artist-credit'][0].artist.id;
+
+      // Step 2: Fetch artist URL relations
+      const artistUrl = `https://musicbrainz.org/ws/2/artist/${artistMBID}?inc=url-rels&fmt=json`;
+      const artistResponse = await fetch(artistUrl);
+      if (!artistResponse.ok) throw new Error(`MusicBrainz artist lookup failed: ${artistResponse.status}`);
+      const artistData = await artistResponse.json();
+
+      const relations = artistData.relations || [];
+      let wikiUrl = (relations.find(rel => rel.type === 'wikipedia') || {}).url?.resource || null;
+      const wikidataRel = relations.find(rel => rel.type === 'wikidata');
+
+      // If no Wikipedia link, try to get it from Wikidata
+      if (!wikiUrl && wikidataRel) {
+        const wikidataId = wikidataRel.url.resource.split('/').pop();
+        const wdResponse = await fetch(`https://www.wikidata.org/wiki/Special:EntityData/${wikidataId}.json`);
+        if (wdResponse.ok) {
+          const wdData = await wdResponse.json();
+          const entity = wdData.entities[wikidataId];
+          const sitelinks = entity?.sitelinks || {};
+          const enwiki = sitelinks.enwiki;
+          if (enwiki) wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(enwiki.title)}`;
+        }
+      }
+
+      if (!wikiUrl) return null;
+
+      // Step 3: Fetch Wikipedia summary
+      const pageTitle = wikiUrl.match(/\/wiki\/(.+)$/)?.[1];
+      if (!pageTitle) return null;
+
+      const wikiApiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${pageTitle}`;
+      const wikiResponse = await fetch(wikiApiUrl);
+      if (!wikiResponse.ok) throw new Error(`Wikipedia API fetch failed: ${wikiResponse.status}`);
+
+      const wikiData = await wikiResponse.json();
+      return wikiData.extract || null;
     }
 
     return (

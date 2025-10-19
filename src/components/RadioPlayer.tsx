@@ -284,9 +284,7 @@ function RadioPlayer(props) {
                 {currentTrack.artistName}
               </h4>
               <p className="line-clamp-5 font-medium text-neutral-300">
-                <p>
-                  {currentTrack.artistName} no description yet (work in progress)
-                </p>
+                {currentTrack?.aboutDescription}
               </p>
               <div className="mt-6 flex">
                 <div className="">
