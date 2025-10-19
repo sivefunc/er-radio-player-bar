@@ -331,10 +331,10 @@ function RelatedContentExpand(props) {
             </h3>
             <div className="mt-1 flex lg:mt-2">
               <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
-                New Music
+                Music
               </p>
               <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all lg:mt-0 lg:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
-                New Music
+                Music
               </p>
             </div>
           </div>
@@ -362,7 +362,7 @@ function RelatedContentExpand(props) {
                 { relatedTrack.artistName}
               </h3>
               <p className="line-clamp-1 text-sm font-medium text-neutral-400">
-                New Music
+                Music
               </p>
             </div>
           </div>
