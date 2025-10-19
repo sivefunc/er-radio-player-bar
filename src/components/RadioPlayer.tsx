@@ -554,7 +554,7 @@ function RadioPlayer(props) {
           onExpand={() => setExpand(!expand)}
           expand={expand}
         />
-        <div className="flex flex-row gap-x-4 items-center">
+        <div className="hidden lg:flex flex-row gap-x-4 items-center">
           <VolumeControl volume={volume} />
           <StationSelector
             stations={stationsList.map(stationInList => stationInList.name)}
