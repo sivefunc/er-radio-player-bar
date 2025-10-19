@@ -630,7 +630,10 @@ function RadioPlayer(props) {
               setExternalStation(null);
             }}
           />
-          <StationFinder onClick={() => setExpandStationFinder(p => !p)} />
+          <StationFinder onClick={() => {
+            setExpand(false);
+            setExpandStationFinder(p => !p)
+          }} />
         </div>
       </div>
     </div>
