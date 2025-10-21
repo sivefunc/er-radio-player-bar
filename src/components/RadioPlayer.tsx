@@ -27,7 +27,7 @@ const PLAYER_ICONS = {
 
 function TrackPlaying(props) {
   return (
-    <div className="flex min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
+    <div className="flex max-w-80 sm:min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
       <div className="aspect-square w-14 h-14">
         <img
           className="aspect-square h-full w-full rounded-md border border-white/10 object-cover"
