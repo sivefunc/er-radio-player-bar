@@ -116,7 +116,7 @@ function CentralControl(props) {
       </div>
       <button 
         disabled={props.playerState === "loading"}
-        className="bg-red-500 flex items-center justify-center rounded-full text-black transition-all hover:cursor-pointer hover:brightness-125 disabled:opacity-50 h-16 w-16"
+        className="bg-red-500 flex items-center justify-center rounded-full text-black transition-all hover:cursor-pointer hover:brightness-125 disabled:opacity-50 h-12 w-12 lg:h-16 lg:w-16"
         onClick={() => props.onTogglePlayer()}
       >
         {playerIcon}
@@ -533,8 +533,8 @@ function UpNext(props) {
 
   return upNext && (
     <>
-      <FaCaretLeft clasName="px-2 text-white/30"/>
-      <div className="my-1 flex max-w-80 items-center">
+      <FaCaretLeft className="hidden lg:flex h-6 w-6 px-2 text-white/30"/>
+      <div className="hidden my-1 lg:flex max-w-80 items-center">
         <img
           alt={upNext.text}
           loading="lazy"
