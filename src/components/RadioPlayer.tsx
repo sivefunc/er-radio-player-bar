@@ -522,9 +522,14 @@ function UpNext(props) {
       const json = await response.json()
       setUpNext(json[0].playing_next.song)
     }
-    getNextSong()
-    
-  }, [])
+
+    if (props.station.name === "Eternity Ready Radio") {
+      getNextSong()
+    }
+    else {
+      setUpNext(null);
+    }
+  }, [props.station])
 
   return upNext && (
     <>
@@ -654,7 +659,7 @@ function RadioPlayer(props) {
       >
         <div className="flex items-center">
           <TrackPlaying track={currentTrack}/>
-          <UpNext />
+          <UpNext station={station}/>
         </div>
         <CentralControl
           onTogglePlayer={togglePlayer}
