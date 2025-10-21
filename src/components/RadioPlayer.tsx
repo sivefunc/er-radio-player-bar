@@ -553,60 +553,67 @@ function RadioPlayer(props) {
   }
   return (
     <div
-      className="font-inter fixed right-0 bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex "
+      className="font-inter fixed right-0 bottom-16 sm:bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex"
     >
-      { expandStationFinder &&
-        <div className="relative z-1 flex flex-col items-center justify-center bg-black/80 backdrop-blur-3xl text-white h-[calc(100vh-5rem)] p-8">
+      {expandStationFinder && (
+        <div className="relative overflow-y-auto z-1 flex flex-col items-center justify-center bg-black/80 backdrop-blur-3xl text-white p-8"
+          style={{ height: 'calc(100vh - 4rem)' }}
+        >
           <h1 className="text-3xl font-semibold mb-4">Stations</h1>
           <div className="w-[80vw] h-[80vh] border border-neutral-700 flex items-center justify-center rounded-xl">
-            <LocationMap locations={
-              stationsList.filter(
-                stationInList => stationInList.gtm !== ""
-              ).map(
-                stationInList => ({
+            <LocationMap
+              locations={stationsList
+                .filter(stationInList => stationInList.gtm !== "")
+                .map(stationInList => ({
                   ...stationInList,
                   lat: Number(stationInList.gtm.split(', ')[0]),
                   lng: Number(stationInList.gtm.split(', ')[1]),
-                })
-              )}
+                }))}
             />
           </div>
         </div>
-      }
+      )}
 
-      { expand &&
-      <div className="relative z-40 w-full bg-black/80 backdrop-blur-3xl max-h-screen overflow-y-auto">
-        <div className="mx-auto max-w-[90vw]">
-          <div className="flex justify-start pl-12">
-            <button className="group hover: z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600">
-              <FaXmark className="text-white transition-all group-hover:text-xl"/>
-            </button>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 p-12">
-            <AboutArtistExpand track={currentTrack}/>
-            <div className="col-span-1 space-y-4">
-              <RelatedContentExpand track={currentTrack} />
-              <OnAirExpand 
-                loadingUpcomingTracks={loadingUpcomingTracks}
-                upcomingTracks={upcomingTracks}
-                station={station}
-              />
+      {expand && (
+        <div
+          className="relative z-40 w-full bg-black/80 backdrop-blur-3xl overflow-y-auto"
+          style={{ maxHeight: 'calc(100vh - 4rem)' }}
+        >
+          <div className="mx-auto max-w-[90vw]">
+            <div className="flex justify-start pl-12">
+              <button
+                className="group hover:z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600"
+                onClick={() => setExpand(false)}
+              >
+                <FaXmark className="text-white transition-all group-hover:text-xl" />
+              </button>
             </div>
-            <div className="col-span-1">
-              <StationsExpand
-                stationsList={stationsList} 
-                onStationSelected={async (stationIdx) => {
-                  await player.switchEndpoint();
-                  setStation(stationsList[stationIdx])
-                  setExternalStation(null);
-                }}
-              />
-              <LastPlayedExpand tracks={tracks} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 p-12">
+              <AboutArtistExpand track={currentTrack} />
+              <div className="col-span-1 space-y-4">
+                <RelatedContentExpand track={currentTrack} />
+                <OnAirExpand
+                  loadingUpcomingTracks={loadingUpcomingTracks}
+                  upcomingTracks={upcomingTracks}
+                  station={station}
+                />
+              </div>
+              <div className="col-span-1">
+                <StationsExpand
+                  stationsList={stationsList}
+                  onStationSelected={async (stationIdx) => {
+                    await player.switchEndpoint();
+                    setStation(stationsList[stationIdx]);
+                    setExternalStation(null);
+                  }}
+                />
+                <LastPlayedExpand tracks={tracks} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      }
+      )}
+
       <div
         className="flex h-20 w-full cursor-pointer justify-between border-t border-white/20 bg-black/90 px-3 py-1.5 shadow-lg backdrop-blur-3xl transition-all hover:bg-black/80"
         onClick={(e) => {
@@ -616,8 +623,8 @@ function RadioPlayer(props) {
         }}
       >
         <div className="flex items-center">
-          <TrackPlaying track={currentTrack}/>
-          <UpNext station={station}/>
+          <TrackPlaying track={currentTrack} />
+          <UpNext station={station} />
         </div>
         <CentralControl
           onTogglePlayer={togglePlayer}
@@ -630,17 +637,17 @@ function RadioPlayer(props) {
           <StationSelector
             stations={stationsList.map(stationInList => stationInList.name)}
             stationToListen={stationsList.findIndex(
-              stationInList => stationInList.name == station.name
+              stationInList => stationInList.name === station.name
             )}
             onStationSelected={async (stationIdx) => {
               await player.switchEndpoint();
-              setStation(stationsList[stationIdx])
+              setStation(stationsList[stationIdx]);
               setExternalStation(null);
             }}
           />
           <StationFinder onClick={() => {
             setExpand(false);
-            setExpandStationFinder(p => !p)
+            setExpandStationFinder(p => !p);
           }} />
         </div>
       </div>
