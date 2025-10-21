@@ -14,6 +14,7 @@ import {
   FaXmark,
   FaChevronDown,
   FaChevronUp,
+  FaCaretLeft,
 } from "react-icons/fa6";
 
 const PLAYER_ICONS = {
@@ -610,7 +611,29 @@ function RadioPlayer(props) {
           }
         }}
       >
-        <TrackPlaying track={currentTrack}/>
+        <div className="flex items-center">
+          <TrackPlaying track={currentTrack}/>
+          <FaCaretLeft clasName="px-2 text-white/30"/>
+          <div className="my-1 flex max-w-80 items-center">
+            <img
+              alt="Alternative"
+              loading="lazy"
+              width="200"
+              height="200"
+              decoding="async"
+              data-nimg="1"
+              className="mr-2 h-10 w-10 rounded-xs object-cover opacity-60"
+              src="https://www.pngall.com/wp-content/uploads/7/Bill-Gates-PNG-Image-1.png"
+              style={{
+                color: 'transparent'
+              }}
+            />
+            <div>
+              <p className="line-clamp-1 text-[0.625rem] font-bold tracking-wide text-white/40 uppercase">Up Next:</p>
+              <p className="line-clamp-1 text-xs font-medium text-white/60">Gates stronger than dorian yates</p>
+            </div>
+          </div>
+        </div>
         <CentralControl
           onTogglePlayer={togglePlayer}
           playerState={playerState}
