@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{ts,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 }

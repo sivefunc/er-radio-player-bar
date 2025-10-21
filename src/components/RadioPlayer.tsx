@@ -553,7 +553,7 @@ function RadioPlayer(props) {
   }
   return (
     <div
-      className="fixed right-0 bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex "
+      className="font-inter fixed right-0 bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex "
     >
       { expandStationFinder &&
         <div className="relative z-1 flex flex-col items-center justify-center bg-black/80 backdrop-blur-3xl text-white h-[calc(100vh-5rem)] p-8">
