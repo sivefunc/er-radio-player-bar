@@ -513,6 +513,47 @@ function LastPlayedExpand(props) {
   )
 }
 
+function UpNext(props) {
+  const [upNext, setUpNext] = useState(null)
+
+  useEffect(() => {
+    async function getNextSong() {
+      const response = await fetch("https://azura.eternityready.com/api/nowplaying");
+      const json = await response.json()
+      setUpNext(json[0].playing_next.song)
+    }
+    getNextSong()
+    
+  }, [])
+
+  return upNext && (
+    <>
+      <FaCaretLeft clasName="px-2 text-white/30"/>
+      <div className="my-1 flex max-w-80 items-center">
+        <img
+          alt={upNext.text}
+          loading="lazy"
+          width="200"
+          height="200"
+          decoding="async"
+          data-nimg="1"
+          className="mr-2 h-10 w-10 rounded-xs object-cover opacity-60"
+          src={upNext.art}
+          style={{
+            color: 'transparent'
+          }}
+        />
+        <div>
+          <p className="line-clamp-1 text-[0.625rem] font-bold tracking-wide text-white/40 uppercase">Up Next:</p>
+          <p className="line-clamp-1 text-xs font-medium text-white/60">
+            {`${upNext.artist} - ${upNext.title}`}
+          </p>
+        </div>
+      </div>
+    </>
+  )
+}
+
 function RadioPlayer(props) {
   const { station, setStation, currentPlaying, stationsList, tracks, loadingTracks, loadingUpcomingTracks, upcomingTracks } = useContext(StationContext);
   const { player, playerState, externalStation, setExternalStation, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
@@ -613,26 +654,7 @@ function RadioPlayer(props) {
       >
         <div className="flex items-center">
           <TrackPlaying track={currentTrack}/>
-          <FaCaretLeft clasName="px-2 text-white/30"/>
-          <div className="my-1 flex max-w-80 items-center">
-            <img
-              alt="Alternative"
-              loading="lazy"
-              width="200"
-              height="200"
-              decoding="async"
-              data-nimg="1"
-              className="mr-2 h-10 w-10 rounded-xs object-cover opacity-60"
-              src="https://www.pngall.com/wp-content/uploads/7/Bill-Gates-PNG-Image-1.png"
-              style={{
-                color: 'transparent'
-              }}
-            />
-            <div>
-              <p className="line-clamp-1 text-[0.625rem] font-bold tracking-wide text-white/40 uppercase">Up Next:</p>
-              <p className="line-clamp-1 text-xs font-medium text-white/60">Gates stronger than dorian yates</p>
-            </div>
-          </div>
+          <UpNext />
         </div>
         <CentralControl
           onTogglePlayer={togglePlayer}
