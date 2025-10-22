@@ -305,6 +305,7 @@ export const PlayerProvider = (props) => {
     const getSpotifyAccessToken = async () => {
         const clientId = process.env.SPOTIFY_CLIENT_ID;
         const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+        console.log('idadasdasd', process, clientId, clientSecret);
         const tokenURL = "https://accounts.spotify.com/api/token";
 
         const response = await fetch(tokenURL, {
@@ -340,9 +341,15 @@ export const PlayerProvider = (props) => {
         let relatedSongs = null;
         let aboutDescription = null;
 
+        console.log('hello');
         if (track.StreamTitle.trim().toLowerCase() !== "unknown") {
+            /*
             const trackDataSpotify = await getSpotifyData(track);
             const ArtistImageSpotify = await getArtistImageFromSpotify(trackDataSpotify);
+             */
+            const trackDataSpotify = null;
+            const ArtistImageSpotify = null;
+
             if (trackDataSpotify && ArtistImageSpotify) {
                 trackData = {
                     ...trackDataSpotify,

@@ -26,6 +26,7 @@ const PLAYER_ICONS = {
 };
 
 function TrackPlaying(props) {
+  console.log(props.track);
   return (
     <div className="flex max-w-80 sm:min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
       <div className="aspect-square w-14 h-14">
