@@ -231,12 +231,12 @@ function AboutArtistExpand(props) {
           className="mb-2 rounded-2xl object-cover transition-all hover:brightness-90 aspect-video max-h-64"
           style={{ color: "transparent" }}
           src={
-            (
+            props.track.artistImage || (
               props.track.artworkURL?.startsWith('/api/public/stations')
                 ? props.track.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
                 : props.track.artworkURL
 
-            ) || props.track.artistImage
+            )
           }
         />
       </a>

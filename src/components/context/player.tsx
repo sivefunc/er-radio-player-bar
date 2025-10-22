@@ -341,13 +341,8 @@ export const PlayerProvider = (props) => {
         let aboutDescription = null;
 
         if (track.StreamTitle.trim().toLowerCase() !== "unknown") {
-            /*
             const trackDataSpotify = await getSpotifyData(track);
             const ArtistImageSpotify = await getArtistImageFromSpotify(trackDataSpotify);
-             */
-            const trackDataSpotify = null;
-            const ArtistImageSpotify = null;
-
             if (trackDataSpotify && ArtistImageSpotify) {
                 trackData = {
                     ...trackDataSpotify,
