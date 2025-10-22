@@ -262,6 +262,10 @@ function AboutArtistExpand(props) {
 }
 
 function RelatedContentExpand(props) {
+  if (!props.track?.relatedSongs) {
+    return;
+  }
+
   return (
     <>
       <h3 className="mb-2 text-2xl font-extrabold text-white">
