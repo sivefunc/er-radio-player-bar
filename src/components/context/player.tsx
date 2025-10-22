@@ -344,6 +344,7 @@ export const PlayerProvider = (props) => {
             const trackDataSpotify = await getSpotifyData(track);
             const ArtistImageSpotify = await getArtistImageFromSpotify(trackDataSpotify);
             if (trackDataSpotify && ArtistImageSpotify) {
+                aboutDescription = await getArtistAboutFromSpotify(trackDataSpotify.artistViewUrl.replace('https://', 'https://listen.eternityready.com/stream-proxy/'));
                 trackData = {
                     ...trackDataSpotify,
                     artworkURL: trackDataSpotify.artworkUrl100?.replace("100x100", "600x600") || trackDataSpotify.artworkUrl100,
@@ -462,6 +463,7 @@ export const PlayerProvider = (props) => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+
             const json = await response.json();
             const spotifyTracks = json.tracks.items.map((item) => ({
                 artistId: item.artists[0]?.id || null,
@@ -578,6 +580,34 @@ export const PlayerProvider = (props) => {
 
       const wikiData = await wikiResponse.json();
       return wikiData.extract || null;
+    }
+
+    const getArtistAboutFromSpotify = async (artistViewUrl) => {
+        if (!artistViewUrl) {
+            return null;
+        }
+        try {
+            const response = await fetch(
+                artistViewUrl
+            );
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(
+              html,
+              "text/html"
+            );
+
+            const artistAbout = doc.querySelector(
+                // Worst parsing ever written
+                "div[data-testid='expandable-description'] span"
+            );
+            return artistAbout.innerText
+
+        } catch (error) {
+            console.log("There was a problem fetching the data:", error);
+        }
+        console.log("getArtistAboutFromSpotify - null");
+        return null;
     }
 
     return (
