@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import EternityRadioPlayer from './components/RadioPlayer';
 
@@ -14,6 +14,7 @@ export async function EternityRadioPlayerMounter(elementId, outputCSS) {
   }
   const shadowRoot = container.shadowRoot;
 
+  // Inject Tailwind CSS
   try {
     const res = await fetch(outputCSS);
     const cssText = await res.text();
@@ -29,6 +30,24 @@ export async function EternityRadioPlayerMounter(elementId, outputCSS) {
     console.error('Failed to load Tailwind CSS into Shadow DOM:', error);
   }
 
+  // Inject Leaflet CSS
+  try {
+    const leafletCSSUrl = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; // Use your preferred Leaflet CSS URL if different
+    const resLeaflet = await fetch(leafletCSSUrl);
+    const leafletCSSText = await resLeaflet.text();
+
+    let leafletStyleTag = shadowRoot.querySelector('style[data-shadow-leaflet]');
+    if (!leafletStyleTag) {
+      leafletStyleTag = document.createElement('style');
+      leafletStyleTag.setAttribute('data-shadow-leaflet', '');
+      shadowRoot.appendChild(leafletStyleTag);
+    }
+    leafletStyleTag.textContent = leafletCSSText;
+  } catch (error) {
+    console.error('Failed to load Leaflet CSS into Shadow DOM:', error);
+  }
+
+  // Create or select React root container inside shadow root
   let reactRootContainer = shadowRoot.querySelector('#react-root');
   if (!reactRootContainer) {
     reactRootContainer = document.createElement('div');
