@@ -220,7 +220,7 @@ function AboutArtistExpand(props) {
       <h3 className="mb-2 text-2xl font-extrabold text-white">
         About the artist
       </h3>
-      <a href={props.track.trackViewUrl} className="aspect-video">
+      <a href={props.track.artistViewUrl} className="aspect-video">
         <img
           alt={props.track.artistName}
           loading="lazy"
@@ -251,7 +251,7 @@ function AboutArtistExpand(props) {
           <a
             target="_self"
             className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all lg:px-5 lg:py-3 border-white text-white hover:bg-white hover:text-black "
-            href={props.track.trackViewUrl}
+            href={props.track.artistViewUrl}
           >
             Visit Artist Page
           </a>
