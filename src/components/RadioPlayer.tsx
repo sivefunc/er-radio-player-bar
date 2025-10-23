@@ -629,6 +629,7 @@ function RadioPlayer(props) {
         className="flex h-20 w-full cursor-pointer justify-between border-t border-white/20 bg-black/90 px-3 py-1.5 shadow-lg backdrop-blur-3xl transition-all hover:bg-black/80"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
+            setExpandStationFinder(false);
             setExpand(prevExpand => !prevExpand);
           }
         }}
@@ -640,7 +641,10 @@ function RadioPlayer(props) {
         <CentralControl
           onTogglePlayer={togglePlayer}
           playerState={playerState}
-          onExpand={() => setExpand(!expand)}
+          onExpand={() => {
+            setExpandStationFinder(false);
+            setExpand(!expand)
+          }}
           expand={expand}
         />
         <div className="hidden lg:flex flex-row gap-x-4 items-center">
