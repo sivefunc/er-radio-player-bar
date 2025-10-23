@@ -585,19 +585,20 @@ function RadioPlayer(props) {
       )}
 
       {expand && (
+        <>
+        <div className="fixed left-[5vw] z-50">
+          <button
+            className="group hover:z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600"
+            onClick={() => setExpand(false)}
+          >
+            <FaXmark className="text-white transition-all group-hover:text-xl" />
+          </button>
+        </div>
         <div
           className="relative z-40 w-full bg-black/80 backdrop-blur-3xl overflow-y-auto"
           style={{ maxHeight: 'calc(100vh - 4rem)' }}
         >
           <div className="mx-auto max-w-[90vw]">
-            <div className="flex justify-start pl-12">
-              <button
-                className="group hover:z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600"
-                onClick={() => setExpand(false)}
-              >
-                <FaXmark className="text-white transition-all group-hover:text-xl" />
-              </button>
-            </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 p-12">
               <AboutArtistExpand track={currentTrack} />
               <div className="col-span-1 space-y-4">
@@ -622,8 +623,8 @@ function RadioPlayer(props) {
             </div>
           </div>
         </div>
+        </>
       )}
-
       <div
         className="flex h-20 w-full cursor-pointer justify-between border-t border-white/20 bg-black/90 px-3 py-1.5 shadow-lg backdrop-blur-3xl transition-all hover:bg-black/80"
         onClick={(e) => {
