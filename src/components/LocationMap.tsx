@@ -38,7 +38,7 @@ const LocationMap = ({ locations }) => {
       >
         <TileLayer
           attribution='&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url={`https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=${process.env.MAP_KEY}`}
         />
         {locations.map(({ lat, lng, name, thumbnail, stationUrl}, idx) => (
           <Marker key={idx} position={[lat, lng]} icon={redIcon}>

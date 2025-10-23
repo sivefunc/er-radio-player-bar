@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
       'process.env.NODE_ENV': JSON.stringify("production"),
       'process.env.SPOTIFY_CLIENT_ID': JSON.stringify(env.SPOTIFY_CLIENT_ID),
       'process.env.SPOTIFY_CLIENT_SECRET': JSON.stringify(env.SPOTIFY_CLIENT_SECRET),
+      'process.env.MAP_KEY': JSON.stringify(env.MAP_KEY),
     },
     plugins: [
       react(),
