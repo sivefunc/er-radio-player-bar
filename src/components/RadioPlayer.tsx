@@ -266,6 +266,7 @@ function RelatedContentExpand(props) {
     return;
   }
 
+  console.log(props.track.relatedSongs[0].name);
   return (
     <>
       <h3 className="mb-2 text-2xl font-extrabold text-white">
@@ -275,12 +276,12 @@ function RelatedContentExpand(props) {
       <div className="">
         <a
           className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
-          href={relatedTrack.trackViewUrl}
+          href={relatedTrack?.trackViewUrl ?? relatedTrack.external_urls?.spotify}
         >
           <div className="flex-shrink-0">
             <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
               <img
-                alt={relatedTrack.trackName}
+                alt={relatedTrack?.trackName ?? relatedTrack?.name}
                 loading="lazy"
                 width={1366}
                 height={768}
@@ -288,13 +289,13 @@ function RelatedContentExpand(props) {
                 data-nimg={1}
                 className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
                 style={{ color: "transparent" }}
-                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100}
+                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100 ?? relatedTrack?.album.images[0].url}
               />
             </div>
           </div>
           <div className="flex flex-col px-2 lg:px-4">
             <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white ">
-              {relatedTrack.trackName}
+              {relatedTrack?.trackName ?? relatedTrack?.name}
             </h3>
             <div className="mt-1 flex lg:mt-2">
               <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
@@ -308,12 +309,12 @@ function RelatedContentExpand(props) {
         </a>
         <a
           className="lg:hidden"
-          href={relatedTrack.trackViewUrl}
+          href={relatedTrack?.trackViewUrl ?? relatedTrack.external_urls?.spotify}
         >
           <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
             <div className="flex-shrink-0">
               <img
-                alt={relatedTrack.trackName}
+                alt={relatedTrack?.trackName ?? relatedTrack?.name}
                 loading="lazy"
                 width={1366}
                 height={768}
@@ -321,12 +322,12 @@ function RelatedContentExpand(props) {
                 data-nimg={1}
                 className="w-32 h-24 rounded-2xl object-cover p-1"
                 style={{ color: "transparent" }}
-                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100}
+                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100 ?? relatedTrack?.album.images[0].url}
               />
             </div>
             <div className="min-w-0 flex-1 space-y-1 px-2">
               <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white ">
-                { relatedTrack.artistName}
+                {relatedTrack?.trackName ?? relatedTrack?.name}
               </h3>
               <p className="line-clamp-1 text-sm font-medium text-neutral-400">
                 Music

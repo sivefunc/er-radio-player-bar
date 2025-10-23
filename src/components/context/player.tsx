@@ -345,6 +345,9 @@ export const PlayerProvider = (props) => {
             const ArtistImageSpotify = await getArtistImageFromSpotify(trackDataSpotify);
             if (trackDataSpotify && ArtistImageSpotify) {
                 aboutDescription = await getArtistAboutFromSpotify(trackDataSpotify.artistViewUrl.replace('https://', 'https://listen.eternityready.com/stream-proxy/'));
+                relatedSongs = await getTopSongsFromSpotify(trackDataSpotify.artistId, trackDataSpotify.trackName);
+                console.log(relatedSongs);
+
                 trackData = {
                     ...trackDataSpotify,
                     artworkURL: trackDataSpotify.artworkUrl100?.replace("100x100", "600x600") || trackDataSpotify.artworkUrl100,
@@ -529,7 +532,19 @@ export const PlayerProvider = (props) => {
       return data.results.filter(item => item.wrapperType === 'track' && item?.trackName != trackName);
     }
 
-    
+    async function getTopSongsFromSpotify(artistId, trackName) {
+      const accessToken = await getSpotifyAccessToken();
+      const url = `https://api.spotify.com/v1/artists/${artistId}/top-tracks`;
+      const response = await fetch(url, {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      });
+
+      const data = await response.json();
+      return data.tracks.filter(track => track.name != trackName)
+    }
+
 
     
     async function getAboutDescription(artistName, songTitle) {
