@@ -563,7 +563,7 @@ function RadioPlayer(props) {
   }
   return (
     <div
-      className="font-inter fixed right-0 bottom-16 sm:bottom-0 left-0 z-40 flex-col border-t border-neutral-700 xl:flex"
+      className="font-inter fixed right-0 bottom-16 sm:bottom-0 left-0 z-[100] flex-col border-t border-neutral-700 xl:flex"
     >
       {expandStationFinder && (
         <div className="relative overflow-y-auto z-1 flex flex-col items-center justify-center bg-black/80 backdrop-blur-3xl text-white p-8"
@@ -586,16 +586,16 @@ function RadioPlayer(props) {
 
       {expand && (
         <>
-        <div className="fixed left-[5vw] z-50">
+        <div className="fixed left-[5vw] z-[200]">
           <button
-            className="group hover:z-40 -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600"
+            className="group hover:z-[200] -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600"
             onClick={() => setExpand(false)}
           >
             <FaXmark className="text-white transition-all group-hover:text-xl" />
           </button>
         </div>
         <div
-          className="relative z-40 w-full bg-black/80 backdrop-blur-3xl overflow-y-auto"
+          className="relative z-[100] w-full bg-black/80 backdrop-blur-3xl overflow-y-auto"
           style={{ maxHeight: 'calc(100vh - 4rem)' }}
         >
           <div className="mx-auto max-w-[90vw]">
