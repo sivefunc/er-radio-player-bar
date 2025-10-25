@@ -6,7 +6,7 @@ export { EternityRadioPlayer };
 
 let eternityRadioRef = null;
 
-export async function EternityRadioPlayerMounter(elementId, outputCSS) {
+export async function EternityRadioPlayerMounter(elementId, outputCSS, mapCSS) {
   const container = document.getElementById(elementId);
 
   if (!container.shadowRoot) {
@@ -32,8 +32,8 @@ export async function EternityRadioPlayerMounter(elementId, outputCSS) {
 
   // Inject Leaflet CSS
   try {
-    const leafletCSSUrl = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; // Use your preferred Leaflet CSS URL if different
-    const resLeaflet = await fetch(leafletCSSUrl);
+    const leafletCSSUrl = 'dist/react-radio-player.css';
+    const resLeaflet = await fetch(mapCSS);
     const leafletCSSText = await resLeaflet.text();
 
     let leafletStyleTag = shadowRoot.querySelector('style[data-shadow-leaflet]');
