@@ -601,7 +601,7 @@ function RadioPlayer(props) {
         </div>
         <div
           className="relative z-[100] w-full bg-black/80 backdrop-blur-3xl overflow-y-auto"
-          style={{ maxHeight: 'calc(100vh - 4rem)' }}
+          style={{ height: "750px", maxHeight: 'calc(100vh - 4rem)' }}
         >
           <div className="mx-auto max-w-[90vw]">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 p-12">
