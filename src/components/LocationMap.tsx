@@ -1,4 +1,6 @@
+
 import React, { useRef, useEffect } from "react";
+import ReactDOM from "react-dom/client"; // Use the modern API
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 
@@ -7,7 +9,7 @@ const LocationMap = ({ locations }) => {
   const map = useRef(null);
   const markers = useRef([]);
 
-  maptilersdk.config.apiKey = process.env.MAP_KEY
+  maptilersdk.config.apiKey = process.env.MAP_KEY;
 
   useEffect(() => {
     if (map.current) return;
@@ -30,17 +32,33 @@ const LocationMap = ({ locations }) => {
 
     const bounds = new maptilersdk.LngLatBounds();
 
-    locations.forEach(({ lat, lng, name }) => {
+    locations.forEach(({ lat, lng, name, location, url, tel, email, thumbnail }) => {
       const marker = new maptilersdk.Marker({ color: "#FF0000" })
         .setLngLat([lng, lat])
         .addTo(map.current);
 
-      marker.getElement().addEventListener("click", () => {
-        new maptilersdk.Popup()
-          .setLngLat([lng, lat])
-          .setHTML(`<strong>${name}</strong>`)
-          .addTo(map.current);
-      });
+      const popupNode = document.createElement("div");
+
+      const root = ReactDOM.createRoot(popupNode);
+      root.render(
+        <div className="flex justify-center items-center gap-1 h-32">
+          <img
+            className="w-20 h-20 rounded-full"
+            src={`https://listen.eternityready.com/${thumbnail}`}
+          />
+          <div className="bg-gray-500 w-px h-full"></div>
+          <div className="flex flex-col">
+            <h1 className="text-black font-bold text-lg">{name}</h1>
+            <h2 className="text-gray-500">{location}</h2>
+            <a href={url} className="text-red-500">{url}</a>
+            <a href={`tel:${tel}`} className="text-red-500">{tel}</a>
+            <a href={`mailto:${email}`} className="text-red-500">{email}</a>
+          </div>
+        </div>
+      );
+
+      const popup = new maptilersdk.Popup({maxWidth: 'none'}).setDOMContent(popupNode);
+      marker.setPopup(popup);
 
       markers.current.push(marker);
       bounds.extend([lng, lat]);

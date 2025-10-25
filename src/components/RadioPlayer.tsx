@@ -561,6 +561,7 @@ function RadioPlayer(props) {
   if (!station) {
     return;
   }
+
   return (
     <div
       className="font-inter fixed right-0 bottom-16 sm:bottom-0 left-0 z-[100] flex-col border-t border-neutral-700 xl:flex"
@@ -578,6 +579,10 @@ function RadioPlayer(props) {
                   ...stationInList,
                   lat: Number(stationInList.gtm.split(', ')[0]),
                   lng: Number(stationInList.gtm.split(', ')[1]),
+                  ...JSON.parse(stationInList.analytics == ""
+                    ? "{}"
+                    : stationInList.analytics
+                  ),
                 }))}
             />
           </div>
