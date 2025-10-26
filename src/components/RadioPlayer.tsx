@@ -49,7 +49,6 @@ function useWindowDimensions() {
 }
 
 function TrackPlaying(props) {
-  console.log(props.track);
   return (
     <div className="flex max-w-80 xl:min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
       <div className="aspect-square w-14 h-14">
@@ -57,18 +56,18 @@ function TrackPlaying(props) {
           className="aspect-square h-full w-full rounded-md border border-white/10 object-cover"
           src={
             (
-              props.track.artworkURL?.startsWith('/api/public/stations')
-                ? props.track.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
-                : props.track.artworkURL
+              props.track?.artworkURL?.startsWith('/api/public/stations')
+                ? props.track?.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                : props.track?.artworkURL
 
-            ) || props.track.artistImage
+            ) || props.track?.artistImage
           }
         />
       </div>
       <div className="ml-2 flex flex-col justify-center">
         <p className="line-clamp-1 text-[10px] font-bold text-white/40 uppercase">Now Playing:</p>
-        <div className="line-clamp-1 text-sm font-extrabold text-white hover:underline">{props.track.trackName}</div>
-        <div className="line-clamp-1 text-xs font-medium text-white hover:underline">{props.track.artistName}</div>
+        <div className="line-clamp-1 text-sm font-extrabold text-white hover:underline">{props.track?.trackName}</div>
+        <div className="line-clamp-1 text-xs font-medium text-white hover:underline">{props.track?.artistName}</div>
       </div>
     </div>
   )
@@ -243,9 +242,9 @@ function AboutArtistExpand(props) {
       <h3 className="mb-2 text-2xl font-extrabold text-white">
         About the artist
       </h3>
-      <a href={props.track.artistViewUrl} className="aspect-video">
+      <a href={props.track?.artistViewUrl} className="aspect-video">
         <img
-          alt={props.track.artistName}
+          alt={props.track?.artistName}
           loading="lazy"
           width={600}
           height={300}
@@ -255,20 +254,20 @@ function AboutArtistExpand(props) {
           style={{ color: "transparent" }}
           src={
             (
-              props.track.artistImage?.startsWith('/api/public/stations')
-                ? props.track.artistImage?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
-                : props.track.artistImage
+              props.track?.artistImage?.startsWith('/api/public/stations')
+                ? props.track?.artistImage?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                : props.track?.artistImage
             ) || (
-              props.track.artworkURL?.startsWith('/api/public/stations')
-                ? props.track.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
-                : props.track.artworkURL
+              props.track?.artworkURL?.startsWith('/api/public/stations')
+                ? props.track?.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                : props.track?.artworkURL
 
             )
           }
         />
       </a>
       <h4 className="mb-2 text-xl font-extrabold text-white">
-        {props.track.artistName}
+        {props.track?.artistName}
       </h4>
       <p className="line-clamp-5 font-medium text-neutral-300">
         {props.track?.aboutDescription}
@@ -278,7 +277,7 @@ function AboutArtistExpand(props) {
           <a
             target="_self"
             className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all xl:px-5 xl:py-3 border-white text-white hover:bg-white hover:text-black "
-            href={props.track.artistViewUrl}
+            href={props.track?.artistViewUrl}
           >
             Visit Artist Page
           </a>
@@ -293,7 +292,7 @@ function RelatedContentExpand(props) {
     return;
   }
 
-  console.log(props.track.relatedSongs[0].name);
+  console.log(props.track?.relatedSongs[0].name);
   return (
     <>
       <h3 className="mb-2 text-2xl font-extrabold text-white">
@@ -371,7 +370,7 @@ function RelatedContentExpand(props) {
 function OnAirExpand(props) {
   return (
     <>
-      {(props.loadingUpcomingTracks || props.upcomingTracks.length) && (
+      {(props.loadingUpcomingTracks || props.upcomingTracks?.length) && (
         <>
         <h3 className="mb-2 text-2xl font-extrabold text-white">
           On-Air
@@ -379,11 +378,11 @@ function OnAirExpand(props) {
         <div className="">
           <a
             className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
-            href={props.station.donateLink}
+            href={props.station?.donateLink}
           >
             <div className="relative aspect-square w-16 overflow-clip rounded-full xl:h-28 xl:w-28">
               <img
-                alt={props.upcomingTracks[0].artistName}
+                alt={props.upcomingTracks?.[0]?.artistName}
                 loading="lazy"
                 decoding="async"
                 data-nimg="fill"
@@ -396,17 +395,17 @@ function OnAirExpand(props) {
                   color: "transparent"
                 }}
                 sizes="100vw"
-                src={`https://listen.eternityready.com/${props.upcomingTracks[0].artworkURL}`}
+                src={`https://listen.eternityready.com/${props.upcomingTracks?.[0]?.artworkURL}`}
               />
             </div>
             <div className="flex flex-1 flex-col px-4">
               <h3 className="line-clamp-1 leading-tight font-extrabold text-white xl:line-clamp-2 xl:text-lg">
-                {props.upcomingTracks[0].artistName}
+                {props.upcomingTracks?.[0]?.artistName}
               </h3>
               <p className="mt-1 text-sm font-medium text-neutral-400">
-                {props.upcomingTracks[0].dateScheduled
+                {props.upcomingTracks?.[0]?.dateScheduled
                   ? new Date(
-                    props.upcomingTracks[0].dateScheduled.replace(" ", "T") + "Z"
+                    props.upcomingTracks?.[0]?.dateScheduled?.replace(" ", "T") + "Z"
                   ).toLocaleString(undefined, {
                     year: "numeric",
                     month: "short",
@@ -420,7 +419,7 @@ function OnAirExpand(props) {
                 }
               </p>
               <p className="mb-1 text-sm font-medium text-neutral-400 xl:mb-3">
-                {props.upcomingTracks[0].trackName}
+                {props.upcomingTracks?.[0]?.trackName}
               </p>
               <div className="flex">
                 <p className="rounded-full bg-neutral-700 px-3 py-1 text-xs font-bold text-white transition-all group-hover:bg-neutral-600">
@@ -501,7 +500,7 @@ function LastPlayedExpand(props) {
       Last Played
     </h3>
     <div className="grid grid-cols-4 gap-4">
-      {props.tracks.map((track, index) => {
+      {props.tracks?.map((track, index) => {
         if (index === 0) { return; }
         return (
           <a href={track.trackViewUrl} target="_blank">
