@@ -51,7 +51,7 @@ function useWindowDimensions() {
 function TrackPlaying(props) {
   console.log(props.track);
   return (
-    <div className="flex max-w-80 sm:min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
+    <div className="flex max-w-80 xl:min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
       <div className="aspect-square w-14 h-14">
         <img
           className="aspect-square h-full w-full rounded-md border border-white/10 object-cover"
@@ -101,7 +101,7 @@ function CentralControl(props) {
       </div>
       <button 
         disabled={props.playerState === "loading"}
-        className="bg-red-500 flex items-center justify-center rounded-full text-black transition-all hover:cursor-pointer hover:brightness-125 disabled:opacity-50 h-12 w-12 lg:h-16 lg:w-16"
+        className="bg-red-500 flex items-center justify-center rounded-full text-black transition-all hover:cursor-pointer hover:brightness-125 disabled:opacity-50 h-12 w-12 xl:h-16 xl:w-16"
         onClick={() => props.onTogglePlayer()}
       >
         {playerIcon}
@@ -277,7 +277,7 @@ function AboutArtistExpand(props) {
         <div className="">
           <a
             target="_self"
-            className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all lg:px-5 lg:py-3 border-white text-white hover:bg-white hover:text-black "
+            className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all xl:px-5 xl:py-3 border-white text-white hover:bg-white hover:text-black "
             href={props.track.artistViewUrl}
           >
             Visit Artist Page
@@ -302,11 +302,11 @@ function RelatedContentExpand(props) {
       {props.track?.relatedSongs?.slice(0, 3)?.map(relatedTrack => (
       <div className="">
         <a
-          className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
+          className="group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl xl:flex xl:rounded-2xl xl:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
           href={relatedTrack?.trackViewUrl ?? relatedTrack.external_urls?.spotify}
         >
           <div className="flex-shrink-0">
-            <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
+            <div className="overflow-clip rounded-lg xl:rounded-md aspect-video h-16 w-28 xl:h-24 xl:w-40">
               <img
                 alt={relatedTrack?.trackName ?? relatedTrack?.name}
                 loading="lazy"
@@ -320,22 +320,22 @@ function RelatedContentExpand(props) {
               />
             </div>
           </div>
-          <div className="flex flex-col px-2 lg:px-4">
-            <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white ">
+          <div className="flex flex-col px-2 xl:px-4">
+            <h3 className="line-clamp-2 leading-tight font-bold xl:text-lg text-white ">
               {relatedTrack?.trackName ?? relatedTrack?.name}
             </h3>
-            <div className="mt-1 flex lg:mt-2">
-              <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
+            <div className="mt-1 flex xl:mt-2">
+              <p className="flex text-sm font-medium transition-all xl:hidden text-neutral-400">
                 Music
               </p>
-              <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all lg:mt-0 lg:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
+              <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all xl:mt-0 xl:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
                 Music
               </p>
             </div>
           </div>
         </a>
         <a
-          className="lg:hidden"
+          className="xl:hidden"
           href={relatedTrack?.trackViewUrl ?? relatedTrack.external_urls?.spotify}
         >
           <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
@@ -381,7 +381,7 @@ function OnAirExpand(props) {
             className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
             href={props.station.donateLink}
           >
-            <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
+            <div className="relative aspect-square w-16 overflow-clip rounded-full xl:h-28 xl:w-28">
               <img
                 alt={props.upcomingTracks[0].artistName}
                 loading="lazy"
@@ -400,7 +400,7 @@ function OnAirExpand(props) {
               />
             </div>
             <div className="flex flex-1 flex-col px-4">
-              <h3 className="line-clamp-1 leading-tight font-extrabold text-white lg:line-clamp-2 lg:text-lg">
+              <h3 className="line-clamp-1 leading-tight font-extrabold text-white xl:line-clamp-2 xl:text-lg">
                 {props.upcomingTracks[0].artistName}
               </h3>
               <p className="mt-1 text-sm font-medium text-neutral-400">
@@ -419,7 +419,7 @@ function OnAirExpand(props) {
                   : "Invalid date"
                 }
               </p>
-              <p className="mb-1 text-sm font-medium text-neutral-400 lg:mb-3">
+              <p className="mb-1 text-sm font-medium text-neutral-400 xl:mb-3">
                 {props.upcomingTracks[0].trackName}
               </p>
               <div className="flex">
@@ -443,7 +443,7 @@ function StationsExpand(props) {
     <h3 className="mb-2 text-2xl font-extrabold text-white">
       Stations
     </h3>
-      { (width != null && width < 640)
+      { (width != null && width < 1280)
         ?
         <div className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
           {props.stationsList.map((station, stationIdx) => (
@@ -552,8 +552,8 @@ function UpNext(props) {
 
   return upNext && (
     <>
-      <FaCaretLeft className="hidden lg:flex h-6 w-6 px-2 text-white/30"/>
-      <div className="hidden my-1 lg:flex max-w-80 items-center">
+      <FaCaretLeft className="hidden xl:flex h-6 w-6 px-2 text-white/30"/>
+      <div className="hidden my-1 xl:flex max-w-80 items-center">
         <img
           alt={upNext.text}
           loading="lazy"
@@ -612,7 +612,7 @@ function RadioPlayer(props) {
 
   return (
     <div
-      className="font-inter fixed right-0 bottom-16 sm:bottom-0 left-0 z-[100] flex-col border-t border-neutral-700 xl:flex"
+      className="font-inter fixed right-0 bottom-16 xl:bottom-0 left-0 z-[100] flex-col border-t border-neutral-700 xl:flex"
     >
       {expandStationFinder && (
         <div className="relative overflow-y-auto z-1 flex flex-col items-center justify-center bg-black/80 backdrop-blur-3xl text-white p-8"
@@ -652,7 +652,7 @@ function RadioPlayer(props) {
           style={{ height: "750px", maxHeight: 'calc(100vh - 4rem)' }}
         >
           <div className="mx-auto max-w-[90vw]">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 p-12">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-20 p-12">
               <AboutArtistExpand track={currentTrack} />
               <div className="col-span-1 space-y-4">
                 <RelatedContentExpand track={currentTrack} />
@@ -700,7 +700,7 @@ function RadioPlayer(props) {
           }}
           expand={expand}
         />
-        <div className="hidden lg:flex flex-row gap-x-4 items-center">
+        <div className="hidden xl:flex flex-row gap-x-4 items-center">
           <VolumeControl volume={volume} />
           <StationSelector
             stations={stationsList.map(stationInList => stationInList.name)}
