@@ -32,7 +32,6 @@ export async function EternityRadioPlayerMounter(elementId, outputCSS, mapCSS) {
 
   // Inject Leaflet CSS
   try {
-    const leafletCSSUrl = 'dist/react-radio-player.css';
     const resLeaflet = await fetch(mapCSS);
     const leafletCSSText = await resLeaflet.text();
 
