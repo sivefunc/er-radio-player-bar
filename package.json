@@ -18,7 +18,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "concurrently 'npm run dev:css' 'vite'",
+    "dev": "concurrently 'npm run dev:css' 'vite --host'",
     "dev:css": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "build": "vite build && npm run build:css",
     "build:css": "tailwindcss -m -i ./src/input.css -o ./dist/output.css",
@@ -54,6 +54,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "tailwind-scrollbar-hide": "^4.0.0"
   }
 }

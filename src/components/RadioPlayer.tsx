@@ -25,6 +25,29 @@ const PLAYER_ICONS = {
   SPINNER: <FaSpinner className="h-5 w-5 animate-spin" />,
 };
 
+function useWindowDimensions() {
+  function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height
+    };
+  }
+
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
 function TrackPlaying(props) {
   console.log(props.track);
   return (
@@ -414,34 +437,59 @@ function OnAirExpand(props) {
 }
 
 function StationsExpand(props) {
+  const { height, width } = useWindowDimensions();
   return (
     <>
     <h3 className="mb-2 text-2xl font-extrabold text-white">
       Stations
     </h3>
-    <div className="mb-4 grid grid-cols-5 gap-4">
-      {props.stationsList.map((station, stationIdx) => (
-      <div
-        className="group hover:cursor-pointer"
-        onClick={() => props.onStationSelected(stationIdx) }
-      >
-        <img
-          alt={station.name}
-          loading="lazy"
-          width={300}
-          height={300}
-          decoding="async"
-          data-nimg={1}
-          className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
-          style={{ color: "transparent" }}
-          src={`https://listen.eternityready.com/${station.logo}`}
-        />
-        <p className="mt-1 text-center text-xs font-medium text-white/70 transition-all group-hover:text-white">
-          {station.name}
-        </p>
-      </div>
-      ))}
-    </div>
+      { (width != null && width < 640)
+        ?
+        <div className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
+          {props.stationsList.map((station, stationIdx) => (
+          <div className="group w-24 flex-none shrink-0 snap-center hover:cursor-pointer">
+            <img
+              alt={station.name}
+              loading="lazy"
+              width={300}
+              height={300}
+              decoding="async"
+              data-nimg={1}
+              className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
+              style={{ color: "transparent" }}
+              src={`https://listen.eternityready.com/${station.logo}`}
+            />
+            <p className="mt-1 text-center text-xs font-medium text-white/70 transition-all group-hover:text-white">
+              {station.name}
+            </p>
+          </div>
+          ))}
+        </div>
+        :
+        <div className="mb-4 grid grid-cols-5 gap-4">
+          {props.stationsList.map((station, stationIdx) => (
+          <div
+            className="group hover:cursor-pointer"
+            onClick={() => props.onStationSelected(stationIdx) }
+          >
+            <img
+              alt={station.name}
+              loading="lazy"
+              width={300}
+              height={300}
+              decoding="async"
+              data-nimg={1}
+              className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
+              style={{ color: "transparent" }}
+              src={`https://listen.eternityready.com/${station.logo}`}
+            />
+            <p className="mt-1 text-center text-xs font-medium text-white/70 transition-all group-hover:text-white">
+              {station.name}
+            </p>
+          </div>
+          ))}
+        </div>
+      }
     </>
   )
 }
