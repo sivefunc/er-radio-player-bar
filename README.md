@@ -1,73 +1,76 @@
-# React + TypeScript + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# ER Radio Player Bar
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A modern, responsive web radio player bar component for [EternityReady.com/radio](https://eternityready.com/radio) icecast stations, built with React, Vite, and Tailwind CSS.
 
-## React Compiler
+![UI](https://raw.githubusercontent.com/sivefunc/er-radio-player-bar/refs/heads/master/readme_res/hero.png)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+<a href="https://eternityready.com/radio/" target="_blank">
+  <img src="https://img.shields.io/badge/LIVE-APP-red?style=for-the-badge&logo=javascript&logoColor=white&labelColor=000000" alt="Live Demo" />
+</a>
 
-## Expanding the ESLint configuration
+</div>
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 🎶 Live streaming audio playback from +400 Stations
+- 🔄 Real-time metadata updates
+- 🖼️ Related Content
+- 📅 Last Played
+- 🔊 Volume control with visual feedback
+- 🎚️ Play/Pause functionality
+- 🎨 Dark-themed UI
+- 🗺️ Neon Map to find Stations
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## APIs Used
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Spotify
+- Itunes
+- listen.eternityready.com
+- Azura Cast
+- MapTiler
+
+## Setup 
+
+1. Ensure you have Node.js installed on your machine
+2. Clone the repository
+3. Open a terminal in the project directory
+4. Run `npm install` to install dependencies
+5. Create a `.env` file in the base dir with the following content:
+
+```env
+SPOTIFY_CLIENT_ID="YOUR_KEY"
+SPOTIFY_CLIENT_SECRET="YOUR_KEY"
+MAP_KEY="YOUR_KEY"
+```
+6. Run `npm run dev` to test it.
+
+## Embed React Component in a Vanilla JS Project
+1. Run `npm run build` to bundle it.
+2. Import the component mounter from ui.es.js and mount it.
+```html
+<script type="module">
+  import { EternityRadioPlayerMounter } from 'dist/ui.es.js';
+  EternityRadioPlayerMounter(
+    'root',                         // <div id='root'></div>
+    "dist/output.css",              // Tailwind CSS
+    "dist/er-radio-player-bar.css", // MapTiler CSS
+  );
+</script>
+```
+3. Optional: Change Station to one from a external source (not the pre-defined)
+```html
+<script type="module">
+  import { getEternityRadioPlayerRef } from 'dist/ui.es.js';
+  const eternityRadioRef = getEternityRadioPlayerRef();
+  if (eternityRadioRef && eternityRadioRef.current) {
+    eternityRadioRef.current.changeExternalStation("https://your-stream-url");
+  }
+</script>
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
