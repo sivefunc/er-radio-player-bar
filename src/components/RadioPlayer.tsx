@@ -247,7 +247,7 @@ function AboutArtistExpand(props) {
       { (width != null && width < 1280)
         ? (
           <a href={props.track?.artistViewUrl} >
-            <div className="max-h-64 overflow-clip rounded-xl">
+            <div className="relative max-h-64 overflow-clip rounded-xl">
               <img
                 alt={props.track?.artistName}
                 loading="lazy"
@@ -255,7 +255,7 @@ function AboutArtistExpand(props) {
                 height={300}
                 decoding="async"
                 data-nimg={1}
-                className="w-full rounded-xl object-cover"
+                className="relative w-full rounded-xl object-cover"
                 style={{ color: "transparent" }}
                 src={
                   (
@@ -270,10 +270,13 @@ function AboutArtistExpand(props) {
                   )
                 }
               />
+              <h3 className="absolute bottom-2 left-4 text-lg font-bold text-white drop-shadow-sm">{props.track?.artistName}
+              </h3>
             </div>
           </a>
         )
         : (
+          <>
           <a href={props.track?.artistViewUrl}>
             <img
               alt={props.track?.artistName}
@@ -296,26 +299,27 @@ function AboutArtistExpand(props) {
 
                   )
                 }
-            />
-          </a>
-      )}
-      <h4 className="mb-2 text-xl font-extrabold text-white">
-        {props.track?.artistName}
-      </h4>
-      <p className="line-clamp-5 font-medium text-neutral-300">
-        {props.track?.aboutDescription}
-      </p>
-      <div className="mt-6 flex">
-        <div className="">
-          <a
-            target="_self"
-            className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all xl:px-5 xl:py-3 border-white text-white hover:bg-white hover:text-black "
-            href={props.track?.artistViewUrl}
-          >
-            Visit Artist Page
-          </a>
+          />
+        </a>
+        <h4 className="mb-2 text-xl font-extrabold text-white">
+          {props.track?.artistName}
+        </h4>
+        <p className="line-clamp-5 font-medium text-neutral-300">
+          {props.track?.aboutDescription}
+        </p>
+        <div className="mt-6 flex">
+          <div className="">
+            <a
+              target="_self"
+              className="group flex items-center justify-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-bold whitespace-nowrap backdrop-blur-2xl transition-all xl:px-5 xl:py-3 border-white text-white hover:bg-white hover:text-black "
+              href={props.track?.artistViewUrl}
+            >
+              Visit Artist Page
+            </a>
+          </div>
         </div>
-      </div>
+        </>
+      )}
     </div>
   )
 }
