@@ -270,6 +270,7 @@ function AboutArtistExpand(props) {
                   )
                 }
               />
+              <div class="absolute inset-0 h-full w-full bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
               <h3 className="absolute bottom-2 left-4 text-lg font-bold text-white drop-shadow-sm">{props.track?.artistName}
               </h3>
             </div>
