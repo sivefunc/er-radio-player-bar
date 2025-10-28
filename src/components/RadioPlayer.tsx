@@ -659,8 +659,8 @@ function RadioPlayer(props) {
               : 'calc(100dvh - 8rem)'
           }}
         >
-          <div className="mx-auto max-w-[90vw]">
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-20 p-12">
+          <div className="mx-auto xl:max-w-[90vw]">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-20 p-4 xl:p-12">
               <AboutArtistExpand track={currentTrack} />
               <div className="col-span-1 space-y-4">
                 <RelatedContentExpand track={currentTrack} />
