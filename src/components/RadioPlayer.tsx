@@ -586,6 +586,8 @@ function RadioPlayer(props) {
   const [expandStationFinder, setExpandStationFinder] = useState(false);
   const [videoUrl, setVideoUrl] = useState(null);
 
+  const { height, width } = useWindowDimensions();
+
   let volume = {
     minVolume: 0,
     maxVolume: 1,
@@ -638,17 +640,24 @@ function RadioPlayer(props) {
 
       {expand && (
         <>
-        <div className="fixed left-[5vw] z-[200]">
-          <button
-            className="group hover:z-[200] -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600"
-            onClick={() => setExpand(false)}
-          >
-            <FaXmark className="text-white transition-all group-hover:text-xl" />
-          </button>
-        </div>
+          {(width != null && width >= 1280) &&
+            <div className="fixed left-[5vw] z-[200]">
+              <button
+                className="group hover:z-[200] -mt-8 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-700 bg-black/80 font-medium text-white transition-all hover:cursor-pointer hover:border-neutral-600 hover:bg-neutral-600"
+                onClick={() => setExpand(false)}
+              >
+                <FaXmark className="text-white transition-all group-hover:text-xl" />
+              </button>
+            </div>
+          }
         <div
           className="relative z-[100] w-full bg-black/80 backdrop-blur-3xl overflow-y-auto"
-          style={{ height: "750px", maxHeight: 'calc(100vh - 4rem)' }}
+          style={{
+            height: width != null && width >= 1280 ? "750px" : "100dvh",
+            maxHeight: width != null && width >= 1280
+              ? 'calc(100vh - 4rem)'
+              : 'calc(100dvh - 8rem)'
+          }}
         >
           <div className="mx-auto max-w-[90vw]">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-20 p-12">
