@@ -241,8 +241,11 @@ function AboutArtistExpand(props) {
   const { height, width } = useWindowDimensions();
   return (
     <div className="col-span-1">
-      <h3 className="mb-2 text-2xl font-extrabold text-white">
-        About the artist
+      <h3 className="mb-2 text-lg xl:text-2xl font-bold xl:font-extrabold text-white">
+        {(width != null && width < 1280)
+          ? "The Artist"
+          : "About the artist"
+        }
       </h3>
       { (width != null && width < 1280)
         ? (
