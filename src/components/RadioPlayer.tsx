@@ -237,35 +237,68 @@ function StationFinder(props) {
 }
 
 function AboutArtistExpand(props) {
+
+  const { height, width } = useWindowDimensions();
   return (
     <div className="col-span-1">
       <h3 className="mb-2 text-2xl font-extrabold text-white">
         About the artist
       </h3>
-      <a href={props.track?.artistViewUrl} className="aspect-video">
-        <img
-          alt={props.track?.artistName}
-          loading="lazy"
-          width={600}
-          height={300}
-          decoding="async"
-          data-nimg={1}
-          className="mb-2 rounded-2xl object-cover transition-all hover:brightness-90 aspect-video max-h-64"
-          style={{ color: "transparent" }}
-          src={
-            (
-              props.track?.artistImage?.startsWith('/api/public/stations')
-                ? props.track?.artistImage?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
-                : props.track?.artistImage
-            ) || (
-              props.track?.artworkURL?.startsWith('/api/public/stations')
-                ? props.track?.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
-                : props.track?.artworkURL
+      { (width != null && width < 1280)
+        ? (
+          <a href={props.track?.artistViewUrl} >
+            <div className="max-h-64 overflow-clip rounded-xl">
+              <img
+                alt={props.track?.artistName}
+                loading="lazy"
+                width={600}
+                height={300}
+                decoding="async"
+                data-nimg={1}
+                className="w-full rounded-xl object-cover"
+                style={{ color: "transparent" }}
+                src={
+                  (
+                    props.track?.artistImage?.startsWith('/api/public/stations')
+                      ? props.track?.artistImage?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                      : props.track?.artistImage
+                  ) || (
+                    props.track?.artworkURL?.startsWith('/api/public/stations')
+                      ? props.track?.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                      : props.track?.artworkURL
 
-            )
-          }
-        />
-      </a>
+                  )
+                }
+              />
+            </div>
+          </a>
+        )
+        : (
+          <a href={props.track?.artistViewUrl}>
+            <img
+              alt={props.track?.artistName}
+              loading="lazy"
+              width={600}
+              height={300}
+              decoding="async"
+              data-nimg={1}
+              className="mb-2 rounded-2xl object-cover transition-all hover:brightness-90 aspect-video max-h-64"
+              style={{ color: "transparent" }}
+              src={
+                  (
+                    props.track?.artistImage?.startsWith('/api/public/stations')
+                      ? props.track?.artistImage?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                      : props.track?.artistImage
+                  ) || (
+                    props.track?.artworkURL?.startsWith('/api/public/stations')
+                      ? props.track?.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                      : props.track?.artworkURL
+
+                  )
+                }
+            />
+          </a>
+      )}
       <h4 className="mb-2 text-xl font-extrabold text-white">
         {props.track?.artistName}
       </h4>
