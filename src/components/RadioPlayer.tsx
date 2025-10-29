@@ -517,7 +517,10 @@ function StationsExpand(props) {
         ?
         <div className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
           {props.stationsList.map((station, stationIdx) => (
-          <div className="group w-24 flex-none shrink-0 snap-center hover:cursor-pointer">
+          <div
+            className="group w-24 flex-none shrink-0 snap-center hover:cursor-pointer"
+            onClick={() => props.onStationSelected(stationIdx) }
+          >
             <img
               alt={station.name}
               loading="lazy"
