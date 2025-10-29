@@ -51,6 +51,41 @@ function useWindowDimensions() {
 }
 
 function TrackPlaying(props) {
+  const { height, width } = useWindowDimensions();
+
+  if (width != null && width < 1280) {
+    return (
+      <div className="flex items-center gap-2">
+        <img
+          alt={props.track?.trackName}
+          loading="lazy"
+          width={56}
+          height={56}
+          decoding="async"
+          data-nimg={1}
+          className="h-14 w-14 rounded-sm object-cover"
+          src={
+            (
+              props.track?.artworkURL?.startsWith('/api/public/stations')
+                ? props.track?.artworkURL?.replace('/api/public/stations', 'https://listen.eternityready.com/api/public/stations')
+                : props.track?.artworkURL
+
+            ) || props.track?.artistImage
+          }
+
+        />
+        <div className="flex flex-col">
+          <p className="mb-px line-clamp-1 text-sm font-bold text-white">
+            {props.track?.trackName}
+          </p>
+          <p className="line-clamp-1 text-sm font-medium text-white/60">
+            {props.track?.artistName}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="flex max-w-80 xl:min-w-80 items-center rounded-lg border border-white/10 bg-white/10 p-1">
       <div className="aspect-square w-14 h-14">
