@@ -31,8 +31,14 @@ const LocationMap = ({ locations }) => {
     if (locations.length === 0) return;
 
     const bounds = new maptilersdk.LngLatBounds();
-
+    let hasValidLocation = false;
     locations.forEach(({ lat, lng, name, location, url, tel, email, thumbnail }) => {
+
+      if (lat == null || lat == "" || lng == null || lng == "") {
+        return;
+      }
+      hasValidLocation = true;
+
       const marker = new maptilersdk.Marker({ color: "#FF0000" })
         .setLngLat([lng, lat])
         .addTo(map.current);
@@ -64,7 +70,10 @@ const LocationMap = ({ locations }) => {
       bounds.extend([lng, lat]);
     });
 
-    map.current.fitBounds(bounds, { padding: 50 });
+    if (hasValidLocation) {
+      map.current.fitBounds(bounds, { padding: 50 });
+    }
+
   }, [locations]);
 
   return <div ref={mapContainer} style={{ width: "100%", height: "100%" }} />;

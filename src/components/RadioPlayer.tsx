@@ -911,16 +911,18 @@ function RadioPlayer(props) {
           <div className="w-[80vw] h-[80vh] border border-neutral-700 flex items-center justify-center rounded-xl">
             <LocationMap
               locations={stationsList
-                .filter(stationInList => stationInList.gtm !== "")
-                .map(stationInList => ({
-                  ...stationInList,
-                  lat: Number(stationInList.gtm.split(', ')[0]),
-                  lng: Number(stationInList.gtm.split(', ')[1]),
-                  ...JSON.parse(stationInList.analytics == ""
-                    ? "{}"
-                    : stationInList.analytics
-                  ),
-                }))}
+                .map(stationInList => {
+                  const coords = stationInList.location?.split(', ');
+                  const lat = coords?.[0] ? Number(coords[0]) : null;
+                  const lng = coords?.[1] ? Number(coords[1]) : null;
+
+                  return {
+                    ...stationInList,
+                    lat: null,
+                    lng: null,
+                  }
+                })
+              }
             />
           </div>
         </div>
