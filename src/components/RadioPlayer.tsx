@@ -509,7 +509,7 @@ function OnAirExpand(props) {
 function StationsExpand(props) {
   const { height, width } = useWindowDimensions();
   return (
-    <>
+    <div className="mt-4">
     <h3 className="mb-2 text-2xl font-extrabold text-white">
       Stations
     </h3>
@@ -563,14 +563,14 @@ function StationsExpand(props) {
           ))}
         </div>
       }
-    </>
+    </div>
   )
 }
 
 function LastPlayedExpand(props) {
   const { height, width } = useWindowDimensions();
   return (
-    <>
+    <div className="mt-4 pb-20">
     <h3 className="mb-2 text-lg xl:text-2xl font-bold xl: font-extrabold text-white">
       Last Played
     </h3>
@@ -676,7 +676,7 @@ function LastPlayedExpand(props) {
       })}
     </div>
     )}
-    </>
+    </div>
   )
 }
 
@@ -732,7 +732,7 @@ function OnAirAndRelatedContent(props) {
   }
 
   return (
-    <>
+    <div className="mt-6">
     <h3
       className="mb-2 text-lg font-bold text-white"
     >
@@ -861,7 +861,7 @@ function OnAirAndRelatedContent(props) {
       </div>
       ))}
     </div>
-    </>
+    </div>
   )
 }
 
@@ -948,7 +948,7 @@ function RadioPlayer(props) {
           }}
         >
           <div className="mx-auto xl:max-w-[90vw]">
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-20 p-4 xl:p-12">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-0 xl:gap-20 p-4 xl:p-12">
               <AboutArtistExpand track={currentTrack} />
               <div className="col-span-1 space-y-4">
                 { (width != null && width < 1280)
