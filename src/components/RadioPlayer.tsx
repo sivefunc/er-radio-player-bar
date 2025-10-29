@@ -515,7 +515,7 @@ function StationsExpand(props) {
     </h3>
       { (width != null && width < 1280)
         ?
-        <div className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
+        <div className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
           {props.stationsList.map((station, stationIdx) => (
           <div
             className="group w-24 flex-none shrink-0 snap-center hover:cursor-pointer"
@@ -577,7 +577,7 @@ function LastPlayedExpand(props) {
     {(width != null && width < 1280)
       ? (
         <div
-          className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4"
+          className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4"
         >
         {props.tracks?.map((track, index) => (
         <div className="w-[85vw] flex-none shrink-0 snap-center">
@@ -740,7 +740,7 @@ function OnAirAndRelatedContent(props) {
       {((props.loadingUpcomingTracks || props.upcomingTracks?.length) && props.track?.relatedSongs) ? " & " : ""}
       {props.track?.relatedSongs ? "Related Content" : ""}
     </h3>
-    <div className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
+    <div className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
 
       {(props.loadingUpcomingTracks || props.upcomingTracks?.length) && (
         <div className="w-full flex-none shrink-0 snap-center">
