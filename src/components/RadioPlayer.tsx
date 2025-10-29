@@ -63,7 +63,7 @@ function TrackPlaying(props) {
           height={56}
           decoding="async"
           data-nimg={1}
-          className="h-14 w-14 rounded-sm object-cover"
+          className="h-16 w-16 rounded-sm object-cover"
           src={
             (
               props.track?.artworkURL?.startsWith('/api/public/stations')
