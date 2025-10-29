@@ -17,6 +17,8 @@ import {
   FaChevronDown,
   FaChevronUp,
   FaCaretLeft,
+  FaCircleArrowDown,
+  FaCircleArrowUp
 } from "react-icons/fa6";
 
 const PLAYER_ICONS = {
@@ -74,6 +76,7 @@ function TrackPlaying(props) {
 }
 
 function CentralControl(props) {
+  const { height, width } = useWindowDimensions();
   let playerIcon;
   let playerState = props.playerState;
   if (playerState === "playing") {
@@ -85,18 +88,35 @@ function CentralControl(props) {
   }
 
   return (
-    <div className="flex flex-row gap-4 items-center justify-center">
+    <div className="flex flex-row gap-2 xl:gap-4 items-center justify-center">
       <div
         className="flex flex-col justify-center"
         onClick={props.onExpand}
       >
-        <div className="group relative flex items-center justify-between rounded-full border border-neutral-50/30 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10 p-3"
-        >
-          { props.expand
-            ? <FaChevronDown className="fill-current group-hover:text-red-500 text-white transition-all"/>
-            : <FaChevronUp className="fill-current group-hover:text-red-500 text-white transition-all"/>
-          }
-        </div>
+        {(width != null && width < 1280)
+          ? (
+            props.expand
+              ? (
+                <FaCircleArrowDown className="group-hover:text-primary text-2xl text-white transition-all"/>
+              )
+              : (
+                <FaCircleArrowUp className="group-hover:text-primary text-2xl text-white transition-all"/>
+              )
+          )
+          : (
+            <div className="group relative flex items-center justify-between rounded-full border border-neutral-50/30 text-sm font-medium whitespace-nowrap text-white transition-all hover:cursor-pointer hover:bg-neutral-50/10 p-3"
+            >
+              { props.expand
+                ? (
+                  <FaChevronDown className="fill-current group-hover:text-red-500 text-white transition-all"/>
+                )
+                : (
+                  <FaChevronUp className="fill-current group-hover:text-red-500 text-white transition-all"/>
+                )
+              }
+            </div>
+          )
+        }
       </div>
       <button 
         disabled={props.playerState === "loading"}
