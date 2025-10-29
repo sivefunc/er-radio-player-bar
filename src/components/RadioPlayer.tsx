@@ -273,7 +273,7 @@ function AboutArtistExpand(props) {
                   )
                 }
               />
-              <div class="absolute inset-0 h-full w-full bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
               <h3 className="absolute bottom-2 left-4 text-lg font-bold text-white drop-shadow-sm">{props.track?.artistName}
               </h3>
             </div>
@@ -510,40 +510,115 @@ function StationsExpand(props) {
 }
 
 function LastPlayedExpand(props) {
+  const { height, width } = useWindowDimensions();
   return (
     <>
-    <h3 className="mb-2 text-2xl font-extrabold text-white">
+    <h3 className="mb-2 text-lg xl:text-2xl font-bold xl: font-extrabold text-white">
       Last Played
     </h3>
-    <div className="grid grid-cols-4 gap-4">
+    {(width != null && width < 1280)
+      ? (
+        <div
+          className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4"
+        >
+        {props.tracks?.map((track, index) => (
+        <div className="w-[85vw] flex-none shrink-0 snap-center">
+          <a
+            className="builder-ignore group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
+            href={track.trackViewUrl}
+          >
+            <div className="flex-shrink-0">
+              <div className="overflow-clip rounded-lg lg:rounded-md aspect-square h-16 w-16 lg:h-24 lg:w-24">
+                <img
+                  alt={track?.trackName || "Last Played"}
+                  loading="lazy"
+                  width={1366}
+                  height={768}
+                  decoding="async"
+                  data-nimg={1}
+                  className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
+                  style={{ color: "transparent" }}
+                  src={track.artworkURL || track.artistImage}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col px-2 lg:px-4">
+              <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white builder-ignore">
+                {track.trackName}
+              </h3>
+              <div className="mt-1 flex lg:mt-2">
+                <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
+                  {track.artistName}
+                </p>
+                <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all lg:mt-0 lg:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
+                  {track.artistName}
+                </p>
+              </div>
+            </div>
+          </a>
+          <a
+            className="lg:hidden"
+            href={track.trackViewUrl}
+          >
+            <div className="flex w-full flex-row items-center rounded-xl border border-neutral-800 bg-neutral-900 text-white">
+              <div className="flex-shrink-0">
+                <img
+                  alt={track?.trackName || "Last Played"}
+                  loading="lazy"
+                  width={1366}
+                  height={768}
+                  decoding="async"
+                  data-nimg={1}
+                  className="aspect-square w-24 h-auto rounded-xl object-cover p-1"
+                  style={{ color: "transparent" }}
+                  src={track.artworkURL || track.artistImage}
+                />
+              </div>
+              <div className="min-w-0 flex-1 space-y-1 px-2">
+                <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white builder-ignore">
+                  {track.trackName}
+                </h3>
+                <p className="line-clamp-1 text-xs font-medium text-neutral-400">
+                  {track.artistName}
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        ))}
+        </div>
+      )
+      : (
+      <div className="grid grid-cols-4 gap-4">
       {props.tracks?.map((track, index) => {
         if (index === 0) { return; }
         return (
           <a href={track.trackViewUrl} target="_blank">
-        <div className="group hover:cursor-pointer">
-          <img
-            alt={track?.trackName || "Last Played"}
-            loading="lazy"
-            width={100}
-            height={100}
-            decoding="async"
-            data-nimg={1}
-            className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
-            style={{ color: "transparent" }}
-            src={track.artworkURL || track.artistImage}
-          />
-          <p className="mt-2 line-clamp-1 text-center text-sm font-bold text-white transition-all">
-            {track.trackName}
-          </p>
-          <p className="line-clamp-1 text-center text-sm font-medium text-white/70 transition-all">
-            {track.artistName}
-          </p>
-        </div>
-      </a>
+            <div className="group hover:cursor-pointer">
+              <img
+                alt={track?.trackName || "Last Played"}
+                loading="lazy"
+                width={100}
+                height={100}
+                decoding="async"
+                data-nimg={1}
+                className="aspect-square w-full rounded-xl border border-neutral-50/20 object-cover transition-all hover:brightness-75"
+                style={{ color: "transparent" }}
+                src={track.artworkURL || track.artistImage}
+              />
+              <p className="mt-2 line-clamp-1 text-center text-sm font-bold text-white transition-all">
+                {track.trackName}
+              </p>
+              <p className="line-clamp-1 text-center text-sm font-medium text-white/70 transition-all">
+                {track.artistName}
+              </p>
+            </div>
+          </a>
         )
       })}
     </div>
-  </>
+    )}
+    </>
   )
 }
 
