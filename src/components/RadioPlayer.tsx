@@ -733,7 +733,9 @@ function OnAirAndRelatedContent(props) {
     <h3
       className="mb-2 text-lg font-bold text-white"
     >
-      {(props.loadingUpcomingTracks || props.upcomingTracks?.length) ? "On-Air &" : ""} {props.track?.relatedSongs ? "Related Content" : ""}
+      {(props.loadingUpcomingTracks || props.upcomingTracks?.length) ? "On-Air" : ""}
+      {((props.loadingUpcomingTracks || props.upcomingTracks?.length) && props.track?.relatedSongs) ? " & " : ""}
+      {props.track?.relatedSongs ? "Related Content" : ""}
     </h3>
     <div className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
 
