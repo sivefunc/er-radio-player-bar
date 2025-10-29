@@ -329,11 +329,14 @@ function AboutArtistExpand(props) {
 }
 
 function RelatedContentExpand(props) {
+  const { height, width } = useWindowDimensions();
+
   if (!props.track?.relatedSongs) {
     return;
   }
 
-  console.log(props.track?.relatedSongs[0].name);
+  console.log(props.track?.relatedSongs);
+
   return (
     <>
       <h3 className="mb-2 text-2xl font-extrabold text-white">
@@ -369,34 +372,6 @@ function RelatedContentExpand(props) {
                 Music
               </p>
               <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all xl:mt-0 xl:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
-                Music
-              </p>
-            </div>
-          </div>
-        </a>
-        <a
-          className="xl:hidden"
-          href={relatedTrack?.trackViewUrl ?? relatedTrack.external_urls?.spotify}
-        >
-          <div className="flex w-full flex-row items-center rounded-2xl border border-neutral-800 bg-neutral-900 text-white">
-            <div className="flex-shrink-0">
-              <img
-                alt={relatedTrack?.trackName ?? relatedTrack?.name}
-                loading="lazy"
-                width={1366}
-                height={768}
-                decoding="async"
-                data-nimg={1}
-                className="w-32 h-24 rounded-2xl object-cover p-1"
-                style={{ color: "transparent" }}
-                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100 ?? relatedTrack?.album.images[0].url}
-              />
-            </div>
-            <div className="min-w-0 flex-1 space-y-1 px-2">
-              <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white ">
-                {relatedTrack?.trackName ?? relatedTrack?.name}
-              </h3>
-              <p className="line-clamp-1 text-sm font-medium text-neutral-400">
                 Music
               </p>
             </div>
@@ -618,6 +593,143 @@ function UpNext(props) {
   )
 }
 
+function OnAirAndRelatedContent(props) {
+  if (!(props.loadingUpcomingTracks || props.upcomingTracks?.length) && !props.track?.relatedSongs) {
+    return;
+  }
+
+  return (
+    <>
+    <h3
+      className="mb-2 text-lg font-bold text-white"
+    >
+      {(props.loadingUpcomingTracks || props.upcomingTracks?.length) ? "On-Air &" : ""} {props.track?.relatedSongs ? "Related Content" : ""}
+    </h3>
+    <div className="scrollbar-hide flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4">
+
+      {(props.loadingUpcomingTracks || props.upcomingTracks?.length) && (
+        <div className="w-full flex-none shrink-0 snap-center">
+          <a
+            className="group flex items-center rounded-full border p-2 transition-all hover:shadow-xl border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
+            href={props.station?.donateLink}
+          >
+            <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
+              <img
+                alt={props.upcomingTracks?.[0]?.artistName}
+                loading="lazy"
+                decoding="async"
+                data-nimg="fill"
+                className="absolute inset-0 z-10 h-full w-full object-cover"
+                style={{
+                  position: "absolute",
+                  height: "100%",
+                  width: "100%",
+                  inset: 0,
+                  color: "transparent"
+                }}
+                sizes="100vw"
+                src={`https://listen.eternityready.com/${props.upcomingTracks?.[0]?.artworkURL}`}
+              />
+            </div>
+            <div className="flex flex-1 flex-col px-4">
+              <h3 className="line-clamp-1 leading-tight font-extrabold lg:line-clamp-2 lg:text-lg text-white">
+                {props.upcomingTracks?.[0]?.artistName}
+              </h3>
+              <p className="mb-1 text-sm font-medium lg:mb-3 text-neutral-400">
+                {props.upcomingTracks?.[0]?.dateScheduled
+                  ? new Date(
+                    props.upcomingTracks?.[0]?.dateScheduled?.replace(" ", "T") + "Z"
+                  ).toLocaleString(undefined, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: true,
+                  })
+                  : "Invalid date"
+                }
+              </p>
+              <div className="flex">
+                <p className="rounded-full px-3 py-1 text-xs font-bold transition-all bg-neutral-700 text-white group-hover:bg-neutral-600">
+                  {props.upcomingTracks?.[0]?.trackName}
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+      )}
+      {props.track?.relatedSongs?.slice(0, 3)?.map(relatedTrack => (
+      <div className="w-full flex-none shrink-0 snap-center">
+        <a
+          className="builder-ignore group hidden items-center rounded-xl border p-1 transition-all hover:shadow-xl lg:flex lg:rounded-2xl lg:p-2 undefined border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
+          href={relatedTrack?.trackViewUrl ?? relatedTrack.external_urls?.spotify}
+        >
+          <div className="flex-shrink-0">
+            <div className="overflow-clip rounded-lg lg:rounded-md aspect-video h-16 w-28 lg:h-24 lg:w-40">
+              <img
+                alt={relatedTrack?.trackName ?? relatedTrack?.name}
+                loading="lazy"
+                width={1366}
+                height={768}
+                decoding="async"
+                data-nimg={1}
+                className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
+                style={{ color: "transparent" }}
+                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100 ?? relatedTrack?.album.images[0].url}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col px-2 lg:px-4">
+            <h3 className="line-clamp-2 leading-tight font-bold lg:text-lg text-white builder-ignore">
+              {relatedTrack?.trackName ?? relatedTrack?.name}
+            </h3>
+            <div className="mt-1 flex lg:mt-2">
+              <p className="flex text-sm font-medium transition-all lg:hidden text-neutral-400">
+                By {relatedTrack?.artistName ?? relatedTrack?.artists?.[0]?.name}
+              </p>
+              <p className="hidden rounded-full px-3 py-1 text-xs font-bold transition-all lg:mt-0 lg:flex bg-neutral-700 text-white group-hover:bg-neutral-600">
+                By {relatedTrack?.artistName ?? relatedTrack?.artists?.[0]?.name}
+              </p>
+            </div>
+          </div>
+        </a>
+        <a
+          className="lg:hidden"
+          href={relatedTrack?.trackViewUrl ?? relatedTrack.external_urls?.spotify}
+        >
+          <div className="flex w-full flex-row items-center rounded-xl border border-neutral-800 bg-neutral-900 text-white">
+            <div className="flex-shrink-0">
+              <img
+                alt={relatedTrack?.trackName ?? relatedTrack?.name}
+                loading="lazy"
+                width={1366}
+                height={768}
+                decoding="async"
+                data-nimg={1}
+                className="aspect-video w-32 h-auto rounded-xl object-cover p-1"
+                style={{ color: "transparent" }}
+                src={relatedTrack?.artworkURL ?? relatedTrack?.artworkUrl100 ?? relatedTrack?.album.images[0].url}
+              />
+            </div>
+            <div className="min-w-0 flex-1 space-y-1 px-2">
+              <h3 className="line-clamp-2 text-sm leading-tight font-bold text-white builder-ignore">
+                {relatedTrack?.trackName ?? relatedTrack?.name}
+              </h3>
+              <p className="line-clamp-1 text-xs font-medium text-neutral-400">
+                By {relatedTrack?.artistName ?? relatedTrack?.artists?.[0]?.name}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+      ))}
+    </div>
+    </>
+  )
+}
+
 function RadioPlayer(props) {
   const { station, setStation, currentPlaying, stationsList, tracks, loadingTracks, loadingUpcomingTracks, upcomingTracks } = useContext(StationContext);
   const { player, playerState, externalStation, setExternalStation, playerVolume, setPlayerIsLoaded, changeVolume, currentTrack } = 
@@ -704,12 +816,24 @@ function RadioPlayer(props) {
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-20 p-4 xl:p-12">
               <AboutArtistExpand track={currentTrack} />
               <div className="col-span-1 space-y-4">
-                <RelatedContentExpand track={currentTrack} />
-                <OnAirExpand
-                  loadingUpcomingTracks={loadingUpcomingTracks}
-                  upcomingTracks={upcomingTracks}
-                  station={station}
-                />
+                { (width != null && width < 1280)
+                  ? <OnAirAndRelatedContent 
+                      track={currentTrack}
+                      loadingUpcomingTracks={loadingUpcomingTracks}
+                      upcomingTracks={upcomingTracks}
+                      station={station}
+                    />
+                  : (
+                    <>
+                    <RelatedContentExpand track={currentTrack} />
+                    <OnAirExpand
+                      loadingUpcomingTracks={loadingUpcomingTracks}
+                      upcomingTracks={upcomingTracks}
+                      station={station}
+                    />
+                    </>
+                  )
+                }
               </div>
               <div className="col-span-1">
                 <StationsExpand
