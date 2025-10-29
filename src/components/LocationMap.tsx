@@ -32,7 +32,7 @@ const LocationMap = ({ locations }) => {
 
     const bounds = new maptilersdk.LngLatBounds();
     let hasValidLocation = false;
-    locations.forEach(({ lat, lng, name, location, url, tel, email, thumbnail }) => {
+    locations.forEach(({ lat, lng, name, address, homepage, telephone, email, thumbnail }) => {
 
       if (lat == null || lat == "" || lng == null || lng == "") {
         return;
@@ -55,9 +55,9 @@ const LocationMap = ({ locations }) => {
           <div className="bg-gray-500 w-px h-full"></div>
           <div className="flex flex-col">
             <h1 className="text-black font-bold text-lg">{name}</h1>
-            <h2 className="text-gray-500">{location}</h2>
-            <a href={url} className="text-red-500">{url}</a>
-            <a href={`tel:${tel}`} className="text-red-500">{tel}</a>
+            <h2 className="text-gray-500">{address}</h2>
+            <a href={homepage} className="text-red-500">{homepage}</a>
+            <a href={`tel:${telephone}`} className="text-red-500">{telephone}</a>
             <a href={`mailto:${email}`} className="text-red-500">{email}</a>
           </div>
         </div>

@@ -918,8 +918,8 @@ function RadioPlayer(props) {
 
                   return {
                     ...stationInList,
-                    lat: null,
-                    lng: null,
+                    lat: lat,
+                    lng: lng,
                   }
                 })
               }
