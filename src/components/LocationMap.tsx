@@ -17,7 +17,6 @@ const LocationMap = ({ locations }) => {
     map.current = new maptilersdk.Map({
       container: mapContainer.current,
       style: "019a1736-e944-74a8-83cb-629deaf97cb8",
-      center: locations.length ? [locations[0].lng, locations[0].lat] : [0, 0],
       zoom: 12,
     });
   }, [locations]);
@@ -70,9 +69,8 @@ const LocationMap = ({ locations }) => {
       bounds.extend([lng, lat]);
     });
 
-    if (hasValidLocation) {
-      map.current.fitBounds(bounds, { padding: 50 });
-    }
+    map.current.setCenter([-98.583333, 39.833333]);
+    map.current.setZoom(2.5);
 
   }, [locations]);
 
