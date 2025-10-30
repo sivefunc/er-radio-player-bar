@@ -65,7 +65,7 @@ const LocationMap = ({ locations, onClose }) => {
       new maptilersdk.MaptilerCustomControl(
         group,
       ),
-      "top-right"
+      "top-left"
     );
 
   }, [locations]);
