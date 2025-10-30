@@ -1,10 +1,9 @@
-
 import React, { useRef, useEffect } from "react";
-import ReactDOM from "react-dom/client"; // Use the modern API
+import ReactDOM from "react-dom/client";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 
-const LocationMap = ({ locations }) => {
+const LocationMap = ({ locations, onClose }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markers = useRef([]);
@@ -18,7 +17,57 @@ const LocationMap = ({ locations }) => {
       container: mapContainer.current,
       style: "019a1736-e944-74a8-83cb-629deaf97cb8",
       zoom: 12,
+      navigationControl: false,
+      geolocateControl: false,
     });
+
+    map.current.addControl(
+      new maptilersdk.MaptilerNavigationControl(),
+      "top-right"
+    );
+
+    map.current.addControl(
+      new maptilersdk.MaptilerGeolocateControl(),
+      "top-right"
+    );
+
+    const group = document.createElement("div");
+    group.className = "maplibregl-ctrl maplibregl-ctrl-group";
+
+    const element = document.createElement("button");
+
+    element.className = "maplibregl-ctrl-button text-black hover:text-blue-500";
+    element.title = "Close map";
+    element.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" 
+           viewBox="0 0 24 24" 
+           width="24" 
+           height="24" 
+           fill="none" 
+           stroke="currentColor" 
+           stroke-width="2" 
+           stroke-linecap="round" 
+           stroke-linejoin="round" 
+           aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    `;
+    element.style.display = "flex";
+    element.style.justifyContent = "center";
+    element.style.alignItems = "center";
+    element.style.padding = "0";
+    element.addEventListener("click", onClose)
+
+    group.appendChild(element);
+
+    map.current.addControl(
+      new maptilersdk.MaptilerCustomControl(
+        group,
+      ),
+      "top-right"
+    );
+
   }, [locations]);
 
   useEffect(() => {

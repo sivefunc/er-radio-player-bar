@@ -910,6 +910,7 @@ function RadioPlayer(props) {
           <h1 className="text-3xl font-semibold mb-4">Stations</h1>
           <div className="w-[80vw] h-[80vh] border border-neutral-700 flex items-center justify-center rounded-xl">
             <LocationMap
+              onClose={() => setExpandStationFinder(false)}
               locations={stationsList
                 .map(stationInList => {
                   const coords = stationInList.location?.split(', ');
