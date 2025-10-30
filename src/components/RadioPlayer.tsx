@@ -449,7 +449,7 @@ function OnAirExpand(props) {
         <div className="">
           <a
             className="group flex items-center rounded-full border border-neutral-800 bg-neutral-800 p-2 transition-all hover:border-neutral-600 hover:bg-neutral-700 hover:shadow-xl"
-            href={props.station?.donateLink}
+            href={props.station?.homepage}
           >
             <div className="relative aspect-square w-16 overflow-clip rounded-full xl:h-28 xl:w-28">
               <img
@@ -746,7 +746,7 @@ function OnAirAndRelatedContent(props) {
         <div className="w-full flex-none shrink-0 snap-center">
           <a
             className="group flex items-center rounded-full border p-2 transition-all hover:shadow-xl border-neutral-800 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-700"
-            href={props.station?.donateLink}
+            href={props.station?.homepage}
           >
             <div className="relative aspect-square w-16 overflow-clip rounded-full lg:h-28 lg:w-28">
               <img
